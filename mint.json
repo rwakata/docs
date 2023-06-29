@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Xente Developer Documentation",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -19,7 +19,7 @@
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://app.xente.co/"
   },
   "tabs": [
     {
@@ -30,30 +30,38 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": [ "overview", "API Keys", "webhook" ]
     },
     {
-      "group": "Essentials",
-      "pages": ["essentials/markdown", "essentials/code", "essentials/images", "essentials/settings", "essentials/navigation"]
+      "group": "Visa Debit Cards",
+      "pages": [ "overview", "Physical Visa cards", "Virtual Visa cards", "Manage cards", "Manage Policy" ]
+    },
+    {
+      "group": "Make Payments",
+      "pages": [ "overview", "send mobile money", "Bank transfers", "Airtime", "Data", "Bill payments" ]
+    },
+    {
+      "group": "Collect Payments",
+      "pages": [ "overview", "checkout", "mobile money", "Visa, MasterCard & Amex", "bank transfers", "Agent banking" ]
     },
     {
       "group": "API Documentation",
-      "pages": ["api-reference/authentication"]
+      "pages": [ "api-reference/authentication" ]
     },
     {
       "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
+        "api-reference/transactions/get",
+        "api-reference/cards/create",
         "api-reference/endpoint/update",
         "api-reference/endpoint/delete"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/xentetech",
+    "youtube": "https://www.youtube.com/channel/UC8D2ZF66b5nCxbvqdZ5Loxg/",
+    "linkedin": "https://www.linkedin.com/company/xente-uganda"
   },
   "backgroundImage": "/background.png"
 }
