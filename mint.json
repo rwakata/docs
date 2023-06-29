@@ -38,7 +38,7 @@
     },
     {
       "group": "Make Payments",
-      "pages": [ "overview", "send mobile money", "Bank transfers", "Airtime", "Data", "Bill payments" ]
+      "pages": [ "overview", "send mobile money", "bank transfers", "airtime", "data", "bill payments" ]
     },
     {
       "group": "Collect Payments",
