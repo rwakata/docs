@@ -21,6 +21,10 @@
     "name": "Dashboard",
     "url": "https://app.xente.co/"
   },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": false
+  },
   "tabs": [
     {
       "name": "API Reference",
