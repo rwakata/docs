@@ -2,19 +2,19 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "Developer Documentation",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/logo-dark.svg",
+    "light": "/logo/logo-light.svg"
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#12A7D3",
+    "primary": "#F79524",
     "light": "#81D7F7",
     "dark": "#004E7A"
   },
   "topbarLinks": [
     {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs"
+      "name": "Pricing",
+      "url": "https://www.xente.co/pricing"
     }
   ],
   "topbarCtaButton": {
@@ -34,15 +34,15 @@
     },
     {
       "group": "Visa Debit Cards",
-      "pages": [ "overview", "Physical Visa cards", "Virtual Visa cards", "Manage cards", "Manage Policy" ]
+      "pages": [ "visa-cards/overview", "visa-cards/physical", "visa-cards/virtual", "visa-cards/manage", "visa-cards/policy" ]
     },
     {
       "group": "Make Payments",
-      "pages": [ "overview", "send mobile money", "bank transfers", "airtime", "data", "bill payments" ]
+      "pages": [ "make-payments/overview", "make-payments/mobilemoney", "make-payments/bank", "make-payments/airtime", "make-payments/mobileinternet", "make-payments/billpay" ]
     },
     {
       "group": "Collect Payments",
-      "pages": [ "overview", "checkout", "mobile money", "Visa, MasterCard & Amex", "bank transfers", "Agent banking" ]
+      "pages": [ "collect-payments/overview", "collect-payments/checkout", "collect-payments/mobilemoney", "collect-payments/cards", "collect-payments/bank", "collect-payments/agentbank" ]
     },
     {
       "group": "API Documentation",

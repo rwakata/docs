@@ -1,0 +1,51 @@
+---
+title: 'Visa, MasterCard & Amex'
+description: 'Collect Visa, MasterCard & Amex payments'
+---
+
+<Info>
+  **Prerequisite** You need a Pro+ account to create virtual Visa debit cards API
+</Info>
+
+
+With Xente, ordering physical Visa debit cards is a easy. Simply place your order through the Xente portal, and the cards will be delivered right to your location. 
+
+Once you have the cards, you can easily assign them to your desired users.
+
+Assigning users can be done effortlessly using the portal, or if you prefer, you can programmatically assign them through API calls.
+
+To assign a card to a user, just make the API call provided below:
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.xente.co/cards?
+-H "Authorization: Bearer YOUR_SECRET_KEY"
+-X GET
+```
+
+```bash Node
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/cards?';
+
+const options = {
+  headers: {
+    'Authorization': 'Bearer YOUR_SECRET_KEY'
+  }
+};
+
+axios.get(apiUrl, options)
+  .then(response => {
+    // Handle the response data here
+    console.log(response.data);
+  })
+  .catch(error => {
+    // Handle any errors that occur
+    console.error(error);
+  });
+```
+
+</CodeGroup>
+
+Once the card is assigned, the user will receive an email prompting them to set their PIN. Once they've set their PIN, they can start using the card right away.
