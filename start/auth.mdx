@@ -1,0 +1,104 @@
+---
+title: 'Authentication & Authorization'
+description: 'Authenticate and authorize all API calls'
+---
+
+Xente uses a token based authorization and authentication scheme. 
+
+You will need to have 
+
+1. An API Key -  To get an API Key first create an Application under your developer settings
+2. User email and password - Every API call is made on behalf or a user so you need for first authenticate them 
+
+** I actually need to understand this, but it is super important we authenticate both the application and the user. 
+
+## Step 1. Authenticate user
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.xente.co/auth/login?
+-H "Authorization: Bearer YOUR_SECRET_KEY"
+-X GET
+```
+
+```bash Node
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/cards?';
+
+const options = {
+  headers: {
+    'Authorization': 'Bearer YOUR_SECRET_KEY'
+  }
+};
+
+axios.get(apiUrl, options)
+  .then(response => {
+    // Handle the response data here
+    console.log(response.data);
+  })
+  .catch(error => {
+    // Handle any errors that occur
+    console.error(error);
+  });
+```
+
+</CodeGroup>
+
+### Response message 
+
+| Key          | Type      | Description
+| --------     | -------   |-------------
+| Token        | string    | Authentication token that you will use to authenticate subsquent API calls
+| refreshToken | string    | The refresh token is used to refresh session without requiring new user login
+| success      | boolean   | Status of authentication request
+| message      | string    | A description of status 
+
+** Do we need other parameters 
+
+> Important information on the Token
+>
+>> 1. Send the token in the HTTP Authorization header with every request. 
+>> 2. The lifetime of the token is 60 minutes. Once it expires, use the refresh token to obtain another one or have the user log in again. 
+>> 3. The token will only be exposed once. Safely store it in the cache for the duration of its lifetime
+
+## Step 2. Login into an account 
+
+Once you have authenticated the user and have a valid Token, you can now login into an account using the API call below 
+
+<CodeGroup>
+
+```bash cURL
+curl https://api/auth/accounts/{accountId}/login?
+-H "Authorization: Bearer YOUR_SECRET_KEY"
+-X GET
+```
+
+```bash Node
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/cards?';
+
+const options = {
+  headers: {
+    'Authorization': 'Bearer YOUR_SECRET_KEY'
+  }
+};
+
+axios.get(apiUrl, options)
+  .then(response => {
+    // Handle the response data here
+    console.log(response.data);
+  })
+  .catch(error => {
+    // Handle any errors that occur
+    console.error(error);
+  });
+```
+
+</CodeGroup>
+
+Get the account ID under settings. I think we also have this as configuration
+
+** What I dont understand, do you need to have step 2, or if you have the account Id you can make subsquent calls ? 

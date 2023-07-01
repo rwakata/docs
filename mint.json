@@ -34,7 +34,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [ "introduction", "API Keys", "webhook" ]
+      "pages": [ "introduction", "start/about", "start/usecases", "start/prerequisites", "start/auth", "start/ipn" ]
     },
     {
       "group": "Visa Debit Cards",

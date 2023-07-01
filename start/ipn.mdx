@@ -1,0 +1,98 @@
+---
+title: 'Instant Payment Notification'
+description: 'Get a call back every time a payment event happens on your account'
+---
+
+## Why Instant Payment Notifications 
+
+All payment-related transactions (and some non-payment-related) requests on Xente are processed asynchronously. This is because most transactions require user approval and may take time to complete. Below is how we process transactions:
+
+1. You POST a transaction to Xente.
+
+2. We queue it up.
+
+3. We process the transaction - this might involve user approval.
+
+4. We call back your webhook to notify you of the final status of the transaction.
+
+5. You respond with an HTTP OK that you have received the notification and we commit the transaction as complete.
+
+As a result, it is necessary to set up an Instant Transaction Notification webhook on your end in order to receive updates on the final status of a transaction
+
+## Handling Instant Payment Notification (IPN)
+
+When it comes to handling Instant Payment Notification (IPN), there are a few key steps for you to follow:
+
+1. Set up an IPN URL: Create an endpoint on your server to receive IPN messages. This URL should be capable of handling incoming POST requests.
+
+2. JSON parsing: Ensure that your IPN URL can parse JSON data. This means extracting relevant information from the incoming request payload.
+
+3. Response status: If the JSON parsing is successful, make sure your IPN URL responds with a 200 OK status code. This lets the sender know that the notification was received and processed correctly.
+
+4. Transaction completion: Remember that a transaction is only marked as complete when your system receives a successful response from the IPN URL.
+
+Below is some sample code to help you set up your Instant Payment Notification
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST \
+  'your-url?transactionId={string}&subscriptionId={string}&accountId={string}&requestId={string}&Amount={double}' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "AccountId": "string",
+    "SubscriptionId": "string",
+    "TransactionId": "string",
+    "BatchId": "string",
+    "RequestId": "string",
+    "StatusMessage": "string",
+    "StatusCode": 0,
+    "CorrelationId": "string",
+    "CreatedOn": "YYYY-MM-DD HH:mm:ss",
+    "Amount": double,
+    "CurrencyCode": "string"
+}'
+```
+
+```bash Node
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/cards?';
+
+const options = {
+  headers: {
+    'Authorization': 'Bearer YOUR_SECRET_KEY'
+  }
+};
+
+axios.get(apiUrl, options)
+  .then(response => {
+    // Handle the response data here
+    console.log(response.data);
+  })
+  .catch(error => {
+    // Handle any errors that occur
+    console.error(error);
+  });
+```
+
+</CodeGroup>
+
+** Is that the actual code - why so many repeated parameters ** 
+
+### Response message 
+
+| Key          | Type      | Description
+| --------     | -------   |-------------
+| Token        | string    | Authentication token that you will use to authenticate subsquent API calls
+| refreshToken | string    | The refresh token is used to refresh session without requiring new user login
+| success      | boolean   | Status of authentication request
+| message      | string    | A description of status 
+
+## Secure your Instant Payment Notifications (IPN) endpoint
+
+Your Instant Payment Notifications (IPN) endpoint will receive transaction confirmations from Xente, so it's important to ensure that it is secure. To secure the IPN, we will:
+
+1. Use symmetric encryption: This means we will exchange keys. We will have your public key and you will have our public key. We must authenticate the keys before completing the transaction. This functionality is crucial and you cannot go live without testing it.
+
+2. IP whitelisting: As an added layer of security, whitelist the following IPs: 41.2.2.10 and 41.2.2.11
