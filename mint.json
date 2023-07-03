@@ -38,7 +38,7 @@
     },
     {
       "group": "Visa Debit Cards",
-      "pages": [ "visa-cards/overview", "visa-cards/physical", "visa-cards/virtual", "visa-cards/manage", "visa-cards/policy" ]
+      "pages": [ "visa-cards/overview", "visa-cards/physical", "visa-cards/virtual", "visa-cards/manage" ]
     },
     {
       "group": "Make Payments",
