@@ -34,7 +34,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [ "introduction", "start/about", "start/usecases", "start/prerequisites", "start/auth", "start/ipn" ]
+      "pages": [ "introduction", "start/about", "start/usecases", "start/prerequisites" ]
     },
     {
       "group": "Visa Debit Cards",
@@ -47,6 +47,10 @@
     {
       "group": "Collect Payments",
       "pages": [ "collect-payments/overview", "collect-payments/checkout", "collect-payments/mobilemoney", "collect-payments/cards", "collect-payments/bank", "collect-payments/agentbank" ]
+    },
+    {
+      "group": "Utilities",
+      "pages": ["start/auth", "start/ipn" ]
     },
     {
       "group": "API Documentation",
