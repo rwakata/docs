@@ -2,24 +2,21 @@
 title: 'Bank transfers'
 description: 'Transfer funds to bank account'
 ---
-
 <Info>
-  **Prerequisite** You need a Pro+ account to create virtual Visa debit cards API
+  Supported by Pro & Pro+ Licenses  
+  
+  **[Learn more here](https://www.xente.co/pricing)**
 </Info>
 
+With the Xente API, you can transfer funds to bank accounts.
+## Step 1 - Verify bank account number
 
-With Xente, ordering physical Visa debit cards is a easy. Simply place your order through the Xente portal, and the cards will be delivered right to your location. 
-
-Once you have the cards, you can easily assign them to your desired users.
-
-Assigning users can be done effortlessly using the portal, or if you prefer, you can programmatically assign them through API calls.
-
-To assign a card to a user, just make the API call provided below:
+To ensure your transfering funds to the correct bank account number, please first verify the account name and account number 
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/cards?
+curl https://api.xente.co/auth/login?
 -H "Authorization: Bearer YOUR_SECRET_KEY"
 -X GET
 ```
@@ -27,7 +24,7 @@ curl https://api.xente.co/cards?
 ```bash Node
 const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/cards?';
+const apiUrl = 'https://api.xente.co/verify?';
 
 const options = {
   headers: {
@@ -46,6 +43,124 @@ axios.get(apiUrl, options)
   });
 ```
 
+```bash Java
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+Java code here
+  }
+};
+
+
+```
+
+```bash C#
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+ C# Code here
+};
+
+
+```
+
+```bash PHP
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+    PHP Code here 
+  }
+};
+
+```
 </CodeGroup>
 
-Once the card is assigned, the user will receive an email prompting them to set their PIN. Once they've set their PIN, they can start using the card right away.
+P.S. We advise that you store or cache verified mobile money numbers in your backend to avoid making verifications on every subsequent request
+
+## Step 2 - POST bank transfer transaction
+
+You POST a mobile money transaction as below  
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.xente.co/auth/login?
+-H "Authorization: Bearer YOUR_SECRET_KEY"
+-X GET
+```
+
+```bash Node
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+    'Authorization': 'Bearer YOUR_SECRET_KEY'
+  }
+};
+
+axios.get(apiUrl, options)
+  .then(response => {
+    // Handle the response data here
+    console.log(response.data);
+  })
+  .catch(error => {
+    // Handle any errors that occur
+    console.error(error);
+  });
+```
+
+```bash Java
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+Java code here
+  }
+};
+
+
+```
+
+```bash C#
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+ C# Code here
+};
+
+
+```
+
+```bash PHP
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+    PHP Code here 
+  }
+};
+
+```
+</CodeGroup>
+
+## Step 3 - Receive Instant Payment Notification (IPN)
+
+All transactions on Xente are asynchronous. Therefore, after you POST a mobile money transaction, you need to wait for a success (or failure) response using webhooks called Instant Payment Notifications (IPN).
+
+Learn more about **[Instant Payment Notifications](/start/ipn)**.
