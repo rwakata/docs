@@ -1,25 +1,24 @@
 ---
-title: 'Mobile money'
+title: 'Collect Mobile money'
 description: 'Collect mobile money payments'
 ---
 
 <Info>
-  **Prerequisite** You need a Pro+ account to create virtual Visa debit cards API
+  Supported by Basic, Pro & Pro+ Licenses  
+  
+  **[Learn more here](https://www.xente.co/pricing)**
 </Info>
 
+With the Xente API, you can collect mobile money in three(3) easy steps.
 
-With Xente, ordering physical Visa debit cards is a easy. Simply place your order through the Xente portal, and the cards will be delivered right to your location. 
+## Step 1 - POST mobile money collection transaction
 
-Once you have the cards, you can easily assign them to your desired users.
-
-Assigning users can be done effortlessly using the portal, or if you prefer, you can programmatically assign them through API calls.
-
-To assign a card to a user, just make the API call provided below:
+You POST a mobile money transaction as below  
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/cards?
+curl https://api.xente.co/auth/login?
 -H "Authorization: Bearer YOUR_SECRET_KEY"
 -X GET
 ```
@@ -27,7 +26,7 @@ curl https://api.xente.co/cards?
 ```bash Node
 const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/cards?';
+const apiUrl = 'https://api.xente.co/verify?';
 
 const options = {
   headers: {
@@ -46,6 +45,55 @@ axios.get(apiUrl, options)
   });
 ```
 
+```bash Java
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+Java code here
+  }
+};
+
+
+```
+
+```bash C#
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+ C# Code here
+};
+
+
+```
+
+```bash PHP
+const axios = require('axios');
+
+const apiUrl = 'https://api.xente.co/verify?';
+
+const options = {
+  headers: {
+    PHP Code here 
+  }
+};
+
+```
 </CodeGroup>
 
-Once the card is assigned, the user will receive an email prompting them to set their PIN. Once they've set their PIN, they can start using the card right away.
+## Step 2 - User authorizes transaction by entering their mobile money PIN
+<Frame>
+  <img src="/images/mm-auth.png" />
+</Frame>
+
+
+## Step 3 - Receive Instant Payment Notification (IPN)
+
+
+All transactions on Xente are asynchronous. Therefore, after you POST a mobile money collect transaction, you need to wait for a success (or failure) response using webhooks called Instant Payment Notifications (IPN). Once you receive a successful transaction, you can provision the service to your client.
+
+Learn more about **[Instant Payment Notifications](/start/ipn)**.
