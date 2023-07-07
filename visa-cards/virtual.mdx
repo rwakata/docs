@@ -2,50 +2,182 @@
 title: 'Virtual Visa Cards'
 description: 'Learn how to create virtual Visa debit cards'
 ---
-
 <Info>
-  **Prerequisite** You need a Pro+ account to create virtual Visa debit cards API
+  **Prerequisite** To issue virtual Visa debit cards using the API, you require a Pro+ license.
 </Info>
 
+To issue virtual Visa cards, follow the steps below 
 
-With Xente, ordering physical Visa debit cards is a easy. Simply place your order through the Xente portal, and the cards will be delivered right to your location. 
+## Step 1: Create user profiles for cardholders.
+Create card user profiles using the Xente portal for individuals who will be granted cardholder status
 
-Once you have the cards, you can easily assign them to your desired users.
+**[Learn how to create users who will become cardholders here](/start/ipn)**.
 
-Assigning users can be done effortlessly using the portal, or if you prefer, you can programmatically assign them through API calls.
+## Step 2: Create and assign virtual Visa cards
 
-To assign a card to a user, just make the API call provided below:
+You create and assign virtual Visa card, utilize the code snippet provided below
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/cards?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_AUTH_TOKEN" -d '{
+  "user_email": "user@email.com",
+  "thirdpartyid": "190890",//this is an id from your platform to id the user
+}' "https://api.xente.co/virtual-cards"
+
 ```
 
 ```bash Node
 const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/cards?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
-  }
+const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer YOUR_AUTH_TOKEN'
 };
 
-axios.get(apiUrl, options)
+const data = {
+  user_email: 'user@email.com',
+  thirdpartyid: '190890'
+};
+
+axios.post('https://api.xente.co/cards', data, { headers })
   .then(response => {
-    // Handle the response data here
     console.log(response.data);
   })
   .catch(error => {
-    // Handle any errors that occur
     console.error(error);
   });
 ```
 
+```bash Java
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        String url = "https://api.xente.co/cards";
+        String authHeader = "Bearer YOUR_AUTH_TOKEN";
+        String requestBody = "{\n" +
+                "  \"user_email\": \"user@email.com\",\n" +
+                "  \"thirdpartyid\": \"190890\"\n" +
+                "}";
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // Set the request method to POST
+        con.setRequestMethod("POST");
+
+        // Set the request headers
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Authorization", authHeader);
+
+        // Enable sending request body
+        con.setDoOutput(true);
+
+        // Write the request body
+        OutputStream outputStream = con.getOutputStream();
+        outputStream.write(requestBody.getBytes());
+        outputStream.flush();
+        outputStream.close();
+
+        // Get the response
+        int responseCode = con.getResponseCode();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // Print the response
+        System.out.println("Response Code: " + responseCode);
+        System.out.println("Response Body: " + response.toString());
+    }
+}
+
+
+```
+
+```bash C#
+
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+class Program
+{
+    static async System.Threading.Tasks.Task Main(string[] args)
+    {
+        string url = "https://api.xente.co/cards";
+        string authToken = "YOUR_AUTH_TOKEN";
+
+        using (HttpClient client = new HttpClient())
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var requestData = new
+            {
+                user_email = "user@email.com",
+                thirdpartyid = "190890"
+            };
+
+            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(requestData));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await client.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+            }
+            else
+            {
+                Console.WriteLine("Request failed with status code: " + response.StatusCode);
+            }
+        }
+    }
+}
+
+
+```
+
+```bash PHP
+
+<?php
+
+$url = "https://api.xente.co/cards";
+$headers = array(
+    "Content-Type: application/json",
+    "Authorization: Bearer YOUR_AUTH_TOKEN"
+);
+
+$data = array(
+    "user_email" => "user@email.com",
+    "thirdpartyid" => "190890"
+);
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+echo $response;
+
+?>
+
+```
 </CodeGroup>
 
-Once the card is assigned, the user will receive an email prompting them to set their PIN. Once they've set their PIN, they can start using the card right away.
+On making the API call, a virtual card will be created, and subsequently, an email with a secure link will be sent to the user. On receiving the email, the user can click on the secure link to obtain card details, including the card number, expiry date, and CVV.
