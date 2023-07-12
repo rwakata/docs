@@ -1,0 +1,77 @@
+---
+title: "Get organization"
+api: "GET https://api.xente.com/v2/organization"
+description: "This is an object representing your organization. You can use it to retrieve your organizational details."
+---
+
+### Query
+
+<ParamField query="id" type="string">
+  This is the ID your organization
+</ParamField>
+
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+
+<ResponseField name="organization" type="object">
+
+The details of the organization
+
+<Expandable title="Toggle object">
+
+<ResponseField name="id" type="number">
+ The unique id of the organization
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the organization e.g. My company name
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  This description of your organization e.g. We sell widgets
+</ResponseField>
+
+<ResponseField name="address" type="string">
+  This address of the orgarnization
+</ResponseField>
+
+<ResponseField name="user" type="JSON or null">
+  The user who created the organization
+</ResponseField>
+<ResponseField name="accounts" type="JSON or null">
+  The list of accounts associated with the organization
+</ResponseField>
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Request
+curl --location --request GET 'https://api.xente.co/v2/organization/{id}' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 0,
+  "organization": {
+    "id": 3897878,
+    "name": "My company name",
+    "description": "We sell widgets",
+    "address": "Address of your organization", 
+    "user": null, 
+    "accounts": null, 
+  }
+}
+```
+
+</ResponseExample>

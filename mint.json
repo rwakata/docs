@@ -50,19 +50,74 @@
     },
     {
       "group": "Utilities",
-      "pages": ["start/auth", "start/ipn" ]
+      "pages": [ "start/auth", "start/ipn" ]
     },
     {
-      "group": "API Documentation",
-      "pages": [ "api-reference/authentication" ]
+      "group": "Get started",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/changelog"
+      ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Security",
+      "pages": [
+        "api-reference/authentication"
+      ]
+    },
+    {
+      "group": "Organizations",
+      "pages": [
+        "api-reference/organizations/get",
+        "api-reference/organizations/create",
+        "api-reference/organizations/update"
+      ]
+    },
+    {
+      "group": "Accounts",
+      "pages": [
+        "api-reference/accounts/get",
+        "api-reference/accounts/create",
+        "api-reference/accounts/update"
+      ]
+    },
+    {
+      "group": "Transactions",
       "pages": [
         "api-reference/transactions/get",
+        "api-reference/transactions/create"
+      ]
+    },
+    {
+      "group": "Cards",
+      "pages": [
+        "api-reference/cards/get",
         "api-reference/cards/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "api-reference/cards/update"
+      ]
+    },
+    {
+      "group": "Products",
+      "pages": [
+        "api-reference/cards/get",
+        "api-reference/cards/create",
+        "api-reference/cards/update"
+      ]
+    },
+    {
+      "group": "People",
+      "pages": [
+        "api-reference/cards/get",
+        "api-reference/cards/create",
+        "api-reference/cards/update"
+      ]
+    },
+    {
+      "group": "Businesses",
+      "pages": [
+        "api-reference/cards/get",
+        "api-reference/cards/create",
+        "api-reference/cards/update"
       ]
     }
   ],

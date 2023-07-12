@@ -1,0 +1,76 @@
+---
+title: "Update organization"
+api: "PUT https://api.xente.co/v2/organization"
+description: "This endpoint updates an existing organization."
+---
+
+### Body
+
+
+
+<ParamField body="id" type="string">
+  The id of the organization
+</ParamField>
+<ParamField body="name" type="string">
+  The name of the organization
+</ParamField>
+<ParamField body="description" type="string">
+  The description of the organization
+</ParamField>
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 1 if successful, 0 if not.
+</ResponseField>
+
+<ResponseField name="organization" type="object">
+
+The contents of the organization
+
+<Expandable title="Toggle object">
+
+<ResponseField name="id" type="number">
+  id of the organization
+</ResponseField>
+
+<ResponseField name="name" type="string">
+ the name of the organization
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  This is the description of the organization
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Request
+curl --location --request PUT 'https://api.xente.co/v2/organization' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "name": "My company name",
+    "description": "We build widgets",
+    "address": "Our address"
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 0,
+  "organization": {
+    "name": "My company name",
+    "description": "We build widgets",
+    "address": "Our address"
+  }
+}
+```
+
+</ResponseExample>
