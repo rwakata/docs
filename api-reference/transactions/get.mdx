@@ -1,28 +1,16 @@
 ---
 title: "Get Transaction"
-api: "GET https://api.mintlify.com/api/user"
-description: "This endpoint gets or creates a new user."
+api: "GET https://api.xente.com/transactions"
+description: "This endpoint gets an a transaction on Xente"
 ---
 
-### Body
+### Query
 
-<ParamField body="name" type="string">
-  This is the name of the user group.
+<ParamField query="id" type="string">
+  This is the ID of the transaction
 </ParamField>
 
-<ParamField body="user_group_id" type="string">
-  This is the ID you use to identify this user group in your database.
-</ParamField>
 
-<ParamField body="mapping" type="object">
-  This is a JSON mapping of schema id to either the data source that this user group should be
-  associated with or id of the datasource you provided when creating it.
-</ParamField>
-
-<ParamField body="properties" type="object">
-  This is a JSON object for properties assigned to this user group. These will be accessible through
-  variables in the dashboards and SQL editor
-</ParamField>
 
 ### Response
 
@@ -30,37 +18,55 @@ description: "This endpoint gets or creates a new user."
   Indicates whether the call was successful. 1 if successful, 0 if not.
 </ResponseField>
 
-<ResponseField name="new_user_group" type="boolean">
-  Indicates whether a new user group was created.
-</ResponseField>
+<ResponseField name="data" type="object">
 
-<ResponseField name="user_group" type="object">
-
-The contents of the user group
+The contents of the transaction
 
 <Expandable title="Toggle object">
 
-<ResponseField name="team_id" type="number">
-  This is the internal ID for this user group. You don't need to record this information, since
-  you will not need to use it.
+<ResponseField name="transaction_id" type="number">
+  The unique id of the transaction 
 </ResponseField>
 
-<ResponseField name="token" type="string">
-  This is the user group token (userGroupToken or USER_GROUP_TOKEN) that will be used to identify
-  which user group is viewing the dashboard. You should save this on your end to use when rendering
-  an embedded dashboard.
+
+<ResponseField name="clientreference_id" type="number">
+  The id that your system uses to identify the transaction
 </ResponseField>
 
-<ResponseField name="name" type="string">
+<ResponseField name="batch_id" type="number">
+  The batch id of the transaction. This is useful if it was sent as part of a bulk/batch payment
+</ResponseField>
+
+<ResponseField name="account_number" type="number">
   This is the name of the user group provided in the request body.
 </ResponseField>
 
-<ResponseField name="provided_id" type="string">
-  This is the user_group_id provided in the request body.
+<ResponseField name="name" type="string">
+  name of person or business that did transaction 
 </ResponseField>
 
-<ResponseField name="properties" type="JSON or null">
-  This is the properties object if it was provided in the request body
+<ResponseField name="currency" type="string">
+  Currency of the transaction
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Amount of the transaction
+</ResponseField>
+
+<ResponseField name="fees" type="string">
+  fees on the transaction 
+</ResponseField>
+
+<ResponseField name="initiator" type="string">
+  Who initiated the transaction
+</ResponseField>
+
+<ResponseField name="approver" type="string">
+  Who approved the transaction
+</ResponseField>
+
+<ResponseField name="attachments" type="object">
+  Documents attached to transaction
 </ResponseField>
 
 </Expandable>
@@ -70,15 +76,10 @@ The contents of the user group
 <RequestExample>
 
 ```bash Example Request
-curl --location --request GET 'https://api.mintlify.com/api/user' \
+curl --location --request GET 'https://api.xente.co/transactions/{id}' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
---data-raw '{
-    "user_group_id": "example_1",
-    "name": "Example 1",
-    "mapping": {"40": "213", "134": "386"},
-    "properties": {"filterValue": "value"}
-}'
+
 ```
 
 </RequestExample>
@@ -88,12 +89,18 @@ curl --location --request GET 'https://api.mintlify.com/api/user' \
 ```json Response
 {
   "success": 1,
-  "new_user_group": true,
-  "user_group": {
-    "team_id": 3,
-    "token": "<user_group_token_to_auth_dashboard>",
-    "name": "Example 1",
-    "provided_id": "example_1"
+  "data": {
+    "transaction_id": 12345,
+    "clientreference_id": 67890,
+    "batch_id": 54321,
+    "account_number": 9876543210,
+    "name": "John Doe",
+    "currency": "USD",
+    "amount": 100.00,
+    "fees": "10.00",
+    "initiator": "John",
+    "approver": "Jane",
+    "attachments": {}
   }
 }
 ```

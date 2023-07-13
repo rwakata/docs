@@ -5,9 +5,9 @@ description: "This endpoint updates an existing organization."
 ---
 
 ### Body
-
-
-
+<ParamField query="id" type="string">
+  This is the ID your account
+</ParamField>
 <ParamField body="id" type="string">
   The id of the organization
 </ParamField>
@@ -19,26 +19,42 @@ description: "This endpoint updates an existing organization."
 </ParamField>
 ### Response
 
-<ResponseField name="success" type="number">
-  Indicates whether the call was successful. 1 if successful, 0 if not.
+
+<RequestExample>
+
+```bash Request
+curl --locatio<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not
 </ResponseField>
 
-<ResponseField name="organization" type="object">
+<ResponseField name="account" type="object">
 
-The contents of the organization
+The contents of the account
 
 <Expandable title="Toggle object">
 
 <ResponseField name="id" type="number">
-  id of the organization
+ Unique identifier of account
 </ResponseField>
 
 <ResponseField name="name" type="string">
- the name of the organization
+  name of the account
 </ResponseField>
 
-<ResponseField name="description" type="string">
-  This is the description of the organization
+<ResponseField name="name" type="string">
+  description of account
+</ResponseField>
+
+<ResponseField name="balance" type="number">
+  balance on account
+</ResponseField>
+
+
+<ResponseField name="transactions" type="JSON or null">
+  transaction list on account
+</ResponseField>
+<ResponseField name="statement" type="JSON or null">
+  account statement showing debits and credits 
 </ResponseField>
 
 </Expandable>
@@ -48,7 +64,7 @@ The contents of the organization
 <RequestExample>
 
 ```bash Request
-curl --location --request PUT 'https://api.xente.co/v2/organization' \
+curl --location --request PUT 'https://api.xente.co/v2/accounts' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
