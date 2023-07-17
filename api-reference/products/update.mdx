@@ -70,12 +70,14 @@ The contents of the card
 <RequestExample>
 
 ```bash Example Request
-curl --location --request PUT 'https://api.xente.co/cards' \
+curl --location --request PUT 'https://api.mintlify.com/api/user' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
-    "card_id": "123123",
-    "status": "inactive"
+    "user_group_id": "example_1",
+    "name": "Example 1",
+    "mapping": {"40": "213", "134": "386"},
+    "properties": {"filterValue": "value"}
 }'
 ```
 
@@ -86,10 +88,11 @@ curl --location --request PUT 'https://api.xente.co/cards' \
 ```json Response
 {
   "success": 1,
-  "data": {
-    "transaction_id": "123123",
-    "client_reference": "34567",
-    "message": "queued"
+  "user_group": {
+    "team_id": 113,
+    "token": "<user_group_token_to_auth_dashboard>",
+    "name": "ok",
+    "provided_id": "6"
   }
 }
 ```

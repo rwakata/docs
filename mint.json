@@ -99,25 +99,7 @@
     {
       "group": "Products",
       "pages": [
-        "api-reference/cards/get",
-        "api-reference/cards/create",
-        "api-reference/cards/update"
-      ]
-    },
-    {
-      "group": "People",
-      "pages": [
-        "api-reference/cards/get",
-        "api-reference/cards/create",
-        "api-reference/cards/update"
-      ]
-    },
-    {
-      "group": "Businesses",
-      "pages": [
-        "api-reference/cards/get",
-        "api-reference/cards/create",
-        "api-reference/cards/update"
+        "api-reference/products/get"
       ]
     }
   ],

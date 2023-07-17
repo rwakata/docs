@@ -1,0 +1,90 @@
+---
+title: "Get product"
+api: "GET https://api.xente.co/products"
+description: "This endpoint gets product details"
+---
+### Query 
+<ParamField query="id" type="string">
+  This is the ID of the product
+</ParamField>
+### Body
+
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 1 if successful, error code if not.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+
+The contents of the product
+
+<Expandable title="Toggle object">
+
+<ResponseField name="product_id" type="number">
+  The unique id of the product
+</ResponseField>
+
+
+<ResponseField name="name" type="string">
+  The name of the product
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The image Url of the product
+</ResponseField>
+
+<ResponseField name="short_description" type="string">
+  Short description of the product
+</ResponseField>
+
+<ResponseField name="long_description" type="string">
+  Long description of the product
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status of the product
+</ResponseField>
+
+<ResponseField name="pricing" type="JSON or null">
+  pricing of the product
+</ResponseField>
+
+<ResponseField name="product_items" type="JSON or null">
+  Product items of the product
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Request
+curl --location --request GET 'https://api.xente.co/products/{id}' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 0,
+  "data": {
+    "product_id": 3,
+    "name": "Name of the product",
+    "imageUri": "Uri to image of product", 
+    "short_description": "Short description of the product",
+    "long_description": "Long description of the product",
+    "status": "active",
+    "pricing": "list of pricings",
+    "product_items": "list of product items"
+  }
+}
+```
+
+</ResponseExample>

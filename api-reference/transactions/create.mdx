@@ -1,53 +1,57 @@
 ---
 title: "Create Transaction"
-api: "POST https://api.mintlify.com/api/user"
-description: "This endpoint creates a new user"
+api: "POST https://api.xente.co/transactions"
+description: "This endpoint creates a new transaction in Xente."
 ---
 
 ### Body
 
-<ParamField body="current_token" type="string">
-  This is the current user group token you have for the user group that you want
-  to rotate.
+<ParamField body="clientreference_id" type="string">
+  A unique id from your system 
 </ParamField>
-
+<ParamField body="batch_id" type="string">
+  The id to identify batch - this is useful if transaction is part of bulk transaction
+</ParamField>
+<ParamField body="account_number" type="string">
+  Your account number
+</ParamField>
+<ParamField body="currency" type="string">
+  currency of the transaction
+</ParamField>
+<ParamField body="amount" type="number">
+  transaction amount
+</ParamField>
+<ParamField body="debitorcredit" type="number">
+   1 if credit, 2 if debit. PS. A credit puts money on your account e.g mobile money collection. A debit removes money from your account. e.g. a mobile money payout
+</ParamField>
+<ParamField body="product" type="object">
+  A product associated with transaction 
+</ParamField>
+<ParamField body="beneficiary" type="object">
+  A beneficiary associated with the transaction e.g. team member, business, customer 
+</ParamField>
 ### Response
 
 <ResponseField name="success" type="number">
-  Indicates whether the call was successful. 1 if successful, 0 if not.
+  Indicates whether the call was successful. 1 if successful, error code if not.
 </ResponseField>
 
-<ResponseField name="user_group" type="object">
+<ResponseField name="data" type="object">
 
-The contents of the user group
+The contents of the transaction
 
 <Expandable title="Toggle object">
 
-<ResponseField name="team_id" type="number">
-  This is the internal ID for this user group. You don't need to record this
-  information, since you will not need to use it.
+<ResponseField name="transaction_id" type="number">
+  The unique id of the transaction 
 </ResponseField>
 
-<ResponseField name="token" type="string">
-  This is the user group token (userGroupToken or USER_GROUP_TOKEN) that will be
-  used to identify which user group is viewing the dashboard. You should save
-  this on your end to use when rendering an embedded dashboard.
+<ResponseField name="clientreference_id" type="number">
+  The id that your system uses to identify the transaction
 </ResponseField>
 
-<ResponseField name="name" type="string">
-  This is the name of the user group provided in the request body.
-</ResponseField>
-
-<ResponseField name="provided_id" type="string">
-  This is the user_group_id provided in the request body.
-</ResponseField>
-
-<ResponseField name="api_environment_tag" type="JSON or null">
-  This is the environment tag of the user group. Possible values are 'Customer'
-  and 'Testing'. User group id's must be unique to each environment, so you can
-  not create multiple user groups with with same id. If you have a production
-  customer and a test user group with the same id, you will be required to label
-  one as 'Customer' and another as 'Testing'
+<ResponseField name="message" type="string">
+  message from Xente on status of your transaction. This can be queued, processing, successful or failed
 </ResponseField>
 
 </Expandable>
@@ -56,12 +60,22 @@ The contents of the user group
 
 <RequestExample>
 
-```bash Example Request
-curl --location --request POST 'https://api.mintlify.com/api/user' \
+```bash Request
+curl --location --request POST 'https://api.xente.co/transactions' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
-    "current_token": ""
+    {
+    "clientreference_id": 67890,
+    "batch_id": 54321,
+    "account_number": 9876543210,
+    "name": "John Doe",
+    "currency": "USD",
+    "amount": 100.00,
+    "debitorcredit": "debit", 
+    "product": "See product resource for details",
+    "beneficiary": "See people or business for details"
+  }
 }'
 ```
 
@@ -72,11 +86,10 @@ curl --location --request POST 'https://api.mintlify.com/api/user' \
 ```json Response
 {
   "success": 1,
-  "user_group": {
-    "team_id": 3,
-    "token": "<user_group_token_to_auth_dashboard>",
-    "name": "Example 1",
-    "provided_id": "example_1"
+  "data": {
+    "transaction_id": "1231231231",
+    "clientrerenceid": "12312312",
+    "message": "queued"
   }
 }
 ```
