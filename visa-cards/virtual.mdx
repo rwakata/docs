@@ -20,10 +20,15 @@ You create and assign virtual Visa card, utilize the code snippet provided below
 <CodeGroup>
 
 ```bash cURL
-curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_AUTH_TOKEN" -d '{
-  "user_email": "user@email.com",
-  "thirdpartyid": "190890",//this is an id from your platform to id the user
-}' "https://api.xente.co/virtual-cards"
+
+curl --location --request POST 'https://api.xente.co/cards' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "card_holder": {
+        "userId": 123123123123
+    }
+}'
 
 ```
 

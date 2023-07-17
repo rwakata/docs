@@ -34,7 +34,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [ "introduction", "start/about", "start/usecases", "start/prerequisites", "start/supportedmethods" ]
+      "pages": [ "introduction", "start/about", "start/usecases", "start/prerequisites"]
     },
     {
       "group": "Visa Debit Cards",
