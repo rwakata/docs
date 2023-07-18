@@ -11,14 +11,22 @@ description: 'Send money to mobile money accounts'
 With the Xente API, you can send mobile money in three easy steps.
 ## Step 1 - Verify mobile money number
 
-To ensure your sending money to the correct mobile money number, please first verify the number 
+To ensure your sending money to the correct mobile money number, please first verify the person your sending funds to
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/auth/login?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+
+curl --location --request GET 'https://api.xente.co/people/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "id": "256770123456",
+    "name": "Halle Berry",
+    "source": "MTNMOMOUG"
+}'
+
+
 ```
 
 ```bash Node
@@ -83,7 +91,11 @@ const options = {
 ```
 </CodeGroup>
 
-P.S. We advise that you store or cache verified mobile money numbers in your backend to avoid making verifications on every subsequent request
+P.S. 
+Please find below the corrected version of the text:
+
+- The source is the data store you are querying to verify the user, in this case, MTN Mobile Money.
+- You will get a success code if the name and number match. If you get a match, you can proceed to post the mobile money transaction."
 
 ## Step 2 - POST mobile money transaction
 

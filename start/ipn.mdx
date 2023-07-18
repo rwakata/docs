@@ -36,22 +36,23 @@ Below is some sample code to help you set up your Instant Payment Notification
 <CodeGroup>
 
 ```bash cURL
-curl -X POST \
-  'your-url?transactionId={string}&subscriptionId={string}&accountId={string}&requestId={string}&Amount={double}' \
+
+curl -X POST 'your-url' \
   -H 'Content-Type: application/json' \
   -d '{
-    "AccountId": "string",
-    "SubscriptionId": "string",
-    "TransactionId": "string",
-    "BatchId": "string",
-    "RequestId": "string",
-    "StatusMessage": "string",
-    "StatusCode": 0,
-    "CorrelationId": "string",
-    "CreatedOn": "YYYY-MM-DD HH:mm:ss",
-    "Amount": double,
-    "CurrencyCode": "string"
+    "account_number": "string",
+    "subscription_id": "string",
+    "transaction_id": "string",
+    "batch_id": "string",
+    "client_referenceId": "string",
+    "status_message": "string",
+    "status_code": 0,
+    "correlation_id": "string",
+    "created_on": "YYYY-MM-DD HH:mm:ss",
+    "amount": 0.0,
+    "currency": "string"
 }'
+
 ```
 
 ```bash Node
@@ -77,8 +78,6 @@ axios.get(apiUrl, options)
 ```
 
 </CodeGroup>
-
-** Is that the actual code - why so many repeated parameters ** 
 
 ### Response message 
 
