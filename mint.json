@@ -101,6 +101,12 @@
       "pages": [
         "api-reference/products/get"
       ]
+    },
+    {
+      "group": "People",
+      "pages": [
+        "api-reference/people/get"
+      ]
     }
   ],
   "footerSocials": {

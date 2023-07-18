@@ -1,0 +1,90 @@
+---
+title: "Get person"
+api: "GET https://api.xente.co/people"
+description: "This endpoint gets people details"
+---
+### Body
+
+<ParamField body="id" type="string">
+  Unique id of the person e.g. mobile number, bill_number, passport number, id number etc 
+</ParamField>
+<ParamField body="name" type="string">
+  Name of the person 
+</ParamField>
+<ParamField body="data" type="JSON or null">
+  Other data to id the person
+</ParamField>
+
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 1 if successful, error code if not.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+
+The contents of the person
+
+<Expandable title="Toggle object">
+
+<ResponseField name="id" type="number">
+  The unique id of the person
+</ResponseField>
+
+
+<ResponseField name="name" type="string">
+  The name of the person
+</ResponseField>
+
+<ResponseField name="image_uri" type="string">
+  The image Url of the person
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status of the person 
+</ResponseField>
+
+<ResponseField name="person_details" type="JSON or null">
+  Other details about the person 
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Request
+
+curl --location --request GET 'https://api.xente.co/people/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "id": "256770833993",
+    "name": "Halle Berry",
+    "data": "Json string depending on database being queried e.g. National ID, Passport etc"
+}'
+
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 0,
+  "data": {
+    "product_id": 3,
+    "name": "Name of the product",
+    "imageUri": "Uri to image of product", 
+    "short_description": "Short description of the product",
+    "long_description": "Long description of the product",
+    "status": "active",
+    "pricing": "list of pricings",
+    "product_items": "list of product items"
+  }
+}
+```
+
+</ResponseExample>

@@ -1,0 +1,100 @@
+---
+title: "Update Card"
+api: "PUT https://api.xente.co/cards"
+description: "This endpoint updates an existing card."
+---
+
+### Body
+
+<ParamField body="card_id" type="string">
+  This is the ID of the card
+</ParamField>
+
+<ParamField body="status" type="string">
+  Status of the card. The are two options, active and inactive 
+</ParamField>
+
+
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+<ResponseField name="data" type="object">
+
+The contents of the card
+
+<Expandable title="Toggle object">
+
+<ResponseField name="card_id" type="number">
+  The unique id of the card
+</ResponseField>
+
+
+<ResponseField name="masked_card_number" type="number">
+  The id that your system uses to identify the transaction
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the card
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency of the card
+</ResponseField>
+
+<ResponseField name="balance" type="number">
+  The balance on the card
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status of the card. Can be active or inactive
+</ResponseField>
+
+<ResponseField name="card_holder" type="string">
+  name of person or business holding the card
+</ResponseField>
+
+<ResponseField name="transactions" type="JSON or null">
+  A list of transactions on the account
+</ResponseField>
+
+<ResponseField name="statement" type="JSON or null">
+  An card statement showing debits and credits
+</ResponseField>
+</Expandable>
+
+</ResponseField>
+
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request PUT 'https://api.mintlify.com/api/user' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "user_group_id": "example_1",
+    "name": "Example 1",
+    "mapping": {"40": "213", "134": "386"},
+    "properties": {"filterValue": "value"}
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 1,
+  "user_group": {
+    "team_id": 113,
+    "token": "<user_group_token_to_auth_dashboard>",
+    "name": "ok",
+    "provided_id": "6"
+  }
+}
+```
+
+</ResponseExample>

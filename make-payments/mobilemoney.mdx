@@ -92,72 +92,254 @@ You POST a mobile money transaction as below
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/auth/login?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+
+curl --location --request POST 'https://api.xente.co/transactions' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "clientreference_id": 67890,
+    "batch_id": 54321,
+    "account_number": "9876543210",
+    "name": "John Doe",
+    "currency": "UGX",
+    "amount": 1000,
+    "debitorcredit": "debit",
+    "product": {
+        "id": "MTNMOMOUG",
+        "phone_number": "25677123456",
+        "amount": "1000",
+        "message": "message to be received with funds"
+    },
+    "beneficiary": {
+        "id": "123123",
+        "names": "John Rambo",
+        "address": "Some address",
+        "other_info": "Other info on beneficiary e.g. team, department"
+    }
+}'
+
+
+
 ```
 
 ```bash Node
 const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
+const data = {
+  clientreference_id: 67890,
+  batch_id: 54321,
+  account_number: "9876543210",
+  name: "John Doe",
+  currency: "UGX",
+  amount: 1000,
+  debitorcredit: "debit",
+  product: {
+    id: "MTNMOMOUG",
+    phone_number: "25677123456",
+    amount: "1000",
+    message: "message to be received with funds"
+  },
+  beneficiary: {
+    id: "123123",
+    names: "John Rambo",
+    address: "Some address",
+    other_info: "Other info on beneficiary e.g. team, department"
   }
 };
 
-axios.get(apiUrl, options)
+axios.post('https://api.xente.co/transactions', data, {
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Token <token>'
+  }
+})
   .then(response => {
-    // Handle the response data here
     console.log(response.data);
   })
   .catch(error => {
-    // Handle any errors that occur
     console.error(error);
   });
+
 ```
 
 ```bash Java
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
-const options = {
-  headers: {
-Java code here
-  }
-};
+public class Main {
+    public static void main(String[] args) throws Exception {
+        String url = "https://api.xente.co/transactions";
+        String token = "<token>";
+
+        String requestBody = "{\n" +
+                "    \"clientreference_id\": 67890,\n" +
+                "    \"batch_id\": 54321,\n" +
+                "    \"account_number\": \"9876543210\",\n" +
+                "    \"name\": \"John Doe\",\n" +
+                "    \"currency\": \"UGX\",\n" +
+                "    \"amount\": 1000,\n" +
+                "    \"debitorcredit\": \"debit\",\n" +
+                "    \"product\": {\n" +
+                "        \"id\": \"MTNMOMOUG\",\n" +
+                "        \"phone_number\": \"25677123456\",\n" +
+                "        \"amount\": \"1000\",\n" +
+                "        \"message\": \"message to be received with funds\"\n" +
+                "    },\n" +
+                "    \"beneficiary\": {\n" +
+                "        \"id\": \"123123\",\n" +
+                "        \"names\": \"John Rambo\",\n" +
+                "        \"address\": \"Some address\",\n" +
+                "        \"other_info\": \"Other info on beneficiary e.g. team, department\"\n" +
+                "    }\n" +
+                "}";
+
+        URL apiUrl = new URL(url);
+        HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Authorization", "Token " + token);
+        connection.setDoOutput(true);
+
+        try (OutputStream outputStream = connection.getOutputStream()) {
+            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
+            outputStream.write(input, 0, input.length);
+        }
+
+        int responseCode = connection.getResponseCode();
+        System.out.println("Response Code: " + responseCode);
+
+        connection.disconnect();
+    }
+}
 
 
 ```
 
 ```bash C#
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-const options = {
- C# Code here
-};
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        var client = new HttpClient();
+        var url = "https://api.xente.co/transactions";
+        
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        
+        request.Headers.Add("Authorization", "Token <token>");
+        request.Headers.Add("Content-Type", "application/json");
+        
+        var requestBody = @"
+        {
+            ""clientreference_id"": 67890,
+            ""batch_id"": 54321,
+            ""account_number"": ""9876543210"",
+            ""name"": ""John Doe"",
+            ""currency"": ""UGX"",
+            ""amount"": 1000,
+            ""debitorcredit"": ""debit"",
+            ""product"": {
+                ""id"": ""MTNMOMOUG"",
+                ""phone_number"": ""25677123456"",
+                ""amount"": ""1000"",
+                ""message"": ""message to be received with funds""
+            },
+            ""beneficiary"": {
+                ""id"": ""123123"",
+                ""names"": ""John Rambo"",
+                ""address"": ""Some address"",
+                ""other_info"": ""Other info on beneficiary e.g. team, department""
+            }
+        }";
+        
+        request.Content = new StringContent(requestBody);
+        
+        var response = await client.SendAsync(request);
+        var responseBody = await response.Content.ReadAsStringAsync();
+        
+        Console.WriteLine(responseBody);
+    }
+}
 
 
 ```
 
 ```bash PHP
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+<?php
 
-const options = {
-  headers: {
-    PHP Code here 
-  }
-};
+$url = 'https://api.xente.co/transactions';
+$headers = array(
+    'Content-Type: application/json',
+    'Authorization: Token <token>'
+);
+
+$data = array(
+    "clientreference_id" => 67890,
+    "batch_id" => 54321,
+    "account_number" => "9876543210",
+    "name" => "John Doe",
+    "currency" => "UGX",
+    "amount" => 1000,
+    "debitorcredit" => "debit",
+    "product" => array(
+        "id" => "MTNMOMOUG",
+        "phone_number" => "25677123456",
+        "amount" => "1000",
+        "message" => "message to be received with funds"
+    ),
+    "beneficiary" => array(
+        "id" => "123123",
+        "names" => "John Rambo",
+        "address" => "Some address",
+        "other_info" => "Other info on beneficiary e.g. team, department"
+    )
+);
+
+$data_string = json_encode($data);
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+echo $response;
+
+?>
 
 ```
 </CodeGroup>
+
+
+| Key                         | Type                   | Description
+| --------------------------- | ---------------------- | -------------
+| client_reference_id         | string                 | A unique ID from your system to help you identify the transaction
+| batch_id                    | string                 | A unique ID to help you identify the batch. This is useful if the transaction is part of a bulk payment
+| account_number              | string                 | Your business account number from which funds will be debited
+| currency                    | string                 | The currency of your account
+| amount                      | number                 | The amount to be debited from your account
+| debitorcredit               | string                 | Put value "debit" to send mobile money as this debits funds from your account
+| product.id                  | string                 | Put the value for Mobile Money Product IDs. You can find IDs under products in the portal
+| product.amount              | number                 | The amount of mobile money to be sent
+| product.message             | string                 | The message that the beneficiary will receive
+| beneficiary.id              | string                 | The unique ID of the beneficiary in your system
+| beneficiary.names           | string                 | The names of the beneficiary
+| beneficiary.other_information | string                | Other information about the beneficiary
+
+
+
+
 
 ## Step 3 - Receive Instant Payment Notification (IPN)
 

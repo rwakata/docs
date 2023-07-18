@@ -1,0 +1,67 @@
+---
+title: "Create Card"
+api: "POST https://api.xente.co/cards"
+description: "This endpoint creates a new cards"
+---
+
+### Body
+
+<ParamField body="card_holder" type="object">
+ The cardholder who will hold the card. 
+</ParamField>
+
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 1 if successful, error code if not.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+
+The contents of the card creation transaction
+
+<Expandable title="Toggle object">
+
+<ResponseField name="transaction_id" type="number">
+  The unique id of the transaction 
+</ResponseField>
+
+<ResponseField name="clientreference_id" type="number">
+  The id that your system uses to identify the transaction
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  message from Xente on status of card creation transaction. This can be queued, processing, successful or failed
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Request
+curl --location --request POST 'https://api.xente.co/cards' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "card_holder": ""
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 1,
+  "data": {
+    "transaction_id": "123123",
+    "client_reference": "34567",
+    "message": "queued"
+  }
+}
+```
+
+</ResponseExample>

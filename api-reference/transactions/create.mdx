@@ -61,22 +61,22 @@ The contents of the transaction
 <RequestExample>
 
 ```bash Request
+
 curl --location --request POST 'https://api.xente.co/transactions' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
-    {
     "clientreference_id": 67890,
     "batch_id": 54321,
-    "account_number": 9876543210,
+    "account_number": "9876543210",
     "name": "John Doe",
     "currency": "USD",
     "amount": 100.00,
-    "debitorcredit": "debit", 
+    "debitorcredit": "debit",
     "product": "See product resource for details",
     "beneficiary": "See people or business for details"
-  }
 }'
+
 ```
 
 </RequestExample>
