@@ -1,167 +1,578 @@
 ---
-title: 'Mobile internet'
-description: 'Send internet bundles'
+title: 'Send mobile internet'
+description: 'Send mobile internet to phone numbers and other internet providers'
 ---
-
 <Info>
   Supported by Basic, Pro & Pro+ Licenses  
   
   **[Learn more here](https://www.xente.co/pricing)**
 </Info>
 
-With the Xente API, you can send mobile internet bundles to phone numbers or other mobile internet account numbers
-## Step 1 - Get mobile internet bundles
+With the Xente API, you can send mobile internet in three easy steps.
+## Step 1 - Verify account number
 
-Get the mobile internet bundles that you can send to a phone number or other mobile internet account number
+To ensure your sending airtime to the correct phone number, please first verify the person your sending funds to
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/auth/login?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+
+curl -X GET \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Token <token>" \
+     "https://api.xente.co/people/?phone_number=<phone_number>"
+
+
 ```
 
 ```bash Node
-const axios = require('axios');
+   const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
+class XenteApi {
+  constructor() {
+    this.baseUrl = "https://api.xente.co/";
   }
-};
 
-axios.get(apiUrl, options)
-  .then(response => {
-    // Handle the response data here
-    console.log(response.data);
-  })
-  .catch(error => {
-    // Handle any errors that occur
-    console.error(error);
-  });
+  async getPerson(phoneNumber) {
+    try {
+      const response = await axios.get(`${this.baseUrl}people/`, {
+        params: {
+          phone_number: phoneNumber
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("GET request successful!");
+        return response.data;
+      } else {
+        console.log("Error occurred: " + response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.log("Error occurred: " + error.message);
+      return null;
+    }
+  }
+}
+
+class Person {
+  constructor(phoneNumber, names) {
+    this.phoneNumber = phoneNumber;
+    this.names = names;
+  }
+}
 ```
 
 ```bash Java
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.HttpUrl;
+import com.google.gson.Gson;
 
-const options = {
-  headers: {
-Java code here
-  }
-};
+public class XenteApi {
+    private static final String BASE_URL = "https://api.xente.co/";
 
+    public Person getPerson(String phoneNumber) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "people/").newBuilder();
+        urlBuilder.addQueryParameter("phone_number", phoneNumber);
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+            .url(url)
+            .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                Gson gson = new Gson();
+                Person person = gson.fromJson(response.body().string(), Person.class);
+                System.out.println("GET request successful!");
+                return person;
+            } else {
+                System.out.println("Error occurred: " + response.message());
+                return null;
+            }
+        }
+    }
+}
+
+public class Person {
+    private String phoneNumber;
+    private String names;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public void setNames(String names) {
+        this.names = names;
+    }
+}
 
 ```
 
 ```bash C#
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+public class XenteApi
+{
+    private const string BaseUrl = "https://api.xente.co/";
 
-const options = {
- C# Code here
-};
+    public Person GetPerson(string phoneNumber)
+    {
+        var client = new RestClient(BaseUrl);
+        var request = new RestRequest("people/", Method.GET);
+
+        // Add query parameters
+        request.AddParameter("phone_number", phoneNumber);
+
+        var response = client.Execute<Person>(request);
+
+        if (response.IsSuccessful)
+        {
+            // Handle successful response
+            Console.WriteLine("GET request successful!");
+            return response.Data;
+        }
+        else
+        {
+            // Handle error response
+            Console.WriteLine("Error occurred: " + response.ErrorMessage);
+            return null;
+        }
+    }
+}
+
+public class Person
+{
+    public string PhoneNumber { get; set; }
+    public string Names { get; set; }
+}
 
 
 ```
 
 ```bash PHP
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+<?php
 
-const options = {
-  headers: {
-    PHP Code here 
-  }
-};
+class XenteApi
+{
+    private const BaseUrl = "https://api.xente.co/";
+
+    public function getPerson($phoneNumber)
+    {
+        $client = new RestClient(BaseUrl);
+        $request = new RestRequest("people/", "GET");
+
+        // Add query parameters
+        $request->addParameter("phone_number", $phoneNumber);
+
+        $response = $client->execute($request);
+
+        if ($response->isSuccessful()) {
+            // Handle successful response
+            echo "GET request successful!";
+            return $response->getData();
+        } else {
+            // Handle error response
+            echo "Error occurred: " . $response->getErrorMessage();
+            return null;
+        }
+    }
+}
+
+class Person
+{
+    public $phoneNumber;
+    public $names;
+}
 
 ```
 </CodeGroup>
 
-P.S. We advise that you store or cache verified mobile money numbers in your backend to avoid making verifications on every subsequent request
 
-## Step 2 - POST mobile internet transaction
+## Step 2 - POST airtime transaction
 
-You POST a mobile internet transaction as below  
+You POST a airtime transaction as below  
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api.xente.co/auth/login?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+
+curl -X POST https://api.xente.co/transactions \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Token <token>" \
+ -d '{
+    "clientreferenceid": 67890,
+    "batch_id": 54321,
+    "account_number": "9876543210",
+    "name": "John Doe",
+    "currency": "UGX",
+    "amount": 10000,
+    "transaction_type": "debit",
+    "product": {
+        "id": "mtn_internet",
+        "bundle_code": "24MB_DAILY",
+    },
+    "beneficiary": {
+        "id": "123",
+        "name": "Halle Berry",
+        "data": {
+            "phone_number": "07701234567"
+        }
+    }
+}'
+
+
+
 ```
 
 ```bash Node
+
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
 
-const apiUrl = 'https://api.xente.co/verify?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
+class XenteApi {
+  constructor() {
+    this.client = axios.create({
+      baseURL: 'https://api.xente.co',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
-};
 
-axios.get(apiUrl, options)
-  .then(response => {
-    // Handle the response data here
-    console.log(response.data);
-  })
-  .catch(error => {
-    // Handle any errors that occur
-    console.error(error);
-  });
+  async postTransaction(token) {
+    const product = {
+      id: 'mtn_mobile_internet'
+    };
+
+    const beneficiary = {
+      id: '256770123456',
+      name: 'Halle Berry'
+    };
+
+    const transaction = {
+      clientreferenceid: 67890,
+      batch_id: 54321,
+      account_number: '9876543210',
+      name: 'John Doe',
+      currency: 'UGX',
+      amount: 10000.00,
+      transaction_type: 'debit',
+      product: product,
+      beneficiary: beneficiary
+    };
+
+    const requestConfig = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    try {
+      const response = await this.client.post('/transactions', transaction, requestConfig);
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        const success = responseData.success;
+        const data = responseData.data;
+
+        const transactionId = data.transaction_id;
+        const clientReferenceId = data.clientreferenceid;
+        const message = data.message;
+
+        // Handle the response as needed
+      } else {
+        // Handle the error response
+      }
+    } catch (error) {
+      // Handle the request error
+    }
+  }
+}
+
+class ResponseData {
+  constructor(success, data) {
+    this.success = success;
+    this.data = data;
+  }
+}
+
 ```
 
 ```bash Java
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+import com.google.gson.Gson;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-const options = {
-  headers: {
-Java code here
-  }
-};
+public class XenteApi {
+    private final OkHttpClient client;
+    private final Gson gson;
+
+    public XenteApi() {
+        client = new OkHttpClient();
+        gson = new Gson();
+    }
+
+    public void postTransaction(String token) throws Exception {
+        MediaType mediaType = MediaType.parse("application/json");
+
+        RequestBody body = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"mtn_mobile_internet\"\n" +
+                "}");
+
+        RequestBody beneficiaryBody = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"256770123456\",\n" +
+                "  \"name\": \"Halle Berry\"\n" +
+                "}");
+
+        RequestBody transactionBody = RequestBody.create(mediaType, "{\n" +
+                "  \"clientreferenceid\": 67890,\n" +
+                "  \"batch_id\": 54321,\n" +
+                "  \"account_number\": \"9876543210\",\n" +
+                "  \"name\": \"John Doe\",\n" +
+                "  \"currency\": \"UGX\",\n" +
+                "  \"amount\": 10000.00,\n" +
+                "  \"transaction_type\": \"debit\",\n" +
+                "  \"product\": " + body + ",\n" +
+                "  \"beneficiary\": " + beneficiaryBody + "\n" +
+                "}");
+
+        Request request = new Request.Builder()
+                .url("https://api.xente.co/transactions")
+                .post(transactionBody)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Token " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                ResponseData responseData = gson.fromJson(response.body().string(), ResponseData.class);
+                boolean success = responseData.isSuccess();
+                Object data = responseData.getData();
+
+                // Access the transaction ID and other properties from the response
+                String transactionId = data.getTransactionId();
+                int clientReferenceId = data.getClientReferenceId();
+                String message = data.getMessage();
+
+                // Handle the response as needed
+            } else {
+                // Handle the error response
+            }
+        }
+    }
+}
+
+class ResponseData {
+    private boolean success;
+    private Object data;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public Object getData() {
+        return data;
+    }
+}
 
 
 ```
 
 ```bash C#
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+using Newtonsoft.Json;
+using RestSharp;
 
-const options = {
- C# Code here
-};
+public class XenteApi
+{
+    private readonly RestClient _client;
+
+    public XenteApi()
+    {
+        _client = new RestClient("https://api.xente.co");
+    }
+
+    public void PostTransaction(string token)
+    {
+        var request = new RestRequest("transactions", Method.Post);
+        request.AddHeader("Content-Type", "application/json");
+        request.AddHeader("Authorization", "Token " + token);
+
+        var product = new
+        {
+            id = "mtn_mobile_internet"
+        };
+
+        var beneficiary = new
+        {
+            id = "256770123456",
+            name = "Halle Berry"
+        };
+
+        var transaction = new
+        {
+            clientreferenceid = 67890,
+            batch_id = 54321,
+            account_number = "9876543210",
+            name = "John Doe",
+            currency = "UGX",
+            amount = 10000.00,
+            transaction_type = "debit",
+            product = product,
+            beneficiary = beneficiary
+        };
+
+        request.AddJsonBody(transaction);
+
+        var response = _client.Execute(request);
+
+        if (response.IsSuccessful)
+        {
+            // Deserialize the response JSON
+            var responseData = JsonConvert.DeserializeObject<ResponseData>(response.Content);
+            var success = responseData.success;
+            var data = responseData.data;
+
+            // Access the transaction ID and other properties from the response
+            var transactionId = data.transaction_id;
+            var clientReferenceId = data.clientreferenceid;
+            var message = data.message;
+
+            // Handle the response as needed
+        }
+        else
+        {
+            // Handle the error response
+        }
+    }
+}
+
+public class ResponseData
+{
+    public bool success { get; set; }
+    public dynamic data { get; set; }
+}
 
 
 ```
 
 ```bash PHP
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+<?php
 
-const options = {
-  headers: {
-    PHP Code here 
-  }
-};
+use GuzzleHttp\Client;
+
+class XenteApi
+{
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => 'https://api.xente.co'
+        ]);
+    }
+
+    public function postTransaction($token)
+    {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Token ' . $token
+        ];
+
+        $product = [
+            'id' => 'mtn_mobile_internet'
+        ];
+
+        $beneficiary = [
+            'id' => '256770123456',
+            'name' => 'Halle Berry'
+        ];
+
+        $transaction = [
+            'clientreferenceid' => 67890,
+            'batch_id' => 54321,
+            'account_number' => '9876543210',
+            'name' => 'John Doe',
+            'currency' => 'UGX',
+            'amount' => 10000.00,
+            'transaction_type' => 'debit',
+            'product' => $product,
+            'beneficiary' => $beneficiary
+        ];
+
+        $response = $this->client->post('transactions', [
+            'headers' => $headers,
+            'json' => $transaction
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            $responseData = json_decode($response->getBody(), true);
+            $success = $responseData['success'];
+            $data = $responseData['data'];
+
+            $transactionId = $data['transaction_id'];
+            $clientReferenceId = $data['clientreferenceid'];
+            $message = $data['message'];
+
+            // Handle the response as needed
+        } else {
+            // Handle the error response
+        }
+    }
+}
+
+class ResponseData
+{
+    public $success;
+    public $data;
+}
+
+
 
 ```
 </CodeGroup>
+
+
+| Key                         | Type                   | Description
+| --------------------------- | ---------------------- | -------------
+| client_reference_id         | string                 | A unique ID from your system to help you identify the transaction
+| batch_id                    | string                 | A unique ID to help you identify the batch. This is useful if the transaction is part of a bulk payment
+| account_number              | string                 | Your business account number from which funds will be debited
+| currency                    | string                 | The currency of your account
+| amount                      | number                 | The amount to be debited from your account
+| transaction_type               | string                 | Put value "debit" to send mobile money as this debits funds from your account
+| product.id                  | string                 | Put the value for Mobile Money Product IDs. You can find IDs under products in the portal
+| product.amount              | number                 | The amount of mobile money to be sent
+| product.message             | string                 | The message that the beneficiary will receive
+| beneficiary.id              | string                 | The unique ID of the beneficiary in your system
+| beneficiary.names           | string                 | The names of the beneficiary
+| beneficiary.other_information | string                | Other information about the beneficiary
+
+
+
+
 
 ## Step 3 - Receive Instant Payment Notification (IPN)
 
-All transactions on Xente are asynchronous. Therefore, after you POST a mobile internet transaction, you need to wait for a success (or failure) response using webhooks called Instant Payment Notifications (IPN).
+All transactions on Xente are asynchronous. Therefore, after you POST a mobile money transaction, you need to wait for a success (or failure) response using webhooks called Instant Payment Notifications (IPN).
 
 Learn more about **[Instant Payment Notifications](/start/ipn)**.
