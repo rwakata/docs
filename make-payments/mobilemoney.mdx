@@ -32,61 +32,148 @@ curl --location --request GET 'https://api.xente.co/people/' \
 ```bash Node
 const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
-  }
+const url = 'https://api.xente.co/people/';
+const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Token <token>'
+};
+const data = {
+  "id": "256770123456",
+  "name": "Halle Berry",
+  "source": "MTNMOMOUG"
 };
 
-axios.get(apiUrl, options)
+axios.get(url, { headers, data })
   .then(response => {
-    // Handle the response data here
+    // Handle the response here
     console.log(response.data);
   })
   .catch(error => {
-    // Handle any errors that occur
+    // Handle any errors here
     console.error(error);
   });
+
 ```
 
 ```bash Java
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-const options = {
-  headers: {
-Java code here
-  }
-};
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // Set the URL and request method
+        String url = "https://api.xente.co/people/";
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+
+        // Set the request headers
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Authorization", "Token <token>");
+
+        // Set the request body (parameters)
+        String requestBody = "{\"id\": \"256770123456\", \"name\": \"Halle Berry\", \"source\": \"MTNMOMOUG\"}";
+
+        // Send the request
+        con.setDoOutput(true);
+        con.getOutputStream().write(requestBody.getBytes());
+
+        // Get the response
+        int responseCode = con.getResponseCode();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // Print the response
+        System.out.println("Response Code: " + responseCode);
+        System.out.println("Response Body: " + response.toString());
+    }
+}
 
 
 ```
 
 ```bash C#
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
-const options = {
- C# Code here
-};
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        using (HttpClient client = new HttpClient())
+        {
+            client.BaseAddress = new Uri("https://api.xente.co/");
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", "<token>");
+
+            var data = new
+            {
+                id = "256770123456",
+                name = "Halle Berry",
+                source = "MTNMOMOUG"
+            };
+
+            HttpResponseMessage response = await client.GetAsync("people/");
+            if (response.IsSuccessStatusCode)
+            {
+                string result = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(result);
+            }
+            else
+            {
+                Console.WriteLine("Error: " + response.StatusCode);
+            }
+        }
+    }
+}
 
 
 ```
 
 ```bash PHP
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/verify?';
-
-const options = {
-  headers: {
-    PHP Code here 
-  }
-};
+function person() {
+    $url = 'https://api.xente.co/people/';
+    $headers = array(
+        'Content-Type: application/json',
+        'Authorization: Token <token>'
+    );
+    $data = array(
+        "id" => "256770123456",
+        "name" => "Halle Berry",
+        "source" => "MTNMOMOUG"
+    );
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    
+    $response = curl_exec($ch);
+    
+    if ($response === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        return "Error: " . $error;
+    }
+    
+    curl_close($ch);
+    return $response;
+}
 
 ```
 </CodeGroup>
@@ -113,7 +200,7 @@ curl --location --request POST 'https://api.xente.co/transactions' \
     "name": "John Doe",
     "currency": "UGX",
     "amount": 1000,
-    "debitorcredit": "debit",
+    "transaction_type": "debit",
     "product": {
         "id": "MTNMOMOUG",
         "phone_number": "25677123456",
@@ -142,7 +229,7 @@ const data = {
   name: "John Doe",
   currency: "UGX",
   amount: 1000,
-  debitorcredit: "debit",
+  transaction_type: "debit",
   product: {
     id: "MTNMOMOUG",
     phone_number: "25677123456",
@@ -191,7 +278,7 @@ public class Main {
                 "    \"name\": \"John Doe\",\n" +
                 "    \"currency\": \"UGX\",\n" +
                 "    \"amount\": 1000,\n" +
-                "    \"debitorcredit\": \"debit\",\n" +
+                "    \"transaction_type\": \"debit\",\n" +
                 "    \"product\": {\n" +
                 "        \"id\": \"MTNMOMOUG\",\n" +
                 "        \"phone_number\": \"25677123456\",\n" +
@@ -254,7 +341,7 @@ class Program
             ""name"": ""John Doe"",
             ""currency"": ""UGX"",
             ""amount"": 1000,
-            ""debitorcredit"": ""debit"",
+            ""transaction_type"": ""debit"",
             ""product"": {
                 ""id"": ""MTNMOMOUG"",
                 ""phone_number"": ""25677123456"",
@@ -298,7 +385,7 @@ $data = array(
     "name" => "John Doe",
     "currency" => "UGX",
     "amount" => 1000,
-    "debitorcredit" => "debit",
+    "transaction_type" => "debit",
     "product" => array(
         "id" => "MTNMOMOUG",
         "phone_number" => "25677123456",
@@ -339,7 +426,7 @@ echo $response;
 | account_number              | string                 | Your business account number from which funds will be debited
 | currency                    | string                 | The currency of your account
 | amount                      | number                 | The amount to be debited from your account
-| debitorcredit               | string                 | Put value "debit" to send mobile money as this debits funds from your account
+| transaction_type               | string                 | Put value "debit" to send mobile money as this debits funds from your account
 | product.id                  | string                 | Put the value for Mobile Money Product IDs. You can find IDs under products in the portal
 | product.amount              | number                 | The amount of mobile money to be sent
 | product.message             | string                 | The message that the beneficiary will receive

@@ -56,27 +56,148 @@ curl -X POST 'your-url' \
 ```
 
 ```bash Node
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/cards?';
+app.post('/yourEndpoint', (req, res) => {
+  const transaction = req.body;
 
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
+  // Your logic here
+
+  res.status(200).send();
+});
+
+class Transaction {
+  constructor(account_number, subscription_id, transaction_id, batch_id, client_referenceId, status_message, status_code, correlation_id, created_on, amount, currency) {
+    this.account_number = account_number;
+    this.subscription_id = subscription_id;
+    this.transaction_id = transaction_id;
+    this.batch_id = batch_id;
+    this.client_referenceId = client_referenceId;
+    this.status_message = status_message;
+    this.status_code = status_code;
+    this.correlation_id = correlation_id;
+    this.created_on = created_on;
+    this.amount = amount;
+    this.currency = currency;
   }
-};
+}
 
-axios.get(apiUrl, options)
-  .then(response => {
-    // Handle the response data here
-    console.log(response.data);
-  })
-  .catch(error => {
-    // Handle any errors that occur
-    console.error(error);
-  });
 ```
 
+```bash Java
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class YourController {
+
+    @PostMapping("/your-endpoint")
+    public ResponseEntity<Void> yourEndpoint(@RequestBody Transaction transaction) {
+        // Your logic here
+
+        return ResponseEntity.ok().build();
+    }
+}
+
+public class Transaction {
+    private String accountNumber;
+    private String subscriptionId;
+    private String transactionId;
+    private String batchId;
+    private String clientReferenceId;
+    private String statusMessage;
+    private int statusCode;
+    private String correlationId;
+    private Date createdOn;
+    private BigDecimal amount;
+    private String currency;
+
+    // Getters and setters for all the properties
+}
+
+```
+
+```bash C#
+
+[HttpPost]
+public IActionResult YourEndpoint([FromBody] Transaction transaction)
+{
+    // Your logic here
+   
+    return Ok();
+}
+
+public class Transaction
+{
+    public string account_number { get; set; }
+    public string subscription_id { get; set; }
+    public string transaction_id { get; set; }
+    public string batch_id { get; set; }
+    public string client_referenceId { get; set; }
+    public string status_message { get; set; }
+    public int status_code { get; set; }
+    public string correlation_id { get; set; }
+    public DateTime created_on { get; set; }
+    public decimal amount { get; set; }
+    public string currency { get; set; }
+}
+
+```
+
+```bash PHP
+
+<?php
+
+use \Psr\Http\Message\ResponseInterface as Response;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Slim\Factory\AppFactory;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$app = AppFactory::create();
+
+$app->addBodyParsingMiddleware();
+
+$app->post('/your-endpoint', function (Request $request, Response $response) {
+    $data = $request->getParsedBody();
+    $transaction = new Transaction();
+    $transaction->account_number = $data['account_number'];
+    $transaction->subscription_id = $data['subscription_id'];
+    $transaction->transaction_id = $data['transaction_id'];
+    $transaction->batch_id = $data['batch_id'];
+    $transaction->client_referenceId = $data['client_referenceId'];
+    $transaction->status_message = $data['status_message'];
+    $transaction->status_code = $data['status_code'];
+    $transaction->correlation_id = $data['correlation_id'];
+    $transaction->created_on = new DateTime($data['created_on']);
+    $transaction->amount = $data['amount'];
+    $transaction->currency = $data['currency'];
+
+    // Your logic here
+
+    return $response->withStatus(200);
+});
+
+class Transaction
+{
+    public $account_number;
+    public $subscription_id;
+    public $transaction_id;
+    public $batch_id;
+    public $client_referenceId;
+    public $status_message;
+    public $status_code;
+    public $correlation_id;
+    public $created_on;
+    public $amount;
+    public $currency;
+}
+
+$app->run();
+
+
+```
 </CodeGroup>
 
 ### Response message 
