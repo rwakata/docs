@@ -17,352 +17,146 @@ To ensure your sending money to the correct mobile money number, please first ve
 
 ```bash cURL
 
-curl --location --request GET 'https://api.xente.co/people/' \
---header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
---data-raw '{
-    "id": "256770123456",
-    "name": "Halle Berry",
-    "source": "MTNMOMOUG"
-}'
+curl -X GET \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Token <token>" \
+     "https://api.xente.co/people/?phone_number=<phone_number>"
 
 
 ```
 
 ```bash Node
-const axios = require('axios');
+   const axios = require('axios');
 
-const url = 'https://api.xente.co/people/';
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': 'Token <token>'
-};
-const data = {
-  "id": "256770123456",
-  "name": "Halle Berry",
-  "source": "MTNMOMOUG"
-};
+class XenteApi {
+  constructor() {
+    this.baseUrl = "https://api.xente.co/";
+  }
 
-axios.get(url, { headers, data })
-  .then(response => {
-    // Handle the response here
-    console.log(response.data);
-  })
-  .catch(error => {
-    // Handle any errors here
-    console.error(error);
-  });
+  async getPerson(phoneNumber) {
+    try {
+      const response = await axios.get(`${this.baseUrl}people/`, {
+        params: {
+          phone_number: phoneNumber
+        }
+      });
 
+      if (response.status === 200) {
+        console.log("GET request successful!");
+        return response.data;
+      } else {
+        console.log("Error occurred: " + response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.log("Error occurred: " + error.message);
+      return null;
+    }
+  }
+}
+
+class Person {
+  constructor(phoneNumber, names) {
+    this.phoneNumber = phoneNumber;
+    this.names = names;
+  }
+}
 ```
 
 ```bash Java
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.HttpUrl;
+import com.google.gson.Gson;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        // Set the URL and request method
-        String url = "https://api.xente.co/people/";
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
+public class XenteApi {
+    private static final String BASE_URL = "https://api.xente.co/";
 
-        // Set the request headers
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", "Token <token>");
+    public Person getPerson(String phoneNumber) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "people/").newBuilder();
+        urlBuilder.addQueryParameter("phone_number", phoneNumber);
+        String url = urlBuilder.build().toString();
 
-        // Set the request body (parameters)
-        String requestBody = "{\"id\": \"256770123456\", \"name\": \"Halle Berry\", \"source\": \"MTNMOMOUG\"}";
+        Request request = new Request.Builder()
+            .url(url)
+            .build();
 
-        // Send the request
-        con.setDoOutput(true);
-        con.getOutputStream().write(requestBody.getBytes());
-
-        // Get the response
-        int responseCode = con.getResponseCode();
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                Gson gson = new Gson();
+                Person person = gson.fromJson(response.body().string(), Person.class);
+                System.out.println("GET request successful!");
+                return person;
+            } else {
+                System.out.println("Error occurred: " + response.message());
+                return null;
+            }
         }
-        in.close();
-
-        // Print the response
-        System.out.println("Response Code: " + responseCode);
-        System.out.println("Response Body: " + response.toString());
     }
 }
 
+public class Person {
+    private String phoneNumber;
+    private String names;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public void setNames(String names) {
+        this.names = names;
+    }
+}
 
 ```
 
 ```bash C#
 
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-class Program
+public class XenteApi
 {
-    static async Task Main(string[] args)
+    private const string BaseUrl = "https://api.xente.co/";
+
+    public Person GetPerson(string phoneNumber)
     {
-        using (HttpClient client = new HttpClient())
+        var client = new RestClient(BaseUrl);
+        var request = new RestRequest("people/", Method.GET);
+
+        // Add query parameters
+        request.AddParameter("phone_number", phoneNumber);
+
+        var response = client.Execute<Person>(request);
+
+        if (response.IsSuccessful)
         {
-            client.BaseAddress = new Uri("https://api.xente.co/");
-
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", "<token>");
-
-            var data = new
-            {
-                id = "256770123456",
-                name = "Halle Berry",
-                source = "MTNMOMOUG"
-            };
-
-            HttpResponseMessage response = await client.GetAsync("people/");
-            if (response.IsSuccessStatusCode)
-            {
-                string result = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(result);
-            }
-            else
-            {
-                Console.WriteLine("Error: " + response.StatusCode);
-            }
+            // Handle successful response
+            Console.WriteLine("GET request successful!");
+            return response.Data;
+        }
+        else
+        {
+            // Handle error response
+            Console.WriteLine("Error occurred: " + response.ErrorMessage);
+            return null;
         }
     }
 }
 
-
-```
-
-```bash PHP
-
-function person() {
-    $url = 'https://api.xente.co/people/';
-    $headers = array(
-        'Content-Type: application/json',
-        'Authorization: Token <token>'
-    );
-    $data = array(
-        "id" => "256770123456",
-        "name" => "Halle Berry",
-        "source" => "MTNMOMOUG"
-    );
-    
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    
-    $response = curl_exec($ch);
-    
-    if ($response === false) {
-        $error = curl_error($ch);
-        curl_close($ch);
-        return "Error: " . $error;
-    }
-    
-    curl_close($ch);
-    return $response;
-}
-
-```
-</CodeGroup>
-
-
-- The source is the data store you are querying to verify the user, in this case, MTN Mobile Money.
-- You will get a success code if the name and number match. If you get a match, you can proceed to post the mobile money transaction."
-
-## Step 2 - POST mobile money transaction
-
-You POST a mobile money transaction as below  
-
-<CodeGroup>
-
-```bash cURL
-
-curl --location --request POST 'https://api.xente.co/transactions' \
---header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
---data-raw '{
-    "clientreference_id": 67890,
-    "batch_id": 54321,
-    "account_number": "9876543210",
-    "name": "John Doe",
-    "currency": "UGX",
-    "amount": 1000,
-    "transaction_type": "debit",
-    "product": {
-        "id": "MTNMOMOUG",
-        "phone_number": "25677123456",
-        "amount": "1000",
-        "message": "message to be received with funds"
-    },
-    "beneficiary": {
-        "id": "123123",
-        "names": "John Rambo",
-        "address": "Some address",
-        "other_info": "Other info on beneficiary e.g. team, department"
-    }
-}'
-
-
-
-```
-
-```bash Node
-const axios = require('axios');
-
-const data = {
-  clientreference_id: 67890,
-  batch_id: 54321,
-  account_number: "9876543210",
-  name: "John Doe",
-  currency: "UGX",
-  amount: 1000,
-  transaction_type: "debit",
-  product: {
-    id: "MTNMOMOUG",
-    phone_number: "25677123456",
-    amount: "1000",
-    message: "message to be received with funds"
-  },
-  beneficiary: {
-    id: "123123",
-    names: "John Rambo",
-    address: "Some address",
-    other_info: "Other info on beneficiary e.g. team, department"
-  }
-};
-
-axios.post('https://api.xente.co/transactions', data, {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Token <token>'
-  }
-})
-  .then(response => {
-    console.log(response.data);
-  })
-  .catch(error => {
-    console.error(error);
-  });
-
-```
-
-```bash Java
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-        String url = "https://api.xente.co/transactions";
-        String token = "<token>";
-
-        String requestBody = "{\n" +
-                "    \"clientreference_id\": 67890,\n" +
-                "    \"batch_id\": 54321,\n" +
-                "    \"account_number\": \"9876543210\",\n" +
-                "    \"name\": \"John Doe\",\n" +
-                "    \"currency\": \"UGX\",\n" +
-                "    \"amount\": 1000,\n" +
-                "    \"transaction_type\": \"debit\",\n" +
-                "    \"product\": {\n" +
-                "        \"id\": \"MTNMOMOUG\",\n" +
-                "        \"phone_number\": \"25677123456\",\n" +
-                "        \"amount\": \"1000\",\n" +
-                "        \"message\": \"message to be received with funds\"\n" +
-                "    },\n" +
-                "    \"beneficiary\": {\n" +
-                "        \"id\": \"123123\",\n" +
-                "        \"names\": \"John Rambo\",\n" +
-                "        \"address\": \"Some address\",\n" +
-                "        \"other_info\": \"Other info on beneficiary e.g. team, department\"\n" +
-                "    }\n" +
-                "}";
-
-        URL apiUrl = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Token " + token);
-        connection.setDoOutput(true);
-
-        try (OutputStream outputStream = connection.getOutputStream()) {
-            byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-            outputStream.write(input, 0, input.length);
-        }
-
-        int responseCode = connection.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
-
-        connection.disconnect();
-    }
-}
-
-
-```
-
-```bash C#
-
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-class Program
+public class Person
 {
-    static async Task Main(string[] args)
-    {
-        var client = new HttpClient();
-        var url = "https://api.xente.co/transactions";
-        
-        var request = new HttpRequestMessage(HttpMethod.Post, url);
-        
-        request.Headers.Add("Authorization", "Token <token>");
-        request.Headers.Add("Content-Type", "application/json");
-        
-        var requestBody = @"
-        {
-            ""clientreference_id"": 67890,
-            ""batch_id"": 54321,
-            ""account_number"": ""9876543210"",
-            ""name"": ""John Doe"",
-            ""currency"": ""UGX"",
-            ""amount"": 1000,
-            ""transaction_type"": ""debit"",
-            ""product"": {
-                ""id"": ""MTNMOMOUG"",
-                ""phone_number"": ""25677123456"",
-                ""amount"": ""1000"",
-                ""message"": ""message to be received with funds""
-            },
-            ""beneficiary"": {
-                ""id"": ""123123"",
-                ""names"": ""John Rambo"",
-                ""address"": ""Some address"",
-                ""other_info"": ""Other info on beneficiary e.g. team, department""
-            }
-        }";
-        
-        request.Content = new StringContent(requestBody);
-        
-        var response = await client.SendAsync(request);
-        var responseBody = await response.Content.ReadAsStringAsync();
-        
-        Console.WriteLine(responseBody);
-    }
+    public string PhoneNumber { get; set; }
+    public string Names { get; set; }
 }
 
 
@@ -372,48 +166,386 @@ class Program
 
 <?php
 
-$url = 'https://api.xente.co/transactions';
-$headers = array(
-    'Content-Type: application/json',
-    'Authorization: Token <token>'
-);
+class XenteApi
+{
+    private const BaseUrl = "https://api.xente.co/";
 
-$data = array(
-    "clientreference_id" => 67890,
-    "batch_id" => 54321,
-    "account_number" => "9876543210",
-    "name" => "John Doe",
-    "currency" => "UGX",
-    "amount" => 1000,
-    "transaction_type" => "debit",
-    "product" => array(
-        "id" => "MTNMOMOUG",
-        "phone_number" => "25677123456",
-        "amount" => "1000",
-        "message" => "message to be received with funds"
-    ),
-    "beneficiary" => array(
-        "id" => "123123",
-        "names" => "John Rambo",
-        "address" => "Some address",
-        "other_info" => "Other info on beneficiary e.g. team, department"
-    )
-);
+    public function getPerson($phoneNumber)
+    {
+        $client = new RestClient(BaseUrl);
+        $request = new RestRequest("people/", "GET");
 
-$data_string = json_encode($data);
+        // Add query parameters
+        $request->addParameter("phone_number", $phoneNumber);
 
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = $client->execute($request);
 
-$response = curl_exec($ch);
-curl_close($ch);
+        if ($response->isSuccessful()) {
+            // Handle successful response
+            echo "GET request successful!";
+            return $response->getData();
+        } else {
+            // Handle error response
+            echo "Error occurred: " . $response->getErrorMessage();
+            return null;
+        }
+    }
+}
 
-echo $response;
+class Person
+{
+    public $phoneNumber;
+    public $names;
+}
 
-?>
+```
+</CodeGroup>
+
+
+## Step 2 - POST mobile money transaction
+
+You POST a mobile money transaction as below  
+
+<CodeGroup>
+
+```bash cURL
+
+curl -X POST https://api.xente.co/transactions \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Token <token>" \
+ -d '{
+    "clientreferenceid": 67890,
+    "batch_id": 54321,
+    "account_number": "9876543210",
+    "name": "John Doe",
+    "currency": "UGX",
+    "amount": 10000,
+    "transaction_type": "debit",
+    "product": {
+        "id": "mtn_mobile_money"
+    },
+    "beneficiary": {
+        "id": "123",
+        "name": "Halle Berry",
+        "data": {
+            "phone_number": "07701234567"
+        }
+    }
+}'
+
+
+
+```
+
+```bash Node
+
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
+
+class XenteApi {
+  constructor() {
+    this.client = axios.create({
+      baseURL: 'https://api.xente.co',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  async postTransaction(token) {
+    const product = {
+      id: 'mtn_mobile_money'
+    };
+
+    const beneficiary = {
+      id: '256770123456',
+      name: 'Halle Berry'
+    };
+
+    const transaction = {
+      clientreferenceid: 67890,
+      batch_id: 54321,
+      account_number: '9876543210',
+      name: 'John Doe',
+      currency: 'UGX',
+      amount: 10000.00,
+      transaction_type: 'debit',
+      product: product,
+      beneficiary: beneficiary
+    };
+
+    const requestConfig = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    try {
+      const response = await this.client.post('/transactions', transaction, requestConfig);
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        const success = responseData.success;
+        const data = responseData.data;
+
+        const transactionId = data.transaction_id;
+        const clientReferenceId = data.clientreferenceid;
+        const message = data.message;
+
+        // Handle the response as needed
+      } else {
+        // Handle the error response
+      }
+    } catch (error) {
+      // Handle the request error
+    }
+  }
+}
+
+class ResponseData {
+  constructor(success, data) {
+    this.success = success;
+    this.data = data;
+  }
+}
+
+```
+
+```bash Java
+
+import com.google.gson.Gson;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class XenteApi {
+    private final OkHttpClient client;
+    private final Gson gson;
+
+    public XenteApi() {
+        client = new OkHttpClient();
+        gson = new Gson();
+    }
+
+    public void postTransaction(String token) throws Exception {
+        MediaType mediaType = MediaType.parse("application/json");
+
+        RequestBody body = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"mtn_mobile_money\"\n" +
+                "}");
+
+        RequestBody beneficiaryBody = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"256770123456\",\n" +
+                "  \"name\": \"Halle Berry\"\n" +
+                "}");
+
+        RequestBody transactionBody = RequestBody.create(mediaType, "{\n" +
+                "  \"clientreferenceid\": 67890,\n" +
+                "  \"batch_id\": 54321,\n" +
+                "  \"account_number\": \"9876543210\",\n" +
+                "  \"name\": \"John Doe\",\n" +
+                "  \"currency\": \"UGX\",\n" +
+                "  \"amount\": 10000.00,\n" +
+                "  \"transaction_type\": \"debit\",\n" +
+                "  \"product\": " + body + ",\n" +
+                "  \"beneficiary\": " + beneficiaryBody + "\n" +
+                "}");
+
+        Request request = new Request.Builder()
+                .url("https://api.xente.co/transactions")
+                .post(transactionBody)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Token " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                ResponseData responseData = gson.fromJson(response.body().string(), ResponseData.class);
+                boolean success = responseData.isSuccess();
+                Object data = responseData.getData();
+
+                // Access the transaction ID and other properties from the response
+                String transactionId = data.getTransactionId();
+                int clientReferenceId = data.getClientReferenceId();
+                String message = data.getMessage();
+
+                // Handle the response as needed
+            } else {
+                // Handle the error response
+            }
+        }
+    }
+}
+
+class ResponseData {
+    private boolean success;
+    private Object data;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public Object getData() {
+        return data;
+    }
+}
+
+
+```
+
+```bash C#
+
+using Newtonsoft.Json;
+using RestSharp;
+
+public class XenteApi
+{
+    private readonly RestClient _client;
+
+    public XenteApi()
+    {
+        _client = new RestClient("https://api.xente.co");
+    }
+
+    public void PostTransaction(string token)
+    {
+        var request = new RestRequest("transactions", Method.Post);
+        request.AddHeader("Content-Type", "application/json");
+        request.AddHeader("Authorization", "Token " + token);
+
+        var product = new
+        {
+            id = "mtn_mobile_money"
+        };
+
+        var beneficiary = new
+        {
+            id = "256770123456",
+            name = "Halle Berry"
+        };
+
+        var transaction = new
+        {
+            clientreferenceid = 67890,
+            batch_id = 54321,
+            account_number = "9876543210",
+            name = "John Doe",
+            currency = "UGX",
+            amount = 10000.00,
+            transaction_type = "debit",
+            product = product,
+            beneficiary = beneficiary
+        };
+
+        request.AddJsonBody(transaction);
+
+        var response = _client.Execute(request);
+
+        if (response.IsSuccessful)
+        {
+            // Deserialize the response JSON
+            var responseData = JsonConvert.DeserializeObject<ResponseData>(response.Content);
+            var success = responseData.success;
+            var data = responseData.data;
+
+            // Access the transaction ID and other properties from the response
+            var transactionId = data.transaction_id;
+            var clientReferenceId = data.clientreferenceid;
+            var message = data.message;
+
+            // Handle the response as needed
+        }
+        else
+        {
+            // Handle the error response
+        }
+    }
+}
+
+public class ResponseData
+{
+    public bool success { get; set; }
+    public dynamic data { get; set; }
+}
+
+
+```
+
+```bash PHP
+
+<?php
+
+use GuzzleHttp\Client;
+
+class XenteApi
+{
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => 'https://api.xente.co'
+        ]);
+    }
+
+    public function postTransaction($token)
+    {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Token ' . $token
+        ];
+
+        $product = [
+            'id' => 'mtn_mobile_money'
+        ];
+
+        $beneficiary = [
+            'id' => '256770123456',
+            'name' => 'Halle Berry'
+        ];
+
+        $transaction = [
+            'clientreferenceid' => 67890,
+            'batch_id' => 54321,
+            'account_number' => '9876543210',
+            'name' => 'John Doe',
+            'currency' => 'UGX',
+            'amount' => 10000.00,
+            'transaction_type' => 'debit',
+            'product' => $product,
+            'beneficiary' => $beneficiary
+        ];
+
+        $response = $this->client->post('transactions', [
+            'headers' => $headers,
+            'json' => $transaction
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            $responseData = json_decode($response->getBody(), true);
+            $success = $responseData['success'];
+            $data = $responseData['data'];
+
+            $transactionId = $data['transaction_id'];
+            $clientReferenceId = $data['clientreferenceid'];
+            $message = $data['message'];
+
+            // Handle the response as needed
+        } else {
+            // Handle the error response
+        }
+    }
+}
+
+class ResponseData
+{
+    public $success;
+    public $data;
+}
+
+
 
 ```
 </CodeGroup>
