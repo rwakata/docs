@@ -8,155 +8,186 @@ description: 'Send mobile internet to phone numbers and other internet providers
   **[Learn more here](https://www.xente.co/pricing)**
 </Info>
 
-With the Xente API, you can send mobile internet in three easy steps.
-## Step 1 - Verify account number
+With the Xente API, you can send mobile internet in four (4)  easy steps.
+## Step 1 - Get the data bundles 
 
-To ensure your sending airtime to the correct phone number, please first verify the person your sending funds to
+Get the mtn internet bundles and display them to your users
 
 <CodeGroup>
 
 ```bash cURL
 
-curl -X GET \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Token <token>" \
-     "https://api.xente.co/people/?phone_number=<phone_number>"
+curl --location --request GET 'https://api.xente.co/products/{id}' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>'
 
 
 ```
 
 ```bash Node
-   const axios = require('axios');
+const axios = require('axios');
 
 class XenteApi {
   constructor() {
-    this.baseUrl = "https://api.xente.co/";
+    this.baseUrl = 'https://api.xente.co';
   }
 
-  async getPerson(phoneNumber) {
+  async getProducts(id, token) {
     try {
-      const response = await axios.get(`${this.baseUrl}people/`, {
-        params: {
-          phone_number: phoneNumber
+      const response = await axios.get(`${this.baseUrl}/products/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${token}`
         }
       });
 
       if (response.status === 200) {
-        console.log("GET request successful!");
-        return response.data;
+        // Display the mobile internet bundles
       } else {
-        console.log("Error occurred: " + response.statusText);
-        return null;
+        console.log(`Error: ${response.status}`);
       }
     } catch (error) {
-      console.log("Error occurred: " + error.message);
-      return null;
+      console.error(`Error: ${error.message}`);
     }
   }
 }
 
-class Person {
-  constructor(phoneNumber, names) {
-    this.phoneNumber = phoneNumber;
-    this.names = names;
+class ProductResponse {
+  constructor() {
+    this.success = 0;
+    this.data = new ProductData();
   }
 }
+
+class ProductData {
+  constructor() {
+    this.product_id = 0;
+    this.name = '';
+    this.imageUri = '';
+    this.short_description = '';
+    this.long_description = '';
+    this.status = '';
+    this.pricing = '';
+    this.product_items = '';
+  }
+}
+
 ```
 
 ```bash Java
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.HttpUrl;
-import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+import okhttp3.*;
+import java.io.IOException;
 
 public class XenteApi {
-    private static final String BASE_URL = "https://api.xente.co/";
+    private String baseUrl = "https://api.xente.co";
 
-    public Person getPerson(String phoneNumber) throws IOException {
+    public void getProducts(String id, String token) throws IOException {
         OkHttpClient client = new OkHttpClient();
-        
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "people/").newBuilder();
-        urlBuilder.addQueryParameter("phone_number", phoneNumber);
-        String url = urlBuilder.build().toString();
-
         Request request = new Request.Builder()
-            .url(url)
-            .build();
+                .url(baseUrl + "/products/" + id)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Token " + token)
+                .build();
 
         try (Response response = client.newCall(request).execute()) {
+            String responseBody = response.body().string();
+            
             if (response.isSuccessful()) {
-                Gson gson = new Gson();
-                Person person = gson.fromJson(response.body().string(), Person.class);
-                System.out.println("GET request successful!");
-                return person;
+                // Display the mobile internet bundles
             } else {
-                System.out.println("Error occurred: " + response.message());
-                return null;
+                System.out.println("Error: " + response.code());
             }
         }
     }
 }
 
-public class Person {
-    private String phoneNumber;
-    private String names;
+public class ProductResponse {
+    @SerializedName("success")
+    private int success;
+    @SerializedName("data")
+    private ProductData data;
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    // Getter and setter methods
+}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+public class ProductData {
+    @SerializedName("product_id")
+    private int productId;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("imageUri")
+    private String imageUri;
+    @SerializedName("short_description")
+    private String shortDescription;
+    @SerializedName("long_description")
+    private String longDescription;
+    @SerializedName("status")
+    private String status;
+    @SerializedName("pricing")
+    private String pricing;
+    @SerializedName("product_items")
+    private String productItems;
 
-    public String getNames() {
-        return names;
-    }
-
-    public void setNames(String names) {
-        this.names = names;
-    }
+    // Getter and setter methods
 }
 
 ```
 
 ```bash C#
 
+using System;
+using Newtonsoft.Json;
+using RestSharp;
+
 public class XenteApi
 {
-    private const string BaseUrl = "https://api.xente.co/";
+    private string baseUrl = "https://api.xente.co";
 
-    public Person GetPerson(string phoneNumber)
+    public void GetProducts(string id, string token)
     {
-        var client = new RestClient(BaseUrl);
-        var request = new RestRequest("people/", Method.GET);
+        var client = new RestClient(baseUrl);
+        var request = new RestRequest($"products/{id}", Method.GET);
+        
+        request.AddHeader("Content-Type", "application/json");
+        request.AddHeader("Authorization", $"Token {token}");
 
-        // Add query parameters
-        request.AddParameter("phone_number", phoneNumber);
+        IRestResponse response = client.Execute(request);
+        var content = response.Content;
 
-        var response = client.Execute<Person>(request);
-
-        if (response.IsSuccessful)
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
         {
-            // Handle successful response
-            Console.WriteLine("GET request successful!");
-            return response.Data;
+          //Display the mobile internet bundles
         }
         else
         {
-            // Handle error response
-            Console.WriteLine("Error occurred: " + response.ErrorMessage);
-            return null;
+            Console.WriteLine($"Error: {response.StatusCode}");
         }
     }
 }
 
-public class Person
+public class ProductResponse
 {
-    public string PhoneNumber { get; set; }
-    public string Names { get; set; }
+    public int Success { get; set; }
+    public ProductData Data { get; set; }
+}
+
+public class ProductData
+{
+    [JsonProperty("product_id")]
+    public int ProductId { get; set; }
+    public string Name { get; set; }
+    [JsonProperty("imageUri")]
+    public string ImageUri { get; set; }
+    [JsonProperty("short_description")]
+    public string ShortDescription { get; set; }
+    [JsonProperty("long_description")]
+    public string LongDescription { get; set; }
+    public string Status { get; set; }
+    public string Pricing { get; set; }
+    [JsonProperty("product_items")]
+    public string ProductItems { get; set; }
 }
 
 
@@ -201,8 +232,7 @@ class Person
 ```
 </CodeGroup>
 
-
-## Step 2 - POST airtime transaction
+## Step 2 - POST mobile internet transaction
 
 You POST a airtime transaction as below  
 
