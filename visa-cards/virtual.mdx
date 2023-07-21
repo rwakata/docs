@@ -15,94 +15,192 @@ Create card user profiles using the Xente portal for individuals who will be gra
 
 ## Step 2: Create and assign virtual Visa cards
 
-You create and assign virtual Visa card, utilize the code snippet provided below
+Post a transaction that will debit your account and provision a virtual visa debit card
+
 
 <CodeGroup>
 
 ```bash cURL
 
-curl --location --request POST 'https://api.xente.co/cards' \
---header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
---data-raw '{
-    "card_holder": {
-        "userId": 123123123123
+curl -X POST https://api.xente.co/transactions \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Token <token>" \
+ -d '{
+    "clientreferenceid": 67890,
+    "batch_id": 54321,
+    "account_number": "9876543210",
+    "name": "John Doe",
+    "currency": "UGX",
+    "amount": 10000,
+    "transaction_type": "debit",
+    "product": {
+        "id": "virtual_visa_debit_card"
+    },
+    "beneficiary": {
+        "id": "123",
+        "name": "Halle Berry",
+        "data": {
+            "phone_number": "07701234567"
+        }
     }
 }'
+
+
 
 ```
 
 ```bash Node
+
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
 
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': 'Bearer YOUR_AUTH_TOKEN'
-};
+class XenteApi {
+  constructor() {
+    this.client = axios.create({
+      baseURL: 'https://api.xente.co',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 
-const data = {
-  user_email: 'user@email.com',
-  thirdpartyid: '190890'
-};
+  async postTransaction(token) {
+    const product = {
+      id: 'virtual_visa_debit_card'
+    };
 
-axios.post('https://api.xente.co/cards', data, { headers })
-  .then(response => {
-    console.log(response.data);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    const beneficiary = {
+      id: '256770123456',
+      name: 'Halle Berry'
+    };
+
+    const transaction = {
+      clientreferenceid: 67890,
+      batch_id: 54321,
+      account_number: '9876543210',
+      name: 'John Doe',
+      currency: 'UGX',
+      amount: 10000.00,
+      transaction_type: 'debit',
+      product: product,
+      beneficiary: beneficiary
+    };
+
+    const requestConfig = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    try {
+      const response = await this.client.post('/transactions', transaction, requestConfig);
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        const success = responseData.success;
+        const data = responseData.data;
+
+        const transactionId = data.transaction_id;
+        const clientReferenceId = data.clientreferenceid;
+        const message = data.message;
+
+        // Handle the response as needed
+      } else {
+        // Handle the error response
+      }
+    } catch (error) {
+      // Handle the request error
+    }
+  }
+}
+
+class ResponseData {
+  constructor(success, data) {
+    this.success = success;
+    this.data = data;
+  }
+}
+
 ```
 
 ```bash Java
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.google.gson.Gson;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        String url = "https://api.xente.co/cards";
-        String authHeader = "Bearer YOUR_AUTH_TOKEN";
-        String requestBody = "{\n" +
-                "  \"user_email\": \"user@email.com\",\n" +
-                "  \"thirdpartyid\": \"190890\"\n" +
-                "}";
+public class XenteApi {
+    private final OkHttpClient client;
+    private final Gson gson;
 
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    public XenteApi() {
+        client = new OkHttpClient();
+        gson = new Gson();
+    }
 
-        // Set the request method to POST
-        con.setRequestMethod("POST");
+    public void postTransaction(String token) throws Exception {
+        MediaType mediaType = MediaType.parse("application/json");
 
-        // Set the request headers
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Authorization", authHeader);
+        RequestBody body = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"virtual_visa_debit_card\"\n" +
+                "}");
 
-        // Enable sending request body
-        con.setDoOutput(true);
+        RequestBody beneficiaryBody = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"256770123456\",\n" +
+                "  \"name\": \"Halle Berry\"\n" +
+                "}");
 
-        // Write the request body
-        OutputStream outputStream = con.getOutputStream();
-        outputStream.write(requestBody.getBytes());
-        outputStream.flush();
-        outputStream.close();
+        RequestBody transactionBody = RequestBody.create(mediaType, "{\n" +
+                "  \"clientreferenceid\": 67890,\n" +
+                "  \"batch_id\": 54321,\n" +
+                "  \"account_number\": \"9876543210\",\n" +
+                "  \"name\": \"John Doe\",\n" +
+                "  \"currency\": \"UGX\",\n" +
+                "  \"amount\": 10000.00,\n" +
+                "  \"transaction_type\": \"debit\",\n" +
+                "  \"product\": " + body + ",\n" +
+                "  \"beneficiary\": " + beneficiaryBody + "\n" +
+                "}");
 
-        // Get the response
-        int responseCode = con.getResponseCode();
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        Request request = new Request.Builder()
+                .url("https://api.xente.co/transactions")
+                .post(transactionBody)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Token " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                ResponseData responseData = gson.fromJson(response.body().string(), ResponseData.class);
+                boolean success = responseData.isSuccess();
+                Object data = responseData.getData();
+
+                // Access the transaction ID and other properties from the response
+                String transactionId = data.getTransactionId();
+                int clientReferenceId = data.getClientReferenceId();
+                String message = data.getMessage();
+
+                // Handle the response as needed
+            } else {
+                // Handle the error response
+            }
         }
-        in.close();
+    }
+}
 
-        // Print the response
-        System.out.println("Response Code: " + responseCode);
-        System.out.println("Response Body: " + response.toString());
+class ResponseData {
+    private boolean success;
+    private Object data;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public Object getData() {
+        return data;
     }
 }
 
@@ -111,44 +209,77 @@ public class Main {
 
 ```bash C#
 
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using RestSharp;
 
-class Program
+public class XenteApi
 {
-    static async System.Threading.Tasks.Task Main(string[] args)
+    private readonly RestClient _client;
+
+    public XenteApi()
     {
-        string url = "https://api.xente.co/cards";
-        string authToken = "YOUR_AUTH_TOKEN";
+        _client = new RestClient("https://api.xente.co");
+    }
 
-        using (HttpClient client = new HttpClient())
+    public void PostTransaction(string token)
+    {
+        var request = new RestRequest("transactions", Method.Post);
+        request.AddHeader("Content-Type", "application/json");
+        request.AddHeader("Authorization", "Token " + token);
+
+        var product = new
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            id = "virtual_visa_debit_card"
+        };
 
-            var requestData = new
-            {
-                user_email = "user@email.com",
-                thirdpartyid = "190890"
-            };
+        var beneficiary = new
+        {
+            id = "256770123456",
+            name = "Halle Berry"
+        };
 
-            var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(requestData));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+        var transaction = new
+        {
+            clientreferenceid = 67890,
+            batch_id = 54321,
+            account_number = "9876543210",
+            name = "John Doe",
+            currency = "UGX",
+            amount = 10000.00,
+            transaction_type = "debit",
+            product = product,
+            beneficiary = beneficiary
+        };
 
-            var response = await client.PostAsync(url, content);
+        request.AddJsonBody(transaction);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(result);
-            }
-            else
-            {
-                Console.WriteLine("Request failed with status code: " + response.StatusCode);
-            }
+        var response = _client.Execute(request);
+
+        if (response.IsSuccessful)
+        {
+            // Deserialize the response JSON
+            var responseData = JsonConvert.DeserializeObject<ResponseData>(response.Content);
+            var success = responseData.success;
+            var data = responseData.data;
+
+            // Access the transaction ID and other properties from the response
+            var transactionId = data.transaction_id;
+            var clientReferenceId = data.clientreferenceid;
+            var message = data.message;
+
+            // Handle the response as needed
+        }
+        else
+        {
+            // Handle the error response
         }
     }
+}
+
+public class ResponseData
+{
+    public bool success { get; set; }
+    public dynamic data { get; set; }
 }
 
 
@@ -158,31 +289,94 @@ class Program
 
 <?php
 
-$url = "https://api.xente.co/cards";
-$headers = array(
-    "Content-Type: application/json",
-    "Authorization: Bearer YOUR_AUTH_TOKEN"
-);
+use GuzzleHttp\Client;
 
-$data = array(
-    "user_email" => "user@email.com",
-    "thirdpartyid" => "190890"
-);
+class XenteApi
+{
+    private $client;
 
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => 'https://api.xente.co'
+        ]);
+    }
 
-$response = curl_exec($ch);
-curl_close($ch);
+    public function postTransaction($token)
+    {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Token ' . $token
+        ];
 
-echo $response;
+        $product = [
+            'id' => 'virtual_visa_debit_card'
+        ];
 
-?>
+        $beneficiary = [
+            'id' => '256770123456',
+            'name' => 'Halle Berry'
+        ];
+
+        $transaction = [
+            'clientreferenceid' => 67890,
+            'batch_id' => 54321,
+            'account_number' => '9876543210',
+            'name' => 'John Doe',
+            'currency' => 'UGX',
+            'amount' => 10000.00,
+            'transaction_type' => 'debit',
+            'product' => $product,
+            'beneficiary' => $beneficiary
+        ];
+
+        $response = $this->client->post('transactions', [
+            'headers' => $headers,
+            'json' => $transaction
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            $responseData = json_decode($response->getBody(), true);
+            $success = $responseData['success'];
+            $data = $responseData['data'];
+
+            $transactionId = $data['transaction_id'];
+            $clientReferenceId = $data['clientreferenceid'];
+            $message = $data['message'];
+
+            // Handle the response as needed
+        } else {
+            // Handle the error response
+        }
+    }
+}
+
+class ResponseData
+{
+    public $success;
+    public $data;
+}
+
+
 
 ```
 </CodeGroup>
+
+
+| Key                         | Type                   | Description
+| --------------------------- | ---------------------- | -------------
+| client_reference_id         | string                 | A unique ID from your system to help you identify the transaction
+| batch_id                    | string                 | A unique ID to help you identify the batch. This is useful if the transaction is part of a bulk payment
+| account_number              | string                 | Your business account number from which funds will be debited
+| currency                    | string                 | The currency of your account
+| amount                      | number                 | The amount to be debited from your account
+| transaction_type               | string              | Put value "debit" to remove funds from your account to purchase the virtual cards
+| product.id                  | string                 | Put virtual_visa_debitcard 
+| product.message             | string                 | The message that the beneficiary will receive
+| beneficiary.id              | string                 | The unique ID of the beneficiary in your system
+| beneficiary.names           | string                 | The names of the beneficiary
+| beneficiary.other_information | string               | Other information about the beneficiary
+
+
 
 On making the API call, a virtual card will be created, and subsequently, an email with a secure link will be sent to the user. On receiving the email, the user can click on the secure link to obtain card details, including the card number, expiry date, and CVV.

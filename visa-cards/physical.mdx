@@ -1,106 +1,206 @@
 ---
 title: 'Physical Visa Cards'
-description: 'Learn how to order and assign physical cards to users'
+description: 'Learn how to order physical Visa debit cards'
 ---
-
 <Info>
-  **Prerequisite** You need a Pro+ license to issue physical Visa debit cards API
+  **Prerequisite** To issue physical Visa debit cards using the API, you require a Pro+ license.
 </Info>
 
 To issue physical Visa cards, follow the steps below 
 
 ## Step 1: Create user profiles for cardholders.
-Create card user profiles using the Xente portal for individuals who will be granted cardholder status.. 
+Create card user profiles using the Xente portal for individuals who will be granted cardholder status
 
 **[Learn how to create users who will become cardholders here](/start/ipn)**.
 
-## Step 2: Order cards
+## Step 2: Create and assign physical Visa cards
 
-Order cards through the Xente portal. Once you place an order, your dedicated account manager will promptly reach out to you and arrange for the delivery of the cards to your preferred location.
-
-## Step 3: Assign users to cards
-
-Assign users to cards  either through the portal or by utilizing the API. To assign a card to a user using the API, simply utilize the following code snippet:
+Post a transaction that will debit your account and provision a physical visa debit card
 
 
 <CodeGroup>
 
 ```bash cURL
-curl --location --request POST 'https://api.xente.co/cards' \
---header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
---data-raw '{
-    "card_holder": {
-        "userId": 123123123123
+
+curl -X POST https://api.xente.co/transactions \
+ -H "Content-Type: application/json" \
+ -H "Authorization: Token <token>" \
+ -d '{
+    "clientreferenceid": 67890,
+    "batch_id": 54321,
+    "account_number": "9876543210",
+    "name": "John Doe",
+    "currency": "UGX",
+    "amount": 10000,
+    "transaction_type": "debit",
+    "product": {
+        "id": "physical_visa_debit_card"
+    },
+    "beneficiary": {
+        "id": "123",
+        "name": "Halle Berry",
+        "data": {
+            "phone_number": "07701234567"
+        }
     }
 }'
+
+
 
 ```
 
 ```bash Node
+
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
 
-const url = 'https://api.xente.co/cards';
-const token = '<token>';
-
-const data = {
-  card_holder: {
-    userId: 123123123123
+class XenteApi {
+  constructor() {
+    this.client = axios.create({
+      baseURL: 'https://api.xente.co',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
-};
 
-axios.post(url, data, {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Token ${token}`
+  async postTransaction(token) {
+    const product = {
+      id: 'physical_visa_debit_card'
+    };
+
+    const beneficiary = {
+      id: '256770123456',
+      name: 'Halle Berry'
+    };
+
+    const transaction = {
+      clientreferenceid: 67890,
+      batch_id: 54321,
+      account_number: '9876543210',
+      name: 'John Doe',
+      currency: 'UGX',
+      amount: 10000.00,
+      transaction_type: 'debit',
+      product: product,
+      beneficiary: beneficiary
+    };
+
+    const requestConfig = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    try {
+      const response = await this.client.post('/transactions', transaction, requestConfig);
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        const success = responseData.success;
+        const data = responseData.data;
+
+        const transactionId = data.transaction_id;
+        const clientReferenceId = data.clientreferenceid;
+        const message = data.message;
+
+        // Handle the response as needed
+      } else {
+        // Handle the error response
+      }
+    } catch (error) {
+      // Handle the request error
+    }
   }
-})
-  .then(response => {
-    console.log(response.data);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+}
+
+class ResponseData {
+  constructor(success, data) {
+    this.success = success;
+    this.data = data;
+  }
+}
 
 ```
 
 ```bash Java
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.google.gson.Gson;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        String url = "https://api.xente.co/cards";
-        String token = "<token>";
-        String requestBody = "{\"card_holder\":{\"userId\":123123123123}}";
+public class XenteApi {
+    private final OkHttpClient client;
+    private final Gson gson;
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Token " + token);
-        connection.setDoOutput(true);
+    public XenteApi() {
+        client = new OkHttpClient();
+        gson = new Gson();
+    }
 
-        try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
-            outputStream.writeBytes(requestBody);
-            outputStream.flush();
-        }
+    public void postTransaction(String token) throws Exception {
+        MediaType mediaType = MediaType.parse("application/json");
 
-        int responseCode = connection.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
+        RequestBody body = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"physical_visa_debit_card\"\n" +
+                "}");
 
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+        RequestBody beneficiaryBody = RequestBody.create(mediaType, "{\n" +
+                "  \"id\": \"256770123456\",\n" +
+                "  \"name\": \"Halle Berry\"\n" +
+                "}");
+
+        RequestBody transactionBody = RequestBody.create(mediaType, "{\n" +
+                "  \"clientreferenceid\": 67890,\n" +
+                "  \"batch_id\": 54321,\n" +
+                "  \"account_number\": \"9876543210\",\n" +
+                "  \"name\": \"John Doe\",\n" +
+                "  \"currency\": \"UGX\",\n" +
+                "  \"amount\": 10000.00,\n" +
+                "  \"transaction_type\": \"debit\",\n" +
+                "  \"product\": " + body + ",\n" +
+                "  \"beneficiary\": " + beneficiaryBody + "\n" +
+                "}");
+
+        Request request = new Request.Builder()
+                .url("https://api.xente.co/transactions")
+                .post(transactionBody)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Token " + token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                ResponseData responseData = gson.fromJson(response.body().string(), ResponseData.class);
+                boolean success = responseData.isSuccess();
+                Object data = responseData.getData();
+
+                // Access the transaction ID and other properties from the response
+                String transactionId = data.getTransactionId();
+                int clientReferenceId = data.getClientReferenceId();
+                String message = data.getMessage();
+
+                // Handle the response as needed
+            } else {
+                // Handle the error response
             }
-            System.out.println("Response Body: " + response.toString());
         }
+    }
+}
+
+class ResponseData {
+    private boolean success;
+    private Object data;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public Object getData() {
+        return data;
     }
 }
 
@@ -109,43 +209,77 @@ public class Main {
 
 ```bash C#
 
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using RestSharp;
 
-class Program
+public class XenteApi
 {
-    static void Main(string[] args)
+    private readonly RestClient _client;
+
+    public XenteApi()
     {
-        string url = "https://api.xente.co/cards";
-        string token = "<token>";
-
-        using (HttpClient client = new HttpClient())
-        {
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", token);
-
-            string jsonBody = "{\"card_holder\":{\"userId\":123123123123}}";
-
-            HttpContent content = new StringContent(jsonBody);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-
-            if (response.IsSuccessStatusCode)
-            {
-                // Handle successful response
-                Console.WriteLine("Request successful");
-            }
-            else
-            {
-                // Handle error response
-                Console.WriteLine("Request failed with status code: " + response.StatusCode);
-            }
-        }
-
-        Console.ReadLine();
+        _client = new RestClient("https://api.xente.co");
     }
+
+    public void PostTransaction(string token)
+    {
+        var request = new RestRequest("transactions", Method.Post);
+        request.AddHeader("Content-Type", "application/json");
+        request.AddHeader("Authorization", "Token " + token);
+
+        var product = new
+        {
+            id = "physical_visa_debit_card"
+        };
+
+        var beneficiary = new
+        {
+            id = "256770123456",
+            name = "Halle Berry"
+        };
+
+        var transaction = new
+        {
+            clientreferenceid = 67890,
+            batch_id = 54321,
+            account_number = "9876543210",
+            name = "John Doe",
+            currency = "UGX",
+            amount = 10000.00,
+            transaction_type = "debit",
+            product = product,
+            beneficiary = beneficiary
+        };
+
+        request.AddJsonBody(transaction);
+
+        var response = _client.Execute(request);
+
+        if (response.IsSuccessful)
+        {
+            // Deserialize the response JSON
+            var responseData = JsonConvert.DeserializeObject<ResponseData>(response.Content);
+            var success = responseData.success;
+            var data = responseData.data;
+
+            // Access the transaction ID and other properties from the response
+            var transactionId = data.transaction_id;
+            var clientReferenceId = data.clientreferenceid;
+            var message = data.message;
+
+            // Handle the response as needed
+        }
+        else
+        {
+            // Handle the error response
+        }
+    }
+}
+
+public class ResponseData
+{
+    public bool success { get; set; }
+    public dynamic data { get; set; }
 }
 
 
@@ -155,34 +289,96 @@ class Program
 
 <?php
 
-$ch = curl_init();
+use GuzzleHttp\Client;
 
-curl_setopt($ch, CURLOPT_URL, 'https://api.xente.co/cards');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, '{
-    "card_holder": {
-        "userId": 123123123123
+class XenteApi
+{
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => 'https://api.xente.co'
+        ]);
     }
-}');
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json',
-    'Authorization: Token <token>'
-));
 
-$response = curl_exec($ch);
+    public function postTransaction($token)
+    {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Token ' . $token
+        ];
 
-if ($response === false) {
-    echo 'cURL Error: ' . curl_error($ch);
+        $product = [
+            'id' => 'physical_visa_debit_card'
+        ];
+
+        $beneficiary = [
+            'id' => '256770123456',
+            'name' => 'Halle Berry'
+        ];
+
+        $transaction = [
+            'clientreferenceid' => 67890,
+            'batch_id' => 54321,
+            'account_number' => '9876543210',
+            'name' => 'John Doe',
+            'currency' => 'UGX',
+            'amount' => 10000.00,
+            'transaction_type' => 'debit',
+            'product' => $product,
+            'beneficiary' => $beneficiary
+        ];
+
+        $response = $this->client->post('transactions', [
+            'headers' => $headers,
+            'json' => $transaction
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            $responseData = json_decode($response->getBody(), true);
+            $success = $responseData['success'];
+            $data = $responseData['data'];
+
+            $transactionId = $data['transaction_id'];
+            $clientReferenceId = $data['clientreferenceid'];
+            $message = $data['message'];
+
+            // Handle the response as needed
+        } else {
+            // Handle the error response
+        }
+    }
 }
 
-curl_close($ch);
+class ResponseData
+{
+    public $success;
+    public $data;
+}
 
-echo $response;
 
-?>
 
 ```
 </CodeGroup>
 
-Once the card is assigned, the user will receive an email prompting them to set their PIN. Once they've set their PIN, they can start using the card right away.
+
+| Key                         | Type                   | Description
+| --------------------------- | ---------------------- | -------------
+| client_reference_id         | string                 | A unique ID from your system to help you identify the transaction
+| batch_id                    | string                 | A unique ID to help you identify the batch. This is useful if the transaction is part of a bulk payment
+| account_number              | string                 | Your business account number from which funds will be debited
+| currency                    | string                 | The currency of your account
+| amount                      | number                 | The amount to be debited from your account
+| transaction_type               | string              | Put value "debit" to remove funds from your account to purchase the physical cards
+| product.id                  | string                 | Put physical_visa_debitcard 
+| product.message             | string                 | The message that the beneficiary will receive
+| beneficiary.id              | string                 | The unique ID of the beneficiary in your system
+| beneficiary.names           | string                 | The names of the beneficiary
+| beneficiary.other_information | string               | Other information about the beneficiary
+
+
+
+When you make the API call, a physical card order will be placed, and subsequently, an email with a secure link will be sent to the user.
+
+On receiving the email, the user can click to get their physical card delivered and set their PIN.
