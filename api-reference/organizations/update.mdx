@@ -1,60 +1,55 @@
 ---
 title: "Update organization"
-api: "PUT https://api.xente.co/v2/organization"
+api: "PUT https://api.xente.co/v2/organizations/{id}"
 description: "This endpoint updates an existing organization."
 ---
+### Query
+
+<ParamField query="id" type="string">
+  This is the ID your organization
+</ParamField>
 
 ### Body
-<ParamField query="id" type="string">
-  This is the ID your account
-</ParamField>
-<ParamField body="id" type="string">
-  The id of the organization
-</ParamField>
 <ParamField body="name" type="string">
   The name of the organization
 </ParamField>
 <ParamField body="description" type="string">
   The description of the organization
 </ParamField>
+
 ### Response
 
-
-<RequestExample>
-
-```bash Request
-curl --locatio<ResponseField name="success" type="number">
-  Indicates whether the call was successful. 0 if successful, error code if not
+<ResponseField name="statusCode" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+<ResponseField name="statusMessage" type="string">
+  Status message on outcome of the API call
 </ResponseField>
 
-<ResponseField name="account" type="object">
+<ResponseField name="organization" type="object">
 
-The contents of the account
+The contents of the organization
 
 <Expandable title="Toggle object">
 
 <ResponseField name="id" type="number">
- Unique identifier of account
+  unique id of created organization e.g. 23423423
 </ResponseField>
 
 <ResponseField name="name" type="string">
-  name of the account
+ name of your organization e.g My company name
 </ResponseField>
 
-<ResponseField name="name" type="string">
-  description of account
+<ResponseField name="address" type="string">
+  The address of the organization
 </ResponseField>
 
-<ResponseField name="balance" type="number">
-  balance on account
+<ResponseField name="description" type="string">
+  Description of organization e.g. We sell widgets
 </ResponseField>
 
-
-<ResponseField name="transactions" type="JSON or null">
-  transaction list on account
-</ResponseField>
-<ResponseField name="statement" type="JSON or null">
-  account statement showing debits and credits 
+<ResponseField name="user" type="JSON or null">
+user object of the user who created the organization
 </ResponseField>
 
 </Expandable>
@@ -64,7 +59,7 @@ The contents of the account
 <RequestExample>
 
 ```bash Request
-curl --location --request PUT 'https://api.xente.co/v2/accounts' \
+curl --location --request PUT 'https://api.xente.co/v2/organizations/:id' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
@@ -80,13 +75,19 @@ curl --location --request PUT 'https://api.xente.co/v2/accounts' \
 
 ```json Response
 {
-  "success": 0,
   "organization": {
+    "id": null,
+    "logo": "https://www.xente.co/logo.gif",
     "name": "My company name",
-    "description": "We build widgets",
-    "address": "Our address"
-  }
+    "description": "We sell widgets",
+    "address": "Address of your organization",
+    "users": null,
+    "accounts": null
+  },
+  "statusCode": 0,
+  "statusMessage": "Organization created successfully"
 }
+
 ```
 
 </ResponseExample>

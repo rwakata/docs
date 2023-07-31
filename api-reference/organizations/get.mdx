@@ -1,6 +1,6 @@
 ---
 title: "Get organization"
-api: "GET https://api.xente.com/v2/organization"
+api: "GET https://api.xente.com/v2/organizations"
 description: "This is an object representing your organization. You can use it to retrieve your organizational details."
 ---
 
@@ -12,10 +12,12 @@ description: "This is an object representing your organization. You can use it t
 
 ### Response
 
-<ResponseField name="success" type="number">
+<ResponseField name="statusCode" type="number">
   Indicates whether the call was successful. 0 if successful, error code if not.
 </ResponseField>
-
+<ResponseField name="statusMessage" type="string">
+  Status message on outcome of the API call
+</ResponseField>
 <ResponseField name="organization" type="object">
 
 The details of the organization
@@ -25,7 +27,9 @@ The details of the organization
 <ResponseField name="id" type="number">
  The unique id of the organization
 </ResponseField>
-
+<ResponseField name="logo" type="string">
+ The logo of the organization
+</ResponseField>
 <ResponseField name="name" type="string">
   The name of the organization e.g. My company name
 </ResponseField>
@@ -38,7 +42,7 @@ The details of the organization
   This address of the orgarnization
 </ResponseField>
 
-<ResponseField name="user" type="JSON or null">
+<ResponseField name="users" type="JSON or null">
   The user who created the organization
 </ResponseField>
 <ResponseField name="accounts" type="JSON or null">
@@ -51,7 +55,7 @@ The details of the organization
 <RequestExample>
 
 ```bash Request
-curl --location --request GET 'https://api.xente.co/v2/organization/{id}' \
+curl --location --request GET 'https://api.xente.co/v2/organizations?id={id}' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 ```
@@ -62,16 +66,19 @@ curl --location --request GET 'https://api.xente.co/v2/organization/{id}' \
 
 ```json Response
 {
-  "success": 0,
   "organization": {
-    "id": 3897878,
+    "id": null,
+    "logo": "https://www.xente.co/logo.gif",
     "name": "My company name",
     "description": "We sell widgets",
-    "address": "Address of your organization", 
-    "user": null, 
-    "accounts": null, 
-  }
+    "address": "Address of your organization",
+    "users": null,
+    "accounts": null
+  },
+  "statusCode": 0,
+  "statusMessage": "Organization retrieved successfully"
 }
+
 ```
 
 </ResponseExample>

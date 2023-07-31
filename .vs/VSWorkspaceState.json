@@ -1,12 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\api-reference\\cards",
-    "\\api-reference\\people",
-    "\\api-reference\\products",
-    "\\collect-payments",
-    "\\make-payments"
+    "\\api-reference",
+    "\\api-reference\\transactions"
   ],
-  "SelectedNode": "\\make-payments\\mobilemoney.mdx",
+  "SelectedNode": "\\api-reference\\transactions\\get.mdx",
   "PreviewInSolutionExplorer": false
 }

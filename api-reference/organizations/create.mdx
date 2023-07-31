@@ -1,6 +1,6 @@
 ---
 title: "Create organization"
-api: "POST https://api.xente.co/v2/organization"
+api: "POST https://api.xente.co/v2/organizations"
 description: "This endpoint creates a new organization PS. An organization needs to be verified before it can be used and this is only done through the portal"
 ---
 
@@ -15,14 +15,17 @@ description: "This endpoint creates a new organization PS. An organization needs
 <ParamField body="address" type="address">
   Physical address of organization e.g. P.O.Box 12345, Country, State
 </ParamField>
-<ParamField body="user" type="object">
+<ParamField body="users" type="object">
    User object creating the organization 
 </ParamField>
 
 ### Response
 
-<ResponseField name="success" type="number">
+<ResponseField name="statusCode" type="number">
   Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+<ResponseField name="statusMessage" type="string">
+  Status message on outcome of the API call
 </ResponseField>
 
 <ResponseField name="organization" type="object">
@@ -39,15 +42,15 @@ The contents of the organization
  name of your organization e.g My company name
 </ResponseField>
 
-<ResponseField name="name" type="string">
-  This is the name of the user group provided in the request body.
+<ResponseField name="address" type="string">
+  The address of the organization.
 </ResponseField>
 
 <ResponseField name="description" type="string">
   Description of organization e.g. We sell widgets
 </ResponseField>
 
-<ResponseField name="user" type="JSON or null">
+<ResponseField name="users" type="JSON or null">
 user object of the user who created the organization
 </ResponseField>
 
@@ -58,13 +61,13 @@ user object of the user who created the organization
 <RequestExample>
 
 ```bash Request
-curl --location --request POST 'https://api.xente.co/v2/organization' \
+curl --location --request POST 'https://api.xente.co/v2/organizations' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
     "name": "My company name",
-    "description": "We build widgets",
-    "address": "Our address",
+    "description": "We sell widgets",
+    "address": "Address of your organization",
     "user": {
     "name": "My name",
     "email": "email of user creating account",
@@ -78,18 +81,21 @@ curl --location --request POST 'https://api.xente.co/v2/organization' \
 <ResponseExample>
 
 ```json Response
-{
-  "success": 0,
+  {
   "organization": {
+    "id": null,
+    "logo": "https://www.xente.co/logo.gif",
     "name": "My company name",
-    "description": "We build widgets",
-    "address": "Our address",
-    "user": {
-    "name": "My name",
-    "email": "email of user creating account",
-    "phone number": "phone number of user creating account"
-  }
+    "description": "We sell widgets",
+    "address": "Address of your organization",
+    "users": null,
+    "accounts": null
+  },
+  "statusCode": 0,
+  "statusMessage": "Organization created successfully"
 }
+
+
 ```
 
 </ResponseExample>

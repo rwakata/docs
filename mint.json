@@ -56,12 +56,7 @@
       "group": "Get started",
       "pages": [
         "api-reference/introduction",
-        "api-reference/changelog"
-      ]
-    },
-    {
-      "group": "Security",
-      "pages": [
+        "api-reference/errors",
         "api-reference/authentication"
       ]
     },

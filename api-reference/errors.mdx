@@ -1,0 +1,38 @@
+---
+title: "Errors"
+description: "Handling Xente Error Codes"
+---
+**Handling Xente Error Codes**
+
+At Xente, we understand that handling error codes is crucial for a smooth payment experience. In this guide, we'll walk you through our comprehensive list of error codes and provide best practices on how to handle them seamlessly.
+
+## Understanding Xente Error Codes
+
+When processing payments or utilizing Xente's API, you might encounter specific error codes that signify various issues during the transaction. Our error codes are designed to provide clear and informative messages, making it easier for you to diagnose and resolve any payment-related challenges.
+
+## Handling Errors Effectively
+
+1. **Error Code Identification**: When an error occurs, our API will return an appropriate error code along with a descriptive message. Be sure to capture and log these error codes to accurately pinpoint the issue.
+
+2. **Error Code Reference**: Refer to our detailed documentation on error codes to interpret the meaning behind each code. This will help you understand the underlying problem and take the necessary actions.
+
+3. **Retry Logic**: In some cases, a transient error might occur due to network issues or temporary server problems. Implement a smart retry logic to automatically attempt the payment again after a short delay.
+
+4. **User-Friendly Error Messages**: When displaying error messages to your customers, ensure they are user-friendly and provide guidance on how to resolve the issue. Avoid exposing technical details that could confuse or concern the end-users.
+
+5. **Contact Support**: If you encounter recurring or unfamiliar error codes, don't hesitate to reach out to our dedicated support team. We're here to assist you in resolving any challenges you face.
+
+## Common Error Codes
+
+Here are some of the common Xente error codes you may encounter:
+
+- **XNT-1001**: Invalid API Key - Ensure you are using the correct API key for authentication.
+
+- **XNT-2001**: Invalid Parameters - Check that you have provided the right parameters for the specific API request.
+
+- **XNT-3001**: Payment Failure - The payment attempt was unsuccessful. Check the payment details and try again.
+
+- **XNT-4001**: Insufficient Funds - The account being used for the payment does not have enough funds.
+
+For a complete list of error codes and their meanings, refer to our official documentation.
+
