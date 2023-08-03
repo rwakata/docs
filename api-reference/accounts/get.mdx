@@ -12,9 +12,13 @@ description: "This endpoint gets your Xente account details"
 
 ### Response
 
-<ResponseField name="success" type="number">
+<ResponseField name="statusCode" type="number">
   Indicates whether the call was successful. 0 if successful, error code if not.
 </ResponseField>
+<ResponseField name="statusMessage" type="string">
+  Status message on outcome of the API call
+</ResponseField>
+
 <ResponseField name="account" type="object">
 
 The contents of the account
@@ -63,15 +67,16 @@ curl --location --request GET 'https://api.xente.co/v2/accounts/{id}' \
 
 ```json Response
 {
-  "success": 0,
   "account": {
-    "id": "23423423423423",
-    "name": "account name",
-    "description": "description of the account",
-    "currency": "currency of account in international format",
-    "transactions": "list of transactions",
-    "statement": "account statement with credits and debits"
-  }
+    "name": "My account name",
+    "description": "My account description",
+    "currency": "UGX",
+    "balance": 10000,
+    "transactions": null,
+    "statement": null
+  },
+  "statusCode": 0,
+  "statusMessage": "Account retrieved successfully"
 }
 ```
 
