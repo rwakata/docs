@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\make-payments",
+    "\\start",
+    "\\visa-cards"
   ],
-  "SelectedNode": "\\D:\\Work\\Xente\\Applications\\Xente Developer Documentation\\rwakata\\docs",
+  "SelectedNode": "\\start\\auth.mdx",
   "PreviewInSolutionExplorer": false
 }

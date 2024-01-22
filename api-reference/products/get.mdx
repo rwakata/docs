@@ -46,12 +46,14 @@ The contents of the product
   Status of the product
 </ResponseField>
 
-<ResponseField name="pricing" type="JSON or null">
-  pricing of the product
-</ResponseField>
 
-<ResponseField name="product_items" type="JSON or null">
-  Product items of the product
+<ResponseField name="product_items" type="array">
+  Product items of the product. Each item is an object with the following properties:
+  - `item_id` (number): The unique ID of the item
+  - `item_name` (string): The name of the item
+  - `item_description` (string): Description of the item
+  - `item_price` (number): Price of the item
+  - `availability` (boolean): Availability status of the item
 </ResponseField>
 
 </Expandable>
@@ -82,7 +84,23 @@ curl --location --request GET 'https://api.xente.co/products/{id}' \
     "long_description": "Long description of the product",
     "status": "active",
     "pricing": "list of pricings",
-    "product_items": "list of product items"
+    "product_items": [
+      {
+        "item_id": 1,
+        "item_name": "Item 1",
+        "item_description": "Description of Item 1",
+        "item_price": 19.99,
+        "availability": true
+      },
+      {
+        "item_id": 2,
+        "item_name": "Item 2",
+        "item_description": "Description of Item 2",
+        "item_price": 29.99,
+        "availability": false
+      }
+      // Add more items as needed
+    ]
   }
 }
 ```
