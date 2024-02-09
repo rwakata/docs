@@ -71,7 +71,11 @@
       "group": "Transactions",
       "pages": [
         "api-reference/transactions/get",
-        "api-reference/transactions/create"
+        "api-reference/mobilemoney/transactions/create",
+        "api-reference/banktransfers/transactions/create",
+        "api-reference/airtime/transactions/create",
+        "api-reference/internet/transactions/create",
+        "api-reference/utilities/transactions/create"
       ]
     },
     {
