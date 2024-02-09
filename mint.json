@@ -76,7 +76,7 @@
     {
       "group": "Mobile Money",
       "pages": [
-        "api-reference/mobilemoney/transactions/get"
+        "api-reference/mobilemoney/transactions/create"
       ]
     },
     {
