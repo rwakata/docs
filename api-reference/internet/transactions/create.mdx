@@ -1,0 +1,82 @@
+---
+title: "Create account"
+api: "POST https://api.xente.com/v2/accounts"
+description: "This endpoint creates a new account"
+---
+
+### Body
+
+<ParamField body="name" type="string">
+  name of account e.g office payments 
+</ParamField>
+<ParamField body="description" type="string">
+  Description of account e.g. making and collecting office payments
+</ParamField>
+<ParamField body="currency" type="string">
+  currency of the account
+</ParamField>
+
+### Response
+
+<ResponseField name="statusCode" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+<ResponseField name="statusMessage" type="string">
+  Status message on outcome of the API call
+</ResponseField>
+
+<ResponseField name="account" type="object">
+
+The contents of the account
+
+<Expandable title="Toggle object">
+
+<ResponseField name="id" type="number">
+ Unique identifier of account
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  name of the account
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  currency of the account
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  description of account
+</ResponseField>
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request POST 'https://api.xente.co/v2/accounts' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "name": "My new account name",
+    "description": "My new account description",
+    "currency": "UGX",
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "account": {
+    "name": "string",
+    "description": "string",
+    "currency": "string",
+    },
+  "statusCode": 0,
+  "statusMessage": "Account created"
+}
+```
+
+</ResponseExample>
