@@ -60,20 +60,11 @@
         "api-reference/authentication"
       ]
     },
-    {
-      "group": "Organizations",
-      "pages": [
-        "api-reference/organizations/get",
-        "api-reference/organizations/create",
-        "api-reference/organizations/update"
-      ]
-    },
+   
     {
       "group": "Accounts",
       "pages": [
-        "api-reference/accounts/get",
-        "api-reference/accounts/create",
-        "api-reference/accounts/update"
+        "api-reference/accounts/get"
       ]
     },
     {
