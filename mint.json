@@ -82,19 +82,19 @@
     {
       "group": "Bank Transfers",
       "pages": [
-        "api-reference/banktransfers/transactions/get"
+        "api-reference/banktransfers/transactions/create"
       ]
     },
     {
       "group": "Airtime",
       "pages": [
-        "api-reference/airtime/transactions/get"
+        "api-reference/airtime/transactions/create"
       ]
     },
     {
       "group": "Internet",
       "pages": [
-        "api-reference/internet/transactions/get"
+        "api-reference/internet/transactions/create"
       ]
     },
     {
