@@ -34,7 +34,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [ "introduction", "start/prerequisites"]
+      "pages": [ "introduction", "start/prerequisites" ]
     },
     {
       "group": "Visa Debit Cards",
@@ -60,7 +60,7 @@
         "api-reference/authentication"
       ]
     },
-   
+
     {
       "group": "Accounts",
       "pages": [
@@ -70,12 +70,37 @@
     {
       "group": "Transactions",
       "pages": [
-        "api-reference/transactions/get",
-        "api-reference/mobilemoney/transactions/create",
-        "api-reference/banktransfers/transactions/create",
-        "api-reference/airtime/transactions/create",
-        "api-reference/internet/transactions/create",
-        "api-reference/utilities/transactions/create"
+        "api-reference/transactions/get"
+      ]
+    },
+    {
+      "group": "Mobile Money",
+      "pages": [
+        "api-reference/mobilemoney/transactions/get"
+      ]
+    },
+    {
+      "group": "Bank Transfers",
+      "pages": [
+        "api-reference/banktransfers/transactions/get"
+      ]
+    },
+    {
+      "group": "Airtime",
+      "pages": [
+        "api-reference/airtime/transactions/get"
+      ]
+    },
+    {
+      "group": "Internet",
+      "pages": [
+        "api-reference/internet/transactions/get"
+      ]
+    },
+    {
+      "group": "Bills",
+      "pages": [
+        "api-reference/bills/transactions/get"
       ]
     },
     {
