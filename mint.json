@@ -25,6 +25,12 @@
     "default": "light",
     "isHidden": false
   },
+  "api": {
+    "baseUri": "'https://dev.xente.co:7027/api/",
+    "auth": {
+      "method": "bearer"
+    }
+  },
   "tabs": [
     {
       "name": "API Reference",
@@ -70,15 +76,16 @@
     {
       "group": "Transactions",
       "pages": [
-        "api-reference/transactions/get"
+        "api-reference/transactions/get",
+        "api-reference/transactions/gettransactions"
       ]
     },
     {
       "group": "Cards",
       "pages": [
+        "api-reference/cards/get",
         "api-reference/cards/order",
         "api-reference/cards/transactions",
-        "api-reference/cards/get",
         "api-reference/cards/patch",
         "api-reference/cards/delete"
       ]
