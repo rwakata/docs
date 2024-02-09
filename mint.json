@@ -74,6 +74,16 @@
       ]
     },
     {
+      "group": "Cards",
+      "pages": [
+        "api-reference/cards/order",
+        "api-reference/cards/transactions",
+        "api-reference/cards/get",
+        "api-reference/cards/patch",
+        "api-reference/cards/delete"
+      ]
+    },
+    {
       "group": "Mobile Money",
       "pages": [
         "api-reference/mobilemoney/transactions/create"
@@ -103,14 +113,7 @@
         "api-reference/bills/transactions/get"
       ]
     },
-    {
-      "group": "Cards",
-      "pages": [
-        "api-reference/cards/get",
-        "api-reference/cards/create",
-        "api-reference/cards/update"
-      ]
-    },
+
     {
       "group": "Products",
       "pages": [
