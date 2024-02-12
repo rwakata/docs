@@ -26,7 +26,7 @@
     "isHidden": false
   },
   "api": {
-    "baseUri": "'https://dev.xente.co:7027/api/",
+    "baseUrl": "https://dev.xente.co:7027/api",
     "auth": {
       "method": "bearer"
     }

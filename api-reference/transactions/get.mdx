@@ -1,6 +1,6 @@
 ---
 title: "Get Transaction"
-api: "GET https://api.xente.com/transaction"
+api: "GET https://dev.xente.co:7027/api/transactions"
 description: "This endpoint gets a a single transaction using a transaction Id"
 ---
 
@@ -74,7 +74,7 @@ The contents of the transaction
 <RequestExample>
 
 ```bash Example Request
-curl --location --request GET 'https://api.xente.co/transactions/{id}' \
+curl --location --request GET ''https://dev.xente.co:7027/api/transactions/{id}' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 

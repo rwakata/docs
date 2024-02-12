@@ -1,15 +1,21 @@
 ---
 title: "Get Account"
-api: "GET https://dev.xente.co:7027/api/accounts"
+api: "GET https://api.xente.co/v2/accounts"
 description: "This endpoint gets your Xente account details"
 ---
 
+### Query
+
+<ParamField query="id" type="string">
+  This is the ID your account
+</ParamField>
+
 ### Response
 
-<ResponseField name="code" type="number">
+<ResponseField name="statusCode" type="number">
   Indicates whether the call was successful. 0 if successful, error code if not.
 </ResponseField>
-<ResponseField name="status" type="string">
+<ResponseField name="statusMessage" type="string">
   Status message on outcome of the API call
 </ResponseField>
 
@@ -35,6 +41,14 @@ The contents of the account
   The balance on the account
 </ResponseField>
 
+<ResponseField name="transactions" type="JSON or null">
+  A list of transactions on the account
+</ResponseField>
+
+<ResponseField name="statement" type="JSON or null">
+  An account statement showing debits and credits
+</ResponseField>
+
 </Expandable>
 
 </ResponseField>
@@ -53,16 +67,16 @@ curl --location --request GET 'https://api.xente.co/v2/accounts/{id}' \
 
 ```json Response
 {
-  "message": "Account retrieved successfully",
-  "data": {
-    "accountNumber": 6,
-    "name": "Enaf Tech",
-    "description": "Enaf Tech",
-    "balance": 4000.00,
-    "currency": "UGX"
+  "account": {
+    "name": "My account name",
+    "description": "My account description",
+    "currency": "UGX",
+    "balance": 10000,
+    "transactions": null,
+    "statement": null
   },
-  "code": 0,
-  "status": null
+  "statusCode": 0,
+  "statusMessage": "Account retrieved successfully"
 }
 ```
 

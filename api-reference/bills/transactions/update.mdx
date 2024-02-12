@@ -1,0 +1,78 @@
+---
+title: "Update Account"
+api: "PUT https://api.xente.co/v2/accounts"
+description: "This endpoint updates an existing account."
+---
+
+### Body
+
+<ParamField body="name" type="string">
+  name of account e.g office payments 
+</ParamField>
+<ParamField body="description" type="string">
+  Description of account e.g. making and collecting office payments
+</ParamField>
+
+### Response
+
+<ResponseField name="statusCode" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+<ResponseField name="statusMessage" type="string">
+  Status message on outcome of the API call
+</ResponseField>
+
+<ResponseField name="account" type="object">
+
+The contents of the account
+
+<Expandable title="Toggle object">
+
+<ResponseField name="id" type="number">
+ Unique identifier of account
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  name of the account
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  currency of the account
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  description of account
+</ResponseField>
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Request
+curl --location --request PUT 'https://api.xente.co/v2/accounts/{id}' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "name": "name of account",
+    "description": "description of account",
+    "currency": "currency of account",
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "account": {
+    "name": "string",
+    "description": "string",
+    "currency": "string",
+    },
+  "statusCode": 0,
+  "statusMessage": "Account created"
+}
+```
+</ResponseExample>

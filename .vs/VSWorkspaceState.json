@@ -2,13 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\api-reference",
-    "\\api-reference\\people",
-    "\\api-reference\\products",
-    "\\api-reference\\transactions",
-    "\\make-payments",
-    "\\start",
-    "\\visa-cards"
+    "\\api-reference\\airtime\\transactions",
+    "\\api-reference\\banktransfers\\transactions",
+    "\\api-reference\\internet\\transactions",
+    "\\api-reference\\mobilemoney",
+    "\\api-reference\\mobilemoney\\transactions",
+    "\\api-reference\\transactions"
   ],
-  "SelectedNode": "\\make-payments\\mobileinternet.mdx",
-  "PreviewInSolutionExplorer": false
+  "SelectedNode": "\\api-reference\\mobilemoney\\transactions\\authentication.mdx",
+  "PreviewInSolutionExplorer": true
 }
