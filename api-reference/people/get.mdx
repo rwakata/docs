@@ -1,19 +1,14 @@
 ---
 title: "Get person"
-api: "GET https://api.xente.co/people"
+api: "GET https://dev.xente.co:7027/api/core/People/"
 description: "This endpoint gets people details"
 ---
-### Body
+### Query
 
-<ParamField body="id" type="string">
+<ParamField path="personId" type="string">
   Unique id of the person e.g. mobile number, bill_number, passport number, id number etc 
 </ParamField>
-<ParamField body="name" type="string">
-  Name of the person 
-</ParamField>
-<ParamField body="data" type="JSON or null">
-  Other data to id the person
-</ParamField>
+
 
 ### Response
 
@@ -27,7 +22,7 @@ The contents of the person
 
 <Expandable title="Toggle object">
 
-<ResponseField name="id" type="number">
+<ResponseField name="personId" type="number">
   The unique id of the person
 </ResponseField>
 

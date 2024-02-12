@@ -1,6 +1,6 @@
 ---
 title: "Post bank transfer"
-api: "POST https://dev.xente.co:7027/api/mobilemoney/"
+api: "POST https://dev.xente.co:7027/api/banktransfers/transactions"
 description: "This endpoint posts a new mobile money transaction"
 ---
 
@@ -61,6 +61,12 @@ description: "This endpoint posts a new mobile money transaction"
 <ParamField body="beneficiary.data.phoneNumber" type="string">
   Another phone number associated with the beneficiary, potentially for different purposes.
 </ParamField>
+<ParamField body="beneficiary.data.bankAccount" type="string">
+  The bank account number of the beneficiary
+</ParamField>
+<ParamField body="beneficiary.data.bankCode" type="string">
+  The bank account code of the bank
+</ParamField>
 
 ### Response
 
@@ -114,30 +120,26 @@ The contents of the transaction data.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.xente.co/v2/accounts' \
---header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
-
-```json
 {
-  "requestId": "req1234",
+  "requestId": "req1234",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
-  "accountNumber": "123456789",
-  "amount": 100.5,
-  "type": "DEBIT", //DEBIT to add money to your account, CREDIT to remove money from your account
+  "accountNumber": "123456789",//Your business account number
+  "amount": 1000,
+  "type": "DEPOSIT/PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
   "product": {
     "id": "prod001",
-    "productItemId": "item002"
+    "productItemId": "MTNMOBILEMONEYPAYOUTUG_MTNMOBILEMONEYPAYOUTUG", //Get list of product using Products endpoint
   },
   "beneficiary": {
-    "id": "ben003",
+    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
-    "phoneNumber": "+1234567890",
+    "phoneNumber": "+1234567890", 
     "data": {
-      "phoneNumber": "+1234567890"
+      "bankAccount": "98765432",
+      "bankName": "Bank Code" //The Code of the bank funds are being sent to
     }
   }
 }
@@ -150,7 +152,7 @@ curl --location --request POST 'https://api.xente.co/v2/accounts' \
 {
   "message": "Transaction Has Been Successfully Received. Notification Will Be Sent Shortly",
   "data": {
-    "requestId": "e482caf1-18c4-4312-a708-8032969541d4",
+    "requestId": "req1234",
     "batchId": "123123123123",
     "transactionId": "0f9182ad-bf5e-4854-799e-08dc2bc9741e",
     "status": "PROCESSING",

@@ -1,6 +1,6 @@
 ---
 title: "Get a card"
-api: "GET https://api.xente.co/cards"
+api: "GET https://api.xente.co/v2/accounts"
 description: "This endpoint gets Visa debit card details"
 ---
 ### Query 
@@ -8,11 +8,6 @@ description: "This endpoint gets Visa debit card details"
   This is the ID of the card
 </ParamField>
 ### Body
-
-<ParamField body="masked-card-number" type="string">
-  This is the masked card number in form of 4566 **** **** 1234.
-</ParamField>
-
 ### Response
 
 <ResponseField name="success" type="number">

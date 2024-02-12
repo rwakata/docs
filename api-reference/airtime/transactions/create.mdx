@@ -1,7 +1,7 @@
 ---
 title: "Post airtime"
-api: "POST https://dev.xente.co:7027/api/mobilemoney/"
-description: "This endpoint posts a new mobile money transaction"
+api: "POST https://dev.xente.co:7027/api/airtime/"
+description: "This endpoint posts a new airtime transaction"
 ---
 
 ### Body
@@ -124,7 +124,7 @@ curl --location --request POST 'https://api.xente.co/v2/accounts' \
   "batchId": "batch5678",
   "accountNumber": "123456789",
   "amount": 100.5,
-  "type": "DEBIT", //DEBIT to add money to your account, CREDIT to remove money from your account
+  "type": "PAYOUT", //Payout from your account to airtime account
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
   "product": {

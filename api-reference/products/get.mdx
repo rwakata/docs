@@ -1,14 +1,8 @@
 ---
-title: "Get product"
-api: "GET https://api.xente.co/products"
+title: "Get products"
+api: "GET https://dev.xente.co:7027/api/products"
 description: "This endpoint gets product details"
 ---
-### Query 
-<ParamField query="id" type="string">
-  This is the ID of the product
-</ParamField>
-### Body
-
 ### Response
 
 <ResponseField name="success" type="number">
@@ -73,35 +67,51 @@ curl --location --request GET 'https://api.xente.co/products/{id}' \
 
 <ResponseExample>
 
-```json Response
+
+
+```json
 {
-  "success": 0,
+  "message": "OK",
+  "code": 0,
   "data": {
-    "product_id": 3,
-    "name": "Name of the product",
-    "imageUri": "Uri to image of product", 
-    "short_description": "Short description of the product",
-    "long_description": "Long description of the product",
-    "status": "active",
-    "product_items": [
+    "currentPage": 1,
+    "pageSize": 20,
+    "totalCount": 55,
+    "totalPages": 3,
+    "collection": [
       {
-        "item_id": 1,
-        "item_name": "Item 1",
-        "item_description": "Description of Item 1",
-        "item_price": 19.99,
-        "availability": true
+        "productId": "NWSCWATERUG",
+        "name": "Water",
+        "imageUri": "https://play-lh.googleusercontent.com/ig6vu1dcBWoPhIKBoBUBcZgKDX6CY1Sg9kiZ_iydQGYc2P0yK0KUBza4Mueha4EDfZdq",
+        "categoryId": "UTILITIES",
+        "shortDescription": "Pay for your water bills",
+        "longDescription": "Pay for your water bills",
+        "countryCode": "256",
+        "currencyCode": "UGX",
+        "isActive": true,
+        "isExternal": true,
+        "sortOrder": 0,
+        "productRegex": "123"
       },
       {
-        "item_id": 2,
-        "item_name": "Item 2",
-        "item_description": "Description of Item 2",
-        "item_price": 29.99,
-        "availability": false
+        "productId": "KCCATAXUG",
+        "name": "KCCA",
+        "imageUri": "https://www.example.com",
+        "categoryId": "TAX",
+        "shortDescription": "KCCA product",
+        "longDescription": "this is kcca product",
+        "countryCode": "256",
+        "currencyCode": "UGX",
+        "isActive": true,
+        "isExternal": false,
+        "sortOrder": 0,
+        "productRegex": null
       }
-      // Add more items as needed
-    ]
-  }
+    ],
+    "previousPage": false,
+    "nextPage": true
+  },
+  "correlationId": null
 }
 ```
-
 </ResponseExample>
