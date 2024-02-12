@@ -4,14 +4,27 @@ description: "Xente Reference Docs - Authentication"
 ---
 
 
-Xente uses token based authentication scheme
+Xente implements a token-based authentication scheme to ensure secure access to its API. 
 
-Once a user has logged in and received a token, They are required to complete the login process by logging into the account they wish to access. 
+## Step 1 - Get your credentials 
+Find your app Key, app Password and a user identifier under developer settings in the Xente portal 
 
-Each subsequent request should include the token in the HTTP Authorization header.
+## Step 2 - Authenticate
+Send the folliwing JSON payload to the auehtnication endpoint api/auth/login
+```json Response
+{
+  "appKey": "YOURAPPKEY",
+  "appPassword": "YOURAPPPASSWORD",
+  "userId": 1223232, // The userId is unique to each user and is typically provided during the registration process or assigned by your system.
+  "includeRefreshToken": true // Setting this to true requests that a refresh token be included in the response for managing token expiration.
+}
+```
 
-Token lifetime is 60min after creation. Once a token has expired, you can refresh it using the refresh token provided or a re-login is required in order to re-authenticate.
+## Step 3 - Get Access Token 
 
-Xente’s tokens allow for a single user to have multiple active tokens on separate devices..
+Upon successful authentication, Xente responds with an access token and, if requested, a refresh token.
 
-For security reasons Xente will only expose the token once, on login or on register, and never again. Be sure to store it somewhere safe for a period that is equal to its lifetime.
+## Important 
+
+1. The access token must be included in the HTTP Authorization header of each subsequent request to access the user's account and perform actions. The token should be prefixed with the scheme (typically "Bearer").
+2. Tokens are exposed only on creation of application. For security reasons, store the token securely and appropriately manage its lifecycle, considering its 60-minute validity
