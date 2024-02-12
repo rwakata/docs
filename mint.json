@@ -117,7 +117,7 @@
     {
       "group": "Bills",
       "pages": [
-        "api-reference/bills/transactions/get"
+        "api-reference/bills/transactions/create"
       ]
     },
 
