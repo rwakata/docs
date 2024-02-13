@@ -1,0 +1,101 @@
+---
+title: "Patch a card"
+api: "PATCH https://api.xente.co/cards"
+description: "Patch a card with start to enable it to transact"
+---
+### Query 
+<ParamField query="id" type="string">
+  This is the ID of the card
+</ParamField>
+### Body
+
+<ParamField body="masked-card-number" type="string">
+  This is the masked card number in form of 4566 **** **** 1234.
+</ParamField>
+
+### Response
+
+<ResponseField name="success" type="number">
+  Indicates whether the call was successful. 1 if successful, 0 if not.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+
+The contents of the transaction
+
+<Expandable title="Toggle object">
+
+<ResponseField name="card_id" type="number">
+  The unique id of the card
+</ResponseField>
+
+
+<ResponseField name="masked_card_number" type="number">
+  The id that your system uses to identify the transaction
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the card
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency of the card
+</ResponseField>
+
+<ResponseField name="balance" type="number">
+  The balance on the card
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status of the transaction
+</ResponseField>
+
+<ResponseField name="card_holder" type="string">
+  name of person or business holding the card
+</ResponseField>
+
+<ResponseField name="transactions" type="JSON or null">
+  A list of transactions on the account
+</ResponseField>
+
+<ResponseField name="statement" type="JSON or null">
+  An card statement showing debits and credits
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+<RequestExample>
+
+```bash Example Request
+curl --location --request GET 'https://api.xente.co/cards/' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+    "masked-card-number": "4554 **** **** 1234"
+}'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "success": 0,
+  "data": {
+    "card_id": 3,
+    "masked_card_number": "4876 *** **** 1234",
+    "name": "Name of the card e.g. Fuel card",
+    "currency": "USD", 
+    "balance": "100",
+    "status": "active",
+    "card_holder": "Mary Jane",
+    "transactions": "list of transactions",
+    "statement": "account statement with credits and debits"
+  }
+}
+```
+
+</ResponseExample>

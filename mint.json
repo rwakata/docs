@@ -83,10 +83,12 @@
     {
       "group": "Cards",
       "pages": [
+        "api-reference/cards/get-list",
         "api-reference/cards/get",
-        "api-reference/cards/order",
-        "api-reference/cards/transactions",
-        "api-reference/cards/patch",
+        "api-reference/cards/post",
+        "api-reference/cards/patch-stop",
+        "api-reference/cards/patch-unstop",
+        "api-reference/cards/patch-pin",
         "api-reference/cards/delete"
       ]
     },
@@ -124,7 +126,9 @@
     {
       "group": "Products",
       "pages": [
-        "api-reference/products/get"
+        "api-reference/products/get-list",
+        "api-reference/products/get",
+        "api-reference/products/get-items"
       ]
     },
     {

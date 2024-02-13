@@ -1,28 +1,22 @@
 ---
-title: "Update Card"
-api: "PUT https://api.xente.co/cards"
-description: "This endpoint updates an existing card."
+title: "Get cards"
+api: "GET https://api.xente.co/v2/accounts"
+description: "This endpoint gets the list of cards under an account"
 ---
-
-### Body
-
-<ParamField body="card_id" type="string">
+### Query 
+<ParamField query="id" type="string">
   This is the ID of the card
 </ParamField>
-
-<ParamField body="status" type="string">
-  Status of the card. The are two options, active and inactive 
-</ParamField>
-
-
+### Body
 ### Response
 
 <ResponseField name="success" type="number">
-  Indicates whether the call was successful. 0 if successful, error code if not.
+  Indicates whether the call was successful. 1 if successful, 0 if not.
 </ResponseField>
+
 <ResponseField name="data" type="object">
 
-The contents of the card
+The contents of the transaction
 
 <Expandable title="Toggle object">
 
@@ -48,7 +42,7 @@ The contents of the card
 </ResponseField>
 
 <ResponseField name="status" type="string">
-  Status of the card. Can be active or inactive
+  Status of the transaction
 </ResponseField>
 
 <ResponseField name="card_holder" type="string">
@@ -62,20 +56,19 @@ The contents of the card
 <ResponseField name="statement" type="JSON or null">
   An card statement showing debits and credits
 </ResponseField>
+
 </Expandable>
 
 </ResponseField>
 
-
 <RequestExample>
 
 ```bash Example Request
-curl --location --request PUT 'https://api.xente.co/cards' \
+curl --location --request GET 'https://api.xente.co/cards/' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 --data-raw '{
-    "card_id": "123123",
-    "status": "inactive"
+    "masked-card-number": "4554 **** **** 1234"
 }'
 ```
 
@@ -85,11 +78,17 @@ curl --location --request PUT 'https://api.xente.co/cards' \
 
 ```json Response
 {
-  "success": 1,
+  "success": 0,
   "data": {
-    "transaction_id": "123123",
-    "client_reference": "34567",
-    "message": "queued"
+    "card_id": 3,
+    "masked_card_number": "4876 *** **** 1234",
+    "name": "Name of the card e.g. Fuel card",
+    "currency": "USD", 
+    "balance": "100",
+    "status": "active",
+    "card_holder": "Mary Jane",
+    "transactions": "list of transactions",
+    "statement": "account statement with credits and debits"
   }
 }
 ```

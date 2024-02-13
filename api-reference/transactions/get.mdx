@@ -1,13 +1,13 @@
 ---
 title: "Get Transaction"
-api: "GET https://dev.xente.co:7027/api/transactions"
+api: "GET https://dev.xente.co:7027/api/transactions/{transactionId}"
 description: "This endpoint gets a a single transaction using a transaction Id"
 ---
 
 ### Query
 
-<ParamField query="id" type="string">
-  This is the ID of the transaction
+<ParamField path="transactionId" type="string">
+  Unique identifier of a transaction
 </ParamField>
 
 ### Response
