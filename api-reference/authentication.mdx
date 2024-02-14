@@ -1,30 +1,40 @@
 ---
 title: "Authentication"
-description: "Xente Reference Docs - Authentication"
+description: "Authentication with the Xente API"
 ---
 
+To authenticate your API calls, include a token in the header of each request.  
 
-Xente implements a token-based authentication scheme to ensure secure access to its API. 
+### How to authenticate
 
-## Step 1 - Get your credentials 
-Find your app Key, app Password and a user identifier under developer settings in the Xente portal 
+1. Use the following command to generate a secret token
 
-## Step 2 - Authenticate
-Send the folliwing JSON payload to the auehtnication endpoint api/auth/login
-```json Response
-{
-  "appKey": "YOURAPPKEY",
-  "appPassword": "YOURAPPPASSWORD",
-  "userId": 1223232, // The userId is unique to each user and is typically provided during the registration process or assigned by your system.
-  "includeRefreshToken": true // Setting this to true requests that a refresh token be included in the response for managing token expiration.
-}
+```bash
+curl -X POST baseUri \
+     -H "Content-Type: application/json" \
+     -d '{
+         "appKey": "YourAppKey",
+         "appPassword": "YourAppPassword",
+         "userId": "Userid delegated to make the request",
+         "includeRefereshToken": true
+     }'
+```
+2. Pass the returned token using the following format in the authorization header of every request:
+
+```plaintext
+Authorization: $"Bearer "<YourToken>" 
 ```
 
-## Step 3 - Get Access Token 
+### Important notes on authentication
 
-Upon successful authentication, Xente responds with an access token and, if requested, a refresh token.
+Here's the updated version with the portal link included:
 
-## Important 
+1. **App Key and App Password**: Find your App Key and App Password under Developer Settings in the [portal](https://app.xente.co/) to generate the token.
+2. **Keep your credentials safe**: You can only view your App Key and App Password once. It is your responsibility to keep them safe, e.g., do not store them in Git or expose them to unauthorized people.
+3. **User Delegation**: Select the user who will be delegated to make API requests under Developer Settings in the [portal](https://app.xente.co/). The transactions initiated will be processed according to the permissions the user has.
+4. **Whitelisting**: Whitelist your application under Developer Settings in the [portal](https://app.xente.co/).
+5. **HTTPS**: All API requests must be made over HTTPS.
+6. **Authentication**: API requests without authentication will fail with status code 401: Unauthorized.
 
-1. The access token must be included in the HTTP Authorization header of each subsequent request to access the user's account and perform actions. The token should be prefixed with the scheme (typically "Bearer").
-2. Tokens are exposed only on creation of application. For security reasons, store the token securely and appropriately manage its lifecycle, considering its 60-minute validity
+
+
