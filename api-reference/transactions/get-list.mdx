@@ -1,0 +1,142 @@
+---
+title: "Get transactions"
+api: "GET https://dev.xente.co:7027/api/transactions/"
+description: "This endpoint retrieves a list of transactions"
+---
+
+### Query
+
+<ParamField path="startDate" type="string">
+  The start date for filtering transactions.
+</ParamField>
+
+<ParamField path="endDate" type="string">
+  The end date for filtering transactions.
+</ParamField>
+
+### Response
+
+<ResponseField name="code" type="number">
+  The response code indicating the status of the request. 0 for success, other values for error.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The status of the request, e.g., "success".
+</ResponseField>
+
+<ResponseField name="data" type="array">
+
+The list of transactions
+
+<Expandable title="Toggle array">
+
+<ResponseField name="transactionId" type="string">
+  The unique id of the transaction.
+</ResponseField>
+
+<ResponseField name="requestId" type="string">
+  The id that your system uses to identify the transaction.
+</ResponseField>
+
+<ResponseField name="batchId" type="string">
+  The batch id of the transaction. This is useful if it was sent as part of a bulk/batch payment.
+</ResponseField>
+
+<ResponseField name="accountNumber" type="string">
+  The account number associated with the transaction.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Name of person or business that did the transaction.
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency of the transaction.
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Amount of the transaction.
+</ResponseField>
+
+<ResponseField name="transactionType" type="string">
+  The type of the transaction, e.g., "PAYOUT".
+</ResponseField>
+
+<ResponseField name="product" type="object">
+  The product involved in the transaction.
+  <Expandable title="Toggle object">
+    <ResponseField name="id" type="string">
+      The id of the product.
+    </ResponseField>
+    <ResponseField name="productItemId" type="string">
+      The product item id associated with the product.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="beneficiary" type="object">
+  The beneficiary of the transaction.
+  <Expandable title="Toggle object">
+    <ResponseField name="id" type="string">
+      The id of the beneficiary.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      The name of the beneficiary.
+    </ResponseField>
+    <ResponseField name="data" type="object">
+      Additional data related to the beneficiary.
+      <Expandable title="Toggle object">
+        <ResponseField name="PhoneNumber" type="string">
+          The phone number of the beneficiary.
+        </ResponseField>
+        <ResponseField name="memo" type="string">
+          A memo or note associated with the beneficiary.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+</Expandable>
+</ResponseField>
+<RequestExample>
+```bash Example Request
+curl --location --request GET 'https://dev.xente.co:7027/api/transactions?startDate=2023-01-01&endDate=2023-01-31' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+```
+</RequestExample>
+
+<ResponseExample>
+```json
+{
+  "code": 0,
+  "status": "success",
+  "data": [
+    {
+      "transactionId": "375935d7-00f6-4741-6cdc-08dac7de7b5f",
+      "requestId": "8762fe2cc5e543b3ade2c9c9df3c65bf",
+      "batchId": "d39e08fc30a345918f7d8adfee993cfc",
+      "accountNumber": "6",
+      "name": "My account name",
+      "currency": "UGX",
+      "amount": -5000,
+      "transactionType": "PAYOUT",
+      "product": {
+        "id": "prod001",
+        "productItemId": "543210"
+      },
+      "beneficiary": {
+        "id": "122343243",
+        "name": "Beneficiary name",
+        "data": {
+          "PhoneNumber": "1799",
+          "memo": "sample"
+        }
+      }
+    }
+    // More transactions...
+  ]
+}
+```
+
+</ResponseExample>

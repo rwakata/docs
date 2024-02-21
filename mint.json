@@ -77,7 +77,7 @@
     {
       "group": "Transactions",
       "pages": [
-        "api-reference/transactions/gettransactions",
+        "api-reference/transactions/get-list",
         "api-reference/transactions/get"
       ]
     },
