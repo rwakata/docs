@@ -2,13 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\api-reference",
-    "\\api-reference\\airtime\\transactions",
-    "\\api-reference\\banktransfers\\transactions",
-    "\\api-reference\\internet\\transactions",
-    "\\api-reference\\mobilemoney",
-    "\\api-reference\\mobilemoney\\transactions",
-    "\\api-reference\\transactions"
+    "\\api-reference\\accounts",
+    "\\api-reference\\mobilemoney\\transactions"
   ],
-  "SelectedNode": "\\api-reference\\mobilemoney\\transactions\\authentication.mdx",
+  "SelectedNode": "\\api-reference\\accounts\\get.mdx",
   "PreviewInSolutionExplorer": true
 }
