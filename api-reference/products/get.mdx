@@ -71,47 +71,22 @@ curl --location --request GET 'https://api.xente.co/products/{id}' \
 
 ```json
 {
-  "message": "OK",
-  "code": 0,
-  "data": {
-    "currentPage": 1,
-    "pageSize": 20,
-    "totalCount": 55,
-    "totalPages": 3,
-    "collection": [
-      {
-        "productId": "NWSCWATERUG",
-        "name": "Water",
-        "imageUri": "https://play-lh.googleusercontent.com/ig6vu1dcBWoPhIKBoBUBcZgKDX6CY1Sg9kiZ_iydQGYc2P0yK0KUBza4Mueha4EDfZdq",
-        "categoryId": "UTILITIES",
-        "shortDescription": "Pay for your water bills",
-        "longDescription": "Pay for your water bills",
+    "message": "Product retrieved successfully",
+    "code": 0,
+    "data": {
+        "productId": "AIRTELDATABUNDLESUG",
+        "name": "Airtel",
+        "imageUri": "https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-original-577x577/s3/112010/airtel-new_0.png?itok=xT0SIx0d",
+        "categoryId": "DATA",
+        "shortDescription": "Buy or sell data from Airtel Uganda",
+        "longDescription": "Buy or sell data from Airtel Uganda",
         "countryCode": "256",
         "currencyCode": "UGX",
         "isActive": true,
         "isExternal": true,
         "sortOrder": 0,
-        "productRegex": "123"
-      },
-      {
-        "productId": "KCCATAXUG",
-        "name": "KCCA",
-        "imageUri": "https://www.example.com",
-        "categoryId": "TAX",
-        "shortDescription": "KCCA product",
-        "longDescription": "this is kcca product",
-        "countryCode": "256",
-        "currencyCode": "UGX",
-        "isActive": true,
-        "isExternal": false,
-        "sortOrder": 0,
-        "productRegex": null
-      }
-    ],
-    "previousPage": false,
-    "nextPage": true
-  },
-  "correlationId": null
+        "productRegex": "^((256|0)?((((200|(7(0|4|5)))(\\d{6}(\\d)?)))))$"
+    }
 }
 ```
 </ResponseExample>

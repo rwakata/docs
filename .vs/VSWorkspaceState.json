@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\api-reference",
-    "\\api-reference\\accounts",
-    "\\api-reference\\mobilemoney\\transactions"
+    "\\api-reference\\transactions"
   ],
-  "SelectedNode": "\\api-reference\\accounts\\get.mdx",
+  "SelectedNode": "\\api-reference\\transactions\\get-list.mdx",
   "PreviewInSolutionExplorer": true
 }

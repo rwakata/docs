@@ -121,25 +121,24 @@ The contents of the transaction data.
 
 ```bash Example Request
 {
-  "requestId": "req1234",//Id from your system to uniquely identify the transaction
+  "requestId": "998877654833543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
-  "accountNumber": "123456789",//Your business account number
   "amount": 1000,
-  "type": "DEPOSIT/PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
   "product": {
-    "id": "prod001",
-    "productItemId": "MTNMOBILEMONEYPAYOUTUG_MTNMOBILEMONEYPAYOUTUG", //Get list of product using Products endpoint
+    "id": "XENTEBANKTRANSFERUG",
+    "productItemId": "XENTEBANKTRANSFERUG_ABCFUGKA" 
   },
   "beneficiary": {
     "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
-    "data": {
-      "bankAccount": "98765432",
-      "bankName": "Bank Code" //The Code of the bank funds are being sent to
+   "data": {
+      "bankAccount": "12343242432432434",
+      "bankName": "Bank name" //The Code of the bank funds are being sent to
     }
   }
 }

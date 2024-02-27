@@ -120,24 +120,23 @@ curl --location --request POST 'https://api.xente.co/v2/accounts' \
 
 ```json
 {
-  "requestId": "req1234",
+  "requestId": "92399933543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
-  "accountNumber": "123456789",
-  "amount": 100.5,
-  "type": "PAYOUT", //Payout from your account to airtime account
-  "message": "Payment received for invoice #1234",
-  "metadata": "InvoicePayment",
+  "amount": 1000,
+  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "message": "Send airtime facilitation",
+  "metadata": "Expense code 1000023",
   "product": {
-    "id": "prod001",
-    "productItemId": "item002"
+    "id": "MTNAIRTIMEUG",
+    "productItemId": "MTNAIRTIMEUG_MTNAIRTIMEUG" 
   },
   "beneficiary": {
-    "id": "ben003",
+    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
-    "phoneNumber": "+1234567890",
+    "phoneNumber": "+1234567890", 
     "data": {
-      "phoneNumber": "+1234567890"
+      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
     }
   }
 }
@@ -148,15 +147,17 @@ curl --location --request POST 'https://api.xente.co/v2/accounts' \
 
 ```json Response
 {
-  "message": "Transaction Has Been Successfully Received. Notification Will Be Sent Shortly",
-  "data": {
-    "requestId": "e482caf1-18c4-4312-a708-8032969541d4",
-    "batchId": "123123123123",
-    "transactionId": "0f9182ad-bf5e-4854-799e-08dc2bc9741e",
-    "status": "PROCESSING",
-    "message": "Processing Debit Transaction. Instant Payment Notification will be sent shortly",
-    "createdOn": "2/12/2024 12:52:21 PM"
-  },
+    "code": 0,
+    "message": "Transaction Has Been Successfully Received. Notification Will Be Sent Shortly",
+    "data": {
+        "requestId": "92399933543589",
+        "batchId": "batch5678",
+        "transactionId": "0f595604-2c80-4d32-d3e4-08dc37af5a91",
+        "status": "PROCESSING",
+        "message": "Processing Debit Transaction. Instant Payment Notification will be sent shortly",
+        "createdOn": "2/27/2024 4:15:45 PM"
+    }
+},
   "code": 0,
   "status": "success"
 }

@@ -9,7 +9,7 @@ description: "This endpoint gets your Xente account details"
 <ResponseField name="code" type="number">
   Indicates whether the call was successful. 0 if successful, error code if not.
 </ResponseField>
-<ResponseField name="status" type="string">
+<ResponseField name="message" type="string">
   Status message on outcome of the API call
 </ResponseField>
 
@@ -53,6 +53,7 @@ curl --location --request GET 'https://api.xente.co/v2/accounts/{id}' \
 
 ```json Response
 {
+  "code": 0,
   "message": "Account retrieved successfully",
   "data": {
     "accountNumber": 6,
@@ -60,9 +61,7 @@ curl --location --request GET 'https://api.xente.co/v2/accounts/{id}' \
     "description": "Enaf Tech",
     "balance": 4000.00,
     "currency": "UGX"
-  },
-  "code": 0,
-  "status": null
+  }
 }
 ```
 

@@ -5,13 +5,20 @@ description: "This endpoint retrieves a list of transactions"
 ---
 
 ### Query
-
-<ParamField path="startDate" type="string">
+<ParamField path="pageNumber" type="int">
+  Page number of transactions your are retrieving 
+</ParamField>
+<ParamField path="pageSize" type="int">
+  Page size of transactions your are retrieving 
+</ParamField>
+<ParamField path="earlierDate" type="string">
   The start date for filtering transactions.
 </ParamField>
-
-<ParamField path="endDate" type="string">
+<ParamField path="laterDate" type="string">
   The end date for filtering transactions.
+</ParamField>
+<ParamField path="transactionStatus" type="string">
+  Transaction status of transactions. Valid statuses are ENQUEUED, PROCESSING, FAILED, SUCCESSFULL, REVERSED
 </ParamField>
 
 ### Response
@@ -109,34 +116,68 @@ curl --location --request GET 'https://dev.xente.co:7027/api/transactions?startD
 <ResponseExample>
 ```json
 {
-  "code": 0,
-  "status": "success",
-  "data": [
-    {
-      "transactionId": "375935d7-00f6-4741-6cdc-08dac7de7b5f",
-      "requestId": "8762fe2cc5e543b3ade2c9c9df3c65bf",
-      "batchId": "d39e08fc30a345918f7d8adfee993cfc",
-      "accountNumber": "6",
-      "name": "My account name",
-      "currency": "UGX",
-      "amount": -5000,
-      "transactionType": "PAYOUT",
-      "product": {
-        "id": "prod001",
-        "productItemId": "543210"
-      },
-      "beneficiary": {
-        "id": "122343243",
-        "name": "Beneficiary name",
-        "data": {
-          "PhoneNumber": "1799",
-          "memo": "sample"
-        }
-      }
+    "code": 0,
+    "message": "Transactions retrieved successfully",
+    "data": {
+        "collection": [
+            {
+                "transactionId": "41cc8f29-f3f4-45aa-148f-08dc315567d8",
+                "requestId": "60bad96c-2358-4f73-8430-1405ddc3a93d",
+                "batchId": "123123123123",
+                "accountNumber": "6",
+                "name": null,
+                "currency": "UGX",
+                "amount": -500.00,
+                "transactionType": "PAYOUT",
+                "product": {
+                    "id": "5321",
+                    "name": "Fred B"
+                },
+                "beneficiary": {
+                    "id": "MTNMOBILEMONEYPAYOUTUG",
+                    "name": "MTN Wallet Payout",
+                    "data": {
+                        "CustomerReference": "0770000",
+                        "CustomerPhone": "07700000",
+                        "CustomerEmail": "a@b.com",
+                        "Memo": "Testing"
+                    }
+                }
+            },
+            {
+                "transactionId": "42187dd1-e681-4e0e-28c6-08dc2c9c9b8c",
+                "requestId": "18ba945c-9a41-421c-96bb-67dca6a0d201",
+                "batchId": "123123123123",
+                "accountNumber": "6",
+                "name": null,
+                "currency": "UGX",
+                "amount": -500.00,
+                "transactionType": "PAYOUT",
+                "product": {
+                    "id": "MTNMOBILEMONEYPAYOUTUG",
+                    "name": "Send mobile money"
+                },
+                "beneficiary": {
+                    "id": "1234",
+                    "name": "Jane Doe",
+                    "data": {
+                        "CustomerReference": "12312",
+                        "CustomerPhone": +123234",
+                        "CustomerEmail": "r@z.co",
+                        "Memo": "Testing"
+                    }
+                }
+            }
+        ],
+        "totalCount": 53,
+        "pageSize": 5,
+        "currentPage": 1,
+        "totalPages": 11,
+        "previousPage": false,
+        "nextPage": true
     }
-    // More transactions...
-  ]
 }
+
 ```
 
 </ResponseExample>

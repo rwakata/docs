@@ -1,7 +1,7 @@
 ---
 title: "Get transaction"
 api: "GET https://dev.xente.co:7027/api/transactions/{transactionId}"
-description: "This endpoint gets a transaction using a tranactionId"
+description: "This endpoint gets a transaction using a transactionId."
 ---
 
 ### Query
@@ -86,26 +86,32 @@ curl --location --request GET 'https://api.xente.co/transactions/{id}' \
 
 ```json Response
 {
-  "requestId": "req1234",//Id from your system to uniquely identify the transaction
-  "batchId": "batch5678",
-  "accountNumber": "123456789",//Your business account number
-  "amount": 1000,
-  "type": "DEPOSIT/PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
-  "message": "Payment received for invoice #1234",
-  "metadata": "InvoicePayment",
-  "product": {
-    "id": "prod001",
-    "productItemId": "MTNMOBILEMONEYPAYOUTUG_MTNMOBILEMONEYPAYOUTUG", //Get list of product using Products endpoint
-  },
-  "beneficiary": {
-    "id": "ben003", //Id from your system to identify beneficiary
-    "name": "John Doe",
-    "emailAddress": "johndoe@example.com",
-    "phoneNumber": "+1234567890", 
+    "code": 0,
+    "message": "Transaction retrieved successfully",
     "data": {
-      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
+        "transactionId": "673cb118-fa10-462c-e1c0-08dc377e93f9",
+        "requestId": "323333543589",
+        "batchId": "batch5678",
+        "accountNumber": "6",
+        "name": null,
+        "currency": "UGX",
+        "amount": -1000.00,
+        "transactionType": "PAYOUT",
+        "product": {
+            "id": "MTNMOBILEMONEYPAYOUTUG",
+            "name": "Send mobile money"
+        },
+        "beneficiary": {
+            "id": "1223",
+            "name": "Jane Doe",
+            "data": {
+                "CustomerReference": "+1234567890",
+                "CustomerPhone": "+1234567890",
+                "CustomerEmail": "johndoe@example.com",
+                "Memo": "Payment received for invoice #1234"
+            }
+        }
     }
-  }
 }
 ```
 

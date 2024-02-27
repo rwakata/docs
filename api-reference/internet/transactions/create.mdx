@@ -114,30 +114,24 @@ The contents of the transaction data.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.xente.co/v2/accounts' \
---header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
-
-```json
 {
-  "requestId": "req1234",
+  "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
-  "accountNumber": "123456789",
-  "amount": 100.5,
-  "type": "DEBIT", //DEBIT to add money to your account, CREDIT to remove money from your account
+  "amount": 1000,
+  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
   "product": {
-    "id": "prod001",
-    "productItemId": "item002"
+    "id": "AIRTELDATABUNDLESUG",
+    "productItemId": "AIRTELDATABUNDLESUG_24510766" 
   },
   "beneficiary": {
-    "id": "ben003",
+    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
-    "phoneNumber": "+1234567890",
+    "phoneNumber": "+1234567890", 
     "data": {
-      "phoneNumber": "+1234567890"
+      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
     }
   }
 }
