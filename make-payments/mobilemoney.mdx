@@ -210,28 +210,31 @@ You POST a mobile money transaction as below
 
 ```bash cURL
 
-curl -X POST https://api.xente.co/transactions \
+curl -X POST https://api.xente.co/mobilemoney/transactions \
  -H "Content-Type: application/json" \
  -H "Authorization: Token <token>" \
  -d '{
-    "clientreferenceid": 67890,
-    "batch_id": 54321,
-    "account_number": "9876543210",
+  "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
+  "batchId": "batch5678",
+  "amount": 1000,
+  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "message": "Payment received for invoice #1234",
+  "metadata": "InvoicePayment",
+  "product": {
+    "id": "AIRTELDATABUNDLESUG",
+    "productItemId": "AIRTELDATABUNDLESUG_24510766" 
+  },
+  "beneficiary": {
+    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
-    "currency": "UGX",
-    "amount": 10000,
-    "transaction_type": "debit",
-    "product": {
-        "id": "mtn_mobile_money"
-    },
-    "beneficiary": {
-        "id": "123",
-        "name": "Halle Berry",
-        "data": {
-            "phone_number": "07701234567"
-        }
+    "emailAddress": "johndoe@example.com",
+    "phoneNumber": "+1234567890", 
+    "data": {
+      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
     }
-}'
+  }
+}
+'
 
 
 

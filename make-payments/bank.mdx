@@ -225,29 +225,32 @@ You POST a bank transfer transaction as below
 <CodeGroup>
 
 ```bash cURL
-curl -X POST https://api.xente.co/transactions \
+curl -X POST https://api.xente.co/banktransfers/transactions \
  -H "Content-Type: application/json" \
  -H "Authorization: Token <token>" \
  -d '{
-    "clientreferenceid": 67890,
-    "batch_id": 54321,
-    "account_number": "9876543210",
+  "requestId": "998877654833543589",//Id from your system to uniquely identify the transaction
+  "batchId": "batch5678",
+  "amount": 1000,
+  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "message": "Payment received for invoice #1234",
+  "metadata": "InvoicePayment",
+  "product": {
+    "id": "XENTEBANKTRANSFERUG",
+    "productItemId": "XENTEBANKTRANSFERUG_ABCFUGKA" 
+  },
+  "beneficiary": {
+    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
-    "currency": "USD",
-    "amount": 100.00,
-    "transaction_type": "debit",
-    "product": {
-        "id": "bank_transfer"
-    },
-    "beneficiary": {
-        "id": "256770833993",
-        "name": "Halle Berry",
-        "data": {
-            "bank_account": "999 999 999",
-            "bank_name": "DFCU"
-        }
+    "emailAddress": "johndoe@example.com",
+    "phoneNumber": "+1234567890", 
+   "data": {
+      "bankAccount": "12343242432432434",
+      "bankName": "Bank name" //The Code of the bank funds are being sent to
     }
-}'
+  }
+}
+'
 
 
 ```
