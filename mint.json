@@ -14,7 +14,7 @@
   "topbarLinks": [
     {
       "name": "Pricing",
-      "url": "https://www.xente.co/pricing"
+      "url": "https://www.xente.co/price"
     }
   ],
   "topbarCtaButton": {
@@ -40,7 +40,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [ "introduction", "start/prerequisites", "start/authentication", "start/ipn" ]
+      "pages": [ "introduction", "start/prerequisites", "start/apps", "start/authentication", "start/ipn" ]
     },
     {
       "group": "Visa Debit Cards",

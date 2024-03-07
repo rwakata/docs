@@ -13,11 +13,11 @@ All payment-related transactions (and some non-payment-related) requests on Xent
 
 3. We process the transaction - this might involve user approval.
 
-4. We call back your webhook to notify you of the final status of the transaction.
+4. We call back your webhook to notify you of the status of the payment.
 
-5. You respond with an HTTP OK that you have received the notification and we commit the transaction as complete.
+5. You respond with an HTTP OK that you have received the notification and we commit the payment as complete.
 
-As a result, it is necessary to set up an Instant Transaction Notification webhook on your end in order to receive updates on the final status of a transaction
+As a result, it is necessary to set up an Instant Payment Notification (IPN) webhook on your end in order to receive updates on the final status of a transaction
 
 ## Handling Instant Payment Notification (IPN)
 

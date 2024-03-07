@@ -1,0 +1,27 @@
+---
+title: 'Applications'
+description: 'Learn about Xente applications'
+---
+Anytime you want to interact with the Xente Application Programming Interface (API), you start by creating an application. 
+
+Think of applications as containers for different use cases you want to build using Xente. For example, you can build an HR application, a loan application, or integrate with your accounting platform, all from a single Xente account. 
+
+Because applications are different containers, they can have different security levels, access different endpoints, and be switched on and off for different applications (or use cases) without affecting other applications. 
+
+This feature also allows you to create applications that can be distributed to other clients as long as they give your solution permission to access their account, all within a secure and controlled container.
+
+To get started with a Xente application:
+
+## Step 1 - Create an application
+Click on "Create a new application" and input a name and description for your application.
+
+## Step 2 - Get authentication details
+Learn more about authentication with Xente [here](/start/authentication).
+
+## Step 3 - Make your first API call
+For your first API call, we are going to access your account details. You can do this by making a GET request to this [endpoint](/api-reference/accounts/get).
+
+## Step 4 - Set up your Instant Payment Notification
+All payment-related transactions (and some non-payment-related) requests on Xente are processed asynchronously. You will need to create webhooks, which we call Instant Payment Notifications, to get the final status of transactions. Learn about Instant Payment Notifications [here](/start/ipn).
+
+
