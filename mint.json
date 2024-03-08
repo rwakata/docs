@@ -40,7 +40,7 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [ "introduction", "start/prerequisites", "start/apps", "start/authentication", "start/ipn" ]
+      "pages": [ "introduction", "start/prerequisites", "start/apps", "start/auth", "start/ipn" ]
     },
     {
       "group": "Visa Debit Cards",

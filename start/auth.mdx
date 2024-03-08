@@ -3,48 +3,30 @@ title: 'Authentication & Authorization'
 description: 'Authenticate and authorize all API calls'
 ---
 
-Xente uses a token based authorization and authentication scheme. 
+To secure your applicaiton, you with need to authenticate and authorize all your API calls.  To do this take the following steps
 
-You will need to have 
+## Step 1: Obtain your application credentials
 
-1. An API Key -  To get an API Key first create an Application under your developer settings
-2. User email and password - Every API call is made on behalf or a user so you need for first authenticate them 
+To begin, you'll need to acquire your appKey and appPassword. You can find these credentials under the "Applications" menu in the portal.
 
-## Step 1. Authenticate user
+## Step 2. Select a user to delegate transaction permissions
 
-<CodeGroup>
+When making API calls using the Xente API, there must be a user with the necessary permissions delegated to carry out these transactions. You can select the user to delegate to under the "Applications" menu, specifically the "Auth Users" section.
 
-```bash cURL
-curl https://api.xente.co/auth/login?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+## Step 3. Authenticate your application
+With your appKey, appPassword, and a delegated userId, you are ready to authenticate your application. Use the code snippet below to do so:
+
+```bash
+curl -X POST https://api.xente.co/api/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{
+         "appKey": "YourAppKey",
+         "appPassword": "YourAppPassword",
+         "userId": "Userid delegated to make the request",
+         "includeRefereshToken": true
+     }'
 ```
-
-```bash Node
-const axios = require('axios');
-
-const apiUrl = 'https://api.xente.co/cards?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
-  }
-};
-
-axios.get(apiUrl, options)
-  .then(response => {
-    // Handle the response data here
-    console.log(response.data);
-  })
-  .catch(error => {
-    // Handle any errors that occur
-    console.error(error);
-  });
-```
-
-</CodeGroup>
-
-### Response message 
+If you authenticate successfully, you will get a response JSON with the following parameters.
 
 | Key          | Type      | Description
 | --------     | -------   |-------------
@@ -53,50 +35,34 @@ axios.get(apiUrl, options)
 | success      | boolean   | Status of authentication request
 | message      | string    | A description of status 
 
-** Do we need other parameters 
 
 > Important information on the Token
 >
->> 1. Send the token in the HTTP Authorization header with every request. 
->> 2. The lifetime of the token is 60 minutes. Once it expires, use the refresh token to obtain another one or have the user log in again. 
->> 3. The token will only be exposed once. Safely store it in the cache for the duration of its lifetime
+>> 1. The lifetime of the token is 60 minutes. Once it expires, use the refresh token to obtain another one or have the user log in again. 
+>> 2. The token will only be exposed once. Safely store it in the cache for the duration of its lifetime
 
-## Step 2. Login into an account 
+## Step 4. Authorize your API calls
 
-Once you have authenticated the user and have a valid Token, you can now login into an account using the API call below 
+
+After successfully authenticating your application and user and obtaining a valid token, you can use it for authorization as demonstrated below.
 
 <CodeGroup>
 
 ```bash cURL
-curl https://api/auth/accounts/{accountId}/login?
--H "Authorization: Bearer YOUR_SECRET_KEY"
--X GET
+curl Url
+-H "Authorization: Bearer PUT_YOUT_TOKEN_HERE"
+-X GET/POST/PATCH
 ```
 
-```bash Node
-const axios = require('axios');
 
-const apiUrl = 'https://api.xente.co/cards?';
-
-const options = {
-  headers: {
-    'Authorization': 'Bearer YOUR_SECRET_KEY'
-  }
-};
-
-axios.get(apiUrl, options)
-  .then(response => {
-    // Handle the response data here
-    console.log(response.data);
-  })
-  .catch(error => {
-    // Handle any errors that occur
-    console.error(error);
-  });
-```
 
 </CodeGroup>
 
-Get the account ID under settings. I think we also have this as configuration
+### Important notes on authentication
 
-** What I dont understand, do you need to have step 2, or if you have the account Id you can make subsquent calls ? 
+1. **App Key and App Password**: Find your App Key and App Password under Applications in the [portal](https://app.xente.co/).
+2. **Keep your credentials safe**: You can only view your App Key and App Password once. It is your responsibility to keep them safe, e.g., do not store them in Git or expose them to unauthorized people.
+3. **User Delegation**: Select the user who will be delegated to make API requests under Applications in the [portal](https://app.xente.co/). The transactions initiated will be processed according to the permissions the user has.
+4. **Whitelisting**: Whitelist your application IP address in the [portal](https://app.xente.co/).
+5. **HTTPS**: All API requests must be made over HTTPS.
+6. **Authentication**: API requests without authentication will fail with status code 401: Unauthorized.
