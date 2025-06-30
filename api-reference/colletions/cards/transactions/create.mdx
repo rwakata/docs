@@ -1,0 +1,158 @@
+---
+title: "Post card collection"
+api: "POST https://api.xente.co/api/transactions/payouts/mobilemoney"
+description: "This endpoint posts a new mobile money transaction"
+---
+
+### Body
+
+<ParamField body="requestId" type="string">
+  A unique identifier for the request.
+</ParamField>
+
+<ParamField body="batchId" type="string">
+  A unique identifier for the batch.
+</ParamField>
+
+<ParamField body="accountNumber" type="string">
+  The account number associated with the request.
+</ParamField>
+
+<ParamField body="amount" type="number">
+  The monetary amount involved in the request.
+</ParamField>
+
+<ParamField body="type" type="string">
+  The type of request, initially not set.
+</ParamField>
+
+<ParamField body="message" type="string">
+  An optional message associated with the request.
+</ParamField>
+
+<ParamField body="metadata" type="string">
+  Additional metadata as a string.
+</ParamField>
+
+<ParamField body="product.id" type="string">
+  The product's unique identifier.
+</ParamField>
+
+<ParamField body="product.productItemId" type="string">
+  A specific item identifier within the product.
+</ParamField>
+
+<ParamField body="beneficiary.id" type="string">
+  The beneficiary's unique identifier.
+</ParamField>
+
+<ParamField body="beneficiary.name" type="string">
+  The beneficiary's name.
+</ParamField>
+
+<ParamField body="beneficiary.emailAddress" type="string">
+  The beneficiary's email address.
+</ParamField>
+
+<ParamField body="beneficiary.phoneNumber" type="string">
+  The beneficiary's phone number.
+</ParamField>
+
+<ParamField body="beneficiary.data.phoneNumber" type="string">
+  Another phone number associated with the beneficiary, potentially for different purposes.
+</ParamField>
+
+### Response
+
+<ResponseField name="code" type="number">
+  Indicates whether the call was successful. 0 if successful, error code if not.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status message on outcome of the API call.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  General message about the transaction status.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+
+The contents of the transaction data.
+
+<Expandable title="Toggle object">
+
+<ResponseField name="requestId" type="string">
+  Unique identifier for the request.
+</ResponseField>
+
+<ResponseField name="batchId" type="string">
+  Batch ID associated with the request.
+</ResponseField>
+
+<ResponseField name="transactionId" type="string">
+  Unique identifier of the transaction.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Current status of the transaction.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Detailed message regarding the transaction's current status.
+</ResponseField>
+
+<ResponseField name="createdOn" type="string">
+  Timestamp indicating when the transaction was created.
+</ResponseField>
+
+</Expandable>
+
+</ResponseField>
+
+
+<RequestExample>
+
+```bash Example Request
+{
+  "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
+  "batchId": "batch5678",
+  "amount": 1000,
+  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "message": "Payment received for invoice #1234",
+  "metadata": "InvoicePayment",
+  "product": {
+    "id": "AIRTELDATABUNDLESUG",
+    "productItemId": "AIRTELDATABUNDLESUG_24510766" 
+  },
+  "beneficiary": {
+    "id": "ben003", //Id from your system to identify beneficiary
+    "name": "John Doe",
+    "emailAddress": "johndoe@example.com",
+    "phoneNumber": "+1234567890", 
+    "data": {
+      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
+    }
+  }
+}
+```
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+    "code": 0,
+    "message": "Transaction Has Been Successfully Received. Notification Will Be Sent Shortly",
+    "data": {
+        "requestId": "32399933543589",
+        "batchId": "batch5678",
+        "transactionId": "ef2ebc1e-1c2e-4fb1-23eb-08dc379d52c7",
+        "status": "PROCESSING",
+        "message": "Processing Debit Transaction. Instant Payment Notification will be sent shortly",
+        "createdOn": "2/27/2024 2:06:41 PM"
+    }
+}
+```
+
+</ResponseExample>

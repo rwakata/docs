@@ -109,6 +109,19 @@
         "api-reference/bills/transactions/create"
       ]
     },
+    {
+      "group": "Collections",
+      "pages": [
+        {
+          "group": "Mobile Money",
+          "pages": ["api-reference/colletions/mobilemoney/transactions/create"]
+        },
+        {
+          "group": "Cards",
+          "pages": ["api-reference/colletions/cards/transactions/create"]
+        }
+      ]
+    },
 
     {
       "group": "Products",
