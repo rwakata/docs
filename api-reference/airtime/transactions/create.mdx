@@ -1,6 +1,6 @@
 ---
 title: "Post airtime"
-api: "POST https://dev.xente.co:7027/api/airtime/transactions"
+api: "POST https://api.xente.co/api/transactions/payouts/airtime"
 description: "This endpoint posts a new airtime transaction"
 ---
 
@@ -114,7 +114,7 @@ The contents of the transaction data.
 <RequestExample>
 
 ```bash Example Request
-curl --location --request POST 'https://api.xente.co/v2/accounts' \
+curl --location --request POST 'https://api.xente.co/api/transactions/payouts/airtime' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
 
