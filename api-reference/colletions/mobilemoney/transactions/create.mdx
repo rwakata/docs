@@ -1,7 +1,7 @@
 ---
-title: "Post mobile internet"
-api: "POST https://api.xente.co/api/transactions/payouts/mobilemoney"
-description: "This endpoint posts a new mobile internet transaction"
+title: "Post mobile money collection"
+api: "POST https://api.xente.co/api/transactions/collections/mobilemoney"
+description: "This endpoint posts a new mobile money collection transaction"
 ---
 
 ### Body
@@ -34,12 +34,12 @@ description: "This endpoint posts a new mobile internet transaction"
   Additional metadata as a string.
 </ParamField>
 
-<ParamField body="product.id" type="string">
-  The product's unique identifier.
+<ParamField body="provider.id" type="string">
+  The provider's unique identifier.
 </ParamField>
 
-<ParamField body="product.productItemId" type="string">
-  A specific item identifier within the product.
+<ParamField body="provider.providerItemId" type="string">
+  A specific item identifier within the provider.
 </ParamField>
 
 <ParamField body="beneficiary.id" type="string">
@@ -121,9 +121,9 @@ The contents of the transaction data.
   "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
-  "product": {
+  "provider": {
     "id": "AIRTELDATABUNDLESUG",
-    "productItemId": "AIRTELDATABUNDLESUG_24510766" 
+    "providerItemId": "MTNMOBILEMONEY" 
   },
   "beneficiary": {
     "id": "ben003", //Id from your system to identify beneficiary
@@ -142,17 +142,16 @@ The contents of the transaction data.
 
 ```json Response
 {
-  "message": "Transaction Has Been Successfully Received. Notification Will Be Sent Shortly",
-  "data": {
-    "requestId": "e482caf1-18c4-4312-a708-8032969541d4",
-    "batchId": "123123123123",
-    "transactionId": "0f9182ad-bf5e-4854-799e-08dc2bc9741e",
-    "status": "PROCESSING",
-    "message": "Processing Debit Transaction. Instant Payment Notification will be sent shortly",
-    "createdOn": "2/12/2024 12:52:21 PM"
-  },
-  "code": 0,
-  "status": "success"
+    "code": 0,
+    "message": "Transaction Has Been Successfully Received. Notification Will Be Sent Shortly",
+    "data": {
+        "requestId": "32399933543589",
+        "batchId": "batch5678",
+        "transactionId": "ef2ebc1e-1c2e-4fb1-23eb-08dc379d52c7",
+        "status": "PROCESSING",
+        "message": "Processing Debit Transaction. Instant Payment Notification will be sent shortly",
+        "createdOn": "2/27/2024 2:06:41 PM"
+    }
 }
 ```
 

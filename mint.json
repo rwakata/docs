@@ -26,7 +26,7 @@
     "isHidden": false
   },
   "api": {
-    "baseUrl": "https://dev.xente.co:7027/api",
+    "baseUrl": "https://api.xente.co/api",
     "auth": {
       "method": "bearer"
     }
@@ -107,6 +107,19 @@
       "group": "Bills",
       "pages": [
         "api-reference/bills/transactions/create"
+      ]
+    },
+    {
+      "group": "Collections",
+      "pages": [
+        {
+          "group": "Mobile Money",
+          "pages": ["api-reference/colletions/mobilemoney/transactions/create"]
+        },
+        {
+          "group": "Cards",
+          "pages": ["api-reference/colletions/cards/transactions/create"]
+        }
       ]
     },
 
