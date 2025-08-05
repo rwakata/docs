@@ -112,7 +112,7 @@
       ]
     },
     {
-      "group": "People",
+      "group": "Beneficiary & Product Validation",
       "pages": [
         "api-reference/people/get"
       ]
