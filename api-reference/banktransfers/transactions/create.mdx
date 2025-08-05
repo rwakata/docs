@@ -58,14 +58,11 @@ description: "This endpoint posts a new mobile money transaction"
   The beneficiary's phone number.
 </ParamField>
 
-<ParamField body="beneficiary.data.phoneNumber" type="string">
-  Another phone number associated with the beneficiary, potentially for different purposes.
-</ParamField>
 <ParamField body="beneficiary.data.bankAccount" type="string">
   The bank account number of the beneficiary
 </ParamField>
 <ParamField body="beneficiary.data.bankCode" type="string">
-  The bank account code of the bank
+  The ode of the bank where account is held (This can be gotten from the get products and get product items APIs)
 </ParamField>
 
 ### Response
@@ -120,10 +117,12 @@ The contents of the transaction data.
 <RequestExample>
 
 ```bash Example Request
-
-{
-  "requestId": "{{$guid}}" //Id from your system to uniquely identify the transaction,
-  "batchId": "{{$guid}}",
+curl --location --request POST 'https://api.xente.co/api/transactions/payouts/banktransfers' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+  "requestId": "92399933543589", //Id from your system to uniquely identify the transaction
+  "batchId": "batch5678", //Identifier og the batch from your system.
   "amount": 500,
   "type": "DEBIT",
   "message": "Testing",
@@ -135,11 +134,11 @@ The contents of the transaction data.
     "emailAddress": "recipient email address",
     "phoneNumber": "recipient  phone number",
     "data": {
-      "bankAccount": "Bank account number", 
-      "bankName": "bank name" //The Code of the bank funds are being sent to
+      "bankAccount": "Bank account number where funds are to be deposited", 
+      "bankName": "bank name" //The Code of the bank where account is held
     }
   }
-}
+}'
 
 ```
 </RequestExample>

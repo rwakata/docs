@@ -59,7 +59,7 @@ description: "This endpoint posts a new mobile internet transaction"
 </ParamField>
 
 <ParamField body="beneficiary.data.phoneNumber" type="string">
-  Another phone number associated with the beneficiary, potentially for different purposes.
+  The phone number to be topped up
 </ParamField>
 
 ### Response
@@ -114,12 +114,16 @@ The contents of the transaction data.
 <RequestExample>
 
 ```bash Example Request
-{
+
+curl --location --request POST 'https://api.xente.co/api/transactions/payouts/internet' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
   "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
   "amount": 1000,
   "type": "DEBIT",
-  "message": "Payment received for invoice #1234",
+  "message": "Your custom message",
   "metadata": "InvoicePayment",
   "product": {
     "id": "AIRTELDATABUNDLESUG",
@@ -130,10 +134,10 @@ The contents of the transaction data.
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
     "data": {
-      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
+      "phoneNumber": "+1234567890" //The phone number to be topped up
     }
   }
-}
+}'
 
 ```
 </RequestExample>

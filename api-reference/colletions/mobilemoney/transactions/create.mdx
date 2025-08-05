@@ -59,7 +59,7 @@ description: "This endpoint posts a new mobile money collection transaction"
 </ParamField>
 
 <ParamField body="beneficiary.data.phoneNumber" type="string">
-  Another phone number associated with the beneficiary, potentially for different purposes.
+  The mobile money number where funds are to be collected from.
 </ParamField>
 
 ### Response
@@ -115,9 +115,12 @@ The contents of the transaction data.
 
 ```bash Example Request
 
-{
-  "requestId": "8992500d-4e54-4a3b-ab04", //Id from your system to uniquely identify the transaction
-  "batchId": "batch5678",
+curl --location --request POST 'https://api.xente.co/api/transactions/collections/mobilemoney' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+  "requestId": "92399933543589", //Id from your system to uniquely identify the transaction
+  "batchId": "batch5678", //Identifier og the batch from your system.
   "amount": 1000.0,
   "type": "CREDIT",
   "message": "some message or note",
@@ -131,10 +134,10 @@ The contents of the transaction data.
     "emailAddress": "test001@gmail.com",
     "phoneNumber": "+256702000000",
     "data": {
-      "phoneNumber": "+256702000000"
+      "phoneNumber": "+256702000000" //The mobile money number where funds are to be collected from
     }
   }
-}
+}'
 
 ```
 </RequestExample>
