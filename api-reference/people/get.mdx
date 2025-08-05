@@ -1,19 +1,31 @@
 ---
-title: "Get person"
-api: "GET https://api.xente.co/api/core/People/{personId}"
+title: "Validate product and beneficiary"
+api: "POST https://api.xente.co/api/products/validation"
 description: "This endpoint gets people details"
 ---
 ### Query
 
-<ParamField path="personId" type="string">
-  Unique id of the person e.g. mobile number, bill_number, passport number, id number etc 
+<ParamField path="productItemId" type="string">
+  product Item Id that Identifies what product you are transacting
+</ParamField>
+
+<ParamField path="customerReference" type="string">
+  The users' account number or phone number
+</ParamField>
+
+<ParamField path="amount" type="decimal">
+  Amount. This needs to be validated as different providers have different minimum and maximum amount requirements
 </ParamField>
 
 
 ### Response
 
-<ResponseField name="success" type="number">
-  Indicates whether the call was successful. 1 if successful, error code if not.
+<ResponseField name="status" type="number">
+  Indicates whether the call was successful or not.
+</ResponseField>
+
+<ResponseField name="message" type="number">
+  Response message indicating what happened with the request.
 </ResponseField>
 
 <ResponseField name="data" type="object">
@@ -21,27 +33,6 @@ description: "This endpoint gets people details"
 The contents of the person
 
 <Expandable title="Toggle object">
-
-<ResponseField name="personId" type="number">
-  The unique id of the person
-</ResponseField>
-
-
-<ResponseField name="name" type="string">
-  The name of the person
-</ResponseField>
-
-<ResponseField name="image_uri" type="string">
-  The image Url of the person
-</ResponseField>
-
-<ResponseField name="status" type="string">
-  Status of the person 
-</ResponseField>
-
-<ResponseField name="person_details" type="JSON or null">
-  Other details about the person 
-</ResponseField>
 
 </Expandable>
 
@@ -51,13 +42,12 @@ The contents of the person
 
 ```bash Request
 
-curl --location --request GET 'https://api.xente.co/people/' \
+curl --location 'https://api.xente.co/api/products/validation' \
 --header 'Content-Type: application/json' \
---header 'Authorization: Token <token>' \
---data-raw '{
-    "id": "256770833993",
-    "name": "Halle Berry",
-    "data": "Json string depending on database being queried e.g. National ID, Passport etc"
+--data '{
+  "productItemId": "AIRTELMOBILEMONEYPAYOUTUG_AIRTELMOBILEMONEYPAYOUTUG",
+  "customerReference": "0702000000",
+  "amount": 500
 }'
 
 ```
