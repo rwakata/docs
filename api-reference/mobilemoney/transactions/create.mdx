@@ -47,7 +47,7 @@ description: "This endpoint posts a new mobile money transaction"
 </ParamField>
 
 <ParamField body="beneficiary.data.phoneNumber" type="string">
-  Another phone number associated with the beneficiary, potentially for different purposes.
+  The mobile money number where funds are to be deposited.
 </ParamField>
 
 ### Response
@@ -103,24 +103,27 @@ The contents of the transaction data.
 
 ```bash Example Request
 
-{
-  "requestId": "{{$guid}}" //Id from your system to uniquely identify the transaction,
-  "batchId": "{{$guid}}",
+curl --location --request POST 'https://api.xente.co/api/transactions/payouts/mobilemoney' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+  "requestId": "92399933543589",
+  "batchId": "batch5678",
   "amount": 500,
   "type": "DEBIT",
   "message": "Testing",
   "product": {
-    "productItemId": "MTNMOBILEMONEYPAYOUTUG_MTNMOBILEMONEYPAYOUTUG" // Use MTNMOBILEMONEYPAYOUTUG_MTNMOBILEMONEYPAYOUTUG MTN Mobile Money Payouts and AIRTELMOBILEMONEYPAYOUTUG_AIRTELMOBILEMONEYPAYOUTUG for Airtel Money Payouts
+    "productItemId": "MTNMOBILEMONEYPAYOUTUG_MTNMOBILEMONEYPAYOUTUG"
   },
   "beneficiary": {
     "name": "Tester",
     "emailAddress": "sampleemail@email.com",
     "phoneNumber": "0779705600",
     "data": {
-      "phoneNumber": "0779705600" //The mobile money number to deposit or remove funds from
+      "phoneNumber": "0779705600" //The mobile money number where funds are to be deposited
     }
   }
-}
+}'
 
 ```
 </RequestExample>

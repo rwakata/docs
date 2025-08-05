@@ -58,8 +58,12 @@ description: "This endpoint posts a new bill pay transaction"
   The beneficiary's phone number.
 </ParamField>
 
-<ParamField body="beneficiary.data.phoneNumber" type="string">
-  Another phone number associated with the beneficiary, potentially for different purposes.
+<ParamField body="beneficiary.data.customerReference" type="string">
+  Your Electricity/National Water Account Number.
+</ParamField>
+
+<ParamField body="beneficiary.data.area" type="string">
+  Area is required for National water bill payments but optional for Electricity
 </ParamField>
 
 ### Response
@@ -112,28 +116,34 @@ The contents of the transaction data.
 
 
 <RequestExample>
-```json
-{
-  "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
-  "batchId": "batch5678",
+
+```bash Example Request
+
+curl --location --request POST 'https://api.xente.co/api/transactions/payouts/utilities' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Token <token>' \
+--data-raw '{
+  "requestId": "92399933543589", //Id from your system to uniquely identify the transaction
+  "batchId": "batch5678", //Identifier og the batch from your system.
   "amount": 1000,
   "type": "DEBIT",
-  "message": "Payment received for invoice #1234",
+  "message": "Your custom message",
   "metadata": "InvoicePayment",
   "product": {
-    "id": "NWSCUG",
-    "productItemId": "NWSCUG_NWSCUG" 
+    "id": "NWSCWATERUG",
+    "productItemId": "NWSCWATERUG_NWSCWATERUG" 
   },
   "beneficiary": {
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
     "data": {
-      "CustomerReference": "4637738888" //Your Electricity/National Water Account Number,
+      "customerReference": "4637738888" //Your Electricity/National Water Account Number,
       "area": "Kampala" //Area is required for National water bill payments but optional for Electricity
     }
   }
-}
+}'
+
 ```
 </RequestExample>
 

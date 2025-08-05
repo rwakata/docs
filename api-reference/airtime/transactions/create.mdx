@@ -59,7 +59,7 @@ description: "This endpoint posts a new airtime transaction"
 </ParamField>
 
 <ParamField body="beneficiary.data.phoneNumber" type="string">
-  Another phone number associated with the beneficiary, potentially for different purposes.
+  The phone number to be topped up.
 </ParamField>
 
 ### Response
@@ -117,11 +117,9 @@ The contents of the transaction data.
 curl --location --request POST 'https://api.xente.co/api/transactions/payouts/airtime' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Token <token>' \
-
-```json
-{
-  "requestId": "92399933543589",//Id from your system to uniquely identify the transaction
-  "batchId": "batch5678",
+--data-raw '{
+  "requestId": "92399933543589", //Id from your system to uniquely identify the transaction
+  "batchId": "batch5678", //Identifier og the batch from your system.
   "amount": 1000,
   "type": "DEBIT",
   "message": "Send airtime facilitation",
@@ -135,10 +133,11 @@ curl --location --request POST 'https://api.xente.co/api/transactions/payouts/ai
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
     "data": {
-      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
+      "phoneNumber": "+1234567890" //The phone number to be topped up
     }
   }
-}
+}'
+
 
 ```
 </RequestExample>
