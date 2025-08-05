@@ -117,20 +117,20 @@ The contents of the transaction data.
   "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
   "amount": 1000,
-  "type": "DEBIT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "type": "DEBIT",
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
   "product": {
-    "id": "AIRTELDATABUNDLESUG",
-    "productItemId": "AIRTELDATABUNDLESUG_24510766" 
+    "id": "NWSCUG",
+    "productItemId": "NWSCUG_NWSCUG" 
   },
   "beneficiary": {
-    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
     "data": {
-      "phoneNumber": "+1234567890" //The mobile money number to deposit or remove funds from
+      "CustomerReference": "4637738888" //Your Electricity/National Water Account Number,
+      "area": "Kampala" //Area is required for National water bill payments but optional for Electricity
     }
   }
 }

@@ -43,16 +43,12 @@
       "pages": [ "introduction", "start/prerequisites", "start/apps", "start/auth", "start/ipn" ]
     },
     {
-      "group": "Visa Debit Cards",
-      "pages": [ "visa-cards/overview", "visa-cards/physical", "visa-cards/virtual", "visa-cards/manage" ]
-    },
-    {
       "group": "Make Payments",
       "pages": [ "make-payments/overview", "make-payments/mobilemoney", "make-payments/bank", "make-payments/airtime", "make-payments/mobileinternet", "make-payments/billpay" ]
     },
     {
       "group": "Collect Payments",
-      "pages": [ "collect-payments/overview", "collect-payments/checkout", "collect-payments/mobilemoney", "collect-payments/cards", "collect-payments/bank", "collect-payments/agentbank" ]
+      "pages": [ "collect-payments/overview", "collect-payments/mobilemoney", "collect-payments/bank", "collect-payments/agentbank" ]
     },
     {
       "group": "Accounts",
@@ -65,18 +61,6 @@
       "pages": [
         "api-reference/transactions/get-list",
         "api-reference/transactions/get"
-      ]
-    },
-    {
-      "group": "Cards",
-      "pages": [
-        "api-reference/cards/get-list",
-        "api-reference/cards/get",
-        "api-reference/cards/post",
-        "api-reference/cards/patch-stop",
-        "api-reference/cards/patch-unstop",
-        "api-reference/cards/patch-pin",
-        "api-reference/cards/delete"
       ]
     },
     {
@@ -115,10 +99,6 @@
         {
           "group": "Mobile Money",
           "pages": ["api-reference/colletions/mobilemoney/transactions/create"]
-        },
-        {
-          "group": "Cards",
-          "pages": ["api-reference/colletions/cards/transactions/create"]
         }
       ]
     },

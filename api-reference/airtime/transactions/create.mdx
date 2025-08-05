@@ -123,7 +123,7 @@ curl --location --request POST 'https://api.xente.co/api/transactions/payouts/ai
   "requestId": "92399933543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
   "amount": 1000,
-  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "type": "DEBIT",
   "message": "Send airtime facilitation",
   "metadata": "Expense code 1000023",
   "product": {
@@ -131,7 +131,6 @@ curl --location --request POST 'https://api.xente.co/api/transactions/payouts/ai
     "productItemId": "MTNAIRTIMEUG_MTNAIRTIMEUG" 
   },
   "beneficiary": {
-    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
@@ -140,6 +139,7 @@ curl --location --request POST 'https://api.xente.co/api/transactions/payouts/ai
     }
   }
 }
+
 ```
 </RequestExample>
 

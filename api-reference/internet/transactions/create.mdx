@@ -118,7 +118,7 @@ The contents of the transaction data.
   "requestId": "72399933543589",//Id from your system to uniquely identify the transaction
   "batchId": "batch5678",
   "amount": 1000,
-  "type": "PAYOUT", //use DEPOSIT to fund your account, PAYOUT to fund other accounts
+  "type": "DEBIT",
   "message": "Payment received for invoice #1234",
   "metadata": "InvoicePayment",
   "product": {
@@ -126,7 +126,6 @@ The contents of the transaction data.
     "productItemId": "AIRTELDATABUNDLESUG_24510766" 
   },
   "beneficiary": {
-    "id": "ben003", //Id from your system to identify beneficiary
     "name": "John Doe",
     "emailAddress": "johndoe@example.com",
     "phoneNumber": "+1234567890", 
@@ -135,6 +134,7 @@ The contents of the transaction data.
     }
   }
 }
+
 ```
 </RequestExample>
 
